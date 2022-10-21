@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Profile - ePortfolio</title>
+    <!-- bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+
+    <!-- style.css -->
+    <link rel="stylesheet" href="/assets/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg bg-abu">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">FILKOM Student Dashboard</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/discovery.html">Discovery</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Profile</a>
+              </li>
+            </ul>
+            <form class="ms-lg-2" role="search">
+              <button
+                class="btn btn-outline-danger d-flex align-items-center"
+                type="submit"
+              >
+                Sign out
+                <iconify-icon icon="bi:arrow-right" class="ms-2"></iconify-icon>
+              </button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="px-4 px-md-0">
+      <section>
+        <div class="container profile my-5">
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="container">
+                <div class="row">
+                  <div class="col">
+                    <img
+                      src="https://images.unsplash.com/photo-1495615080073-6b89c9839ce0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3F1YXJlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+                      class="img-fluid rounded-circle"
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div class="row justify-content-end">
+                  <div class="col-auto">
+                    <button class="btn">
+                      <iconify-icon
+                        icon="fluent:more-horizontal-32-filled"
+                        style="font-size: 26px"
+                      ></iconify-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="name">Nafira Ramadhannis</div>
+                    <div class="nim">175150201111007</div>
+                    <div class="major my-2">Informatic Engineering</div>
+                    <div class="position">
+                      Enthusiast at Android Developer, Web Developer, and UX/UI
+                      Design
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-9 mt-5 mt-lg-0">
+              <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link active"
+                    id="home-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#home-tab-pane"
+                    type="button"
+                    role="tab"
+                    aria-controls="home-tab-pane"
+                    aria-selected="true"
+                  >
+                    Feed
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    id="profile-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#profile-tab-pane"
+                    type="button"
+                    role="tab"
+                    aria-controls="profile-tab-pane"
+                    aria-selected="false"
+                  >
+                    Projects
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    id="contact-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#contact-tab-pane"
+                    type="button"
+                    role="tab"
+                    aria-controls="contact-tab-pane"
+                    aria-selected="false"
+                  >
+                    Certification
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div
+                  class="tab-pane fade show active"
+                  id="home-tab-pane"
+                  role="tabpanel"
+                  aria-labelledby="home-tab"
+                  tabindex="0"
+                >
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col p-0">
+                        <div class="container post bg-abu mb-4 p-4 rounded-3">
+                          <div class="row">
+                            <div class="col">
+                              <div class="container">
+                                <div class="row align-items-center">
+                                  <div class="col-auto p-0">
+                                    <img
+                                      src="https://images.unsplash.com/photo-1495615080073-6b89c9839ce0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3F1YXJlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+                                      class="photo-circle"
+                                      alt=""
+                                    />
+                                  </div>
+                                  <div class="col">
+                                    <div class="d-flex flex-column meta">
+                                      <div class="name">Nafira Ramadhannis</div>
+                                      <div class="nim">175150201111007</div>
+                                      <div class="date">
+                                        11.20 AM 12 Oct 2022
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row my-2">
+                            <div class="col">
+                              <p>
+                                Today I just passed my AAD exam and I got my
+                                certification! Check it out at my Certification
+                                page or at https://link.developer.google/nafir
+                              </p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <img
+                                src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
+                                class="img-fluid"
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="container post bg-abu mb-4 p-4 rounded-3">
+                          <div class="row">
+                            <div class="col">
+                              <div class="container">
+                                <div class="row align-items-center">
+                                  <div class="col-auto p-0">
+                                    <img
+                                      src="https://images.unsplash.com/photo-1495615080073-6b89c9839ce0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3F1YXJlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+                                      class="photo-circle"
+                                      alt=""
+                                    />
+                                  </div>
+                                  <div class="col">
+                                    <div class="d-flex flex-column meta">
+                                      <div class="name">Nafira Ramadhannis</div>
+                                      <div class="nim">175150201111007</div>
+                                      <div class="date">
+                                        11.20 AM 12 Oct 2022
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row my-2">
+                            <div class="col">
+                              <p>
+                                Today I just passed my AAD exam and I got my
+                                certification! Check it out at my Certification
+                                page or at https://link.developer.google/nafir
+                              </p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <img
+                                src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
+                                class="img-fluid"
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="profile-tab-pane"
+                  role="tabpanel"
+                  aria-labelledby="profile-tab"
+                  tabindex="0"
+                >
+                  ...
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="contact-tab-pane"
+                  role="tabpanel"
+                  aria-labelledby="contact-tab"
+                  tabindex="0"
+                >
+                  ...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- jquery -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+      integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!-- bootstrap 5 -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- iconify -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
+  </body>
+</html>
