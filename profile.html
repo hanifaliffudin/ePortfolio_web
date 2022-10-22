@@ -12,6 +12,15 @@
       crossorigin="anonymous"
     />
 
+    <!-- filepond -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/filepond/4.30.4/filepond.css"
+      integrity="sha512-OwkTbucz29JjQUeii4ZRkjY/E+Xdg4AfffPZICCf98rYKWIHxX87AwwuIQ73rbVrev8goqrKmaXyu+VxyDqr1A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
     <!-- style.css -->
     <link rel="stylesheet" href="/assets/css/style.css" />
   </head>
@@ -43,7 +52,7 @@
                 <a class="nav-link active" href="#">Profile</a>
               </li>
             </ul>
-            <form class="ms-lg-2" role="search">
+            <form class="ms-lg-5" role="search">
               <button
                 class="btn btn-outline-danger d-flex align-items-center"
                 type="submit"
@@ -96,6 +105,7 @@
               </div>
             </div>
             <div class="col-lg-9 mt-5 mt-lg-0">
+              <!-- tab control -->
               <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
                   <button
@@ -140,7 +150,9 @@
                   </button>
                 </li>
               </ul>
+              <!-- tab content -->
               <div class="tab-content" id="myTabContent">
+                <!-- feed tab content -->
                 <div
                   class="tab-pane fade show active"
                   id="home-tab-pane"
@@ -172,48 +184,30 @@
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row my-2">
-                            <div class="col">
-                              <p>
-                                Today I just passed my AAD exam and I got my
-                                certification! Check it out at my Certification
-                                page or at https://link.developer.google/nafir
-                              </p>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-lg-4">
-                              <img
-                                src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
-                                class="img-fluid"
-                                alt=""
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="container post bg-abu mb-4 p-4 rounded-3">
-                          <div class="row">
-                            <div class="col">
-                              <div class="container">
-                                <div class="row align-items-center">
-                                  <div class="col-auto p-0">
-                                    <img
-                                      src="https://images.unsplash.com/photo-1495615080073-6b89c9839ce0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3F1YXJlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
-                                      class="photo-circle"
-                                      alt=""
-                                    />
-                                  </div>
-                                  <div class="col">
-                                    <div class="d-flex flex-column meta">
-                                      <div class="name">Nafira Ramadhannis</div>
-                                      <div class="nim">175150201111007</div>
-                                      <div class="date">
-                                        11.20 AM 12 Oct 2022
-                                      </div>
+                                  <div class="col-auto align-self-start pe-0">
+                                    <div class="dropdown">
+                                      <button
+                                        class="btn d-flex align-items-center"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                      >
+                                        <iconify-icon
+                                          icon="fluent:more-horizontal-32-filled"
+                                        ></iconify-icon>
+                                      </button>
+                                      <ul class="dropdown-menu">
+                                        <li>
+                                          <a class="dropdown-item" href="#"
+                                            >Edit</a
+                                          >
+                                        </li>
+                                        <li>
+                                          <a class="dropdown-item" href="#"
+                                            >Delete</a
+                                          >
+                                        </li>
+                                      </ul>
                                     </div>
                                   </div>
                                 </div>
@@ -243,6 +237,7 @@
                     </div>
                   </div>
                 </div>
+                <!-- projects tab content -->
                 <div
                   class="tab-pane fade"
                   id="profile-tab-pane"
@@ -250,8 +245,142 @@
                   aria-labelledby="profile-tab"
                   tabindex="0"
                 >
-                  ...
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col p-0">
+                        <div class="container">
+                          <div class="row mb-4">
+                            <div class="col p-0">
+                              <button
+                                class="btn w-100 btn-light btn-lg d-flex align-items-center justify-content-center"
+                                data-bs-toggle="modal"
+                                data-bs-target="#newProjectModal"
+                              >
+                                Add new project
+                                <iconify-icon
+                                  icon="carbon:add-filled"
+                                  class="ms-2"
+                                ></iconify-icon>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col p-0">
+                              <div
+                                class="container project bg-abu mb-4 p-4 rounded-3"
+                              >
+                                <div class="row mb-2">
+                                  <div class="col">
+                                    <div class="container">
+                                      <div class="row align-items-center">
+                                        <div class="col-auto p-0">
+                                          <img
+                                            src="https://images.unsplash.com/photo-1495615080073-6b89c9839ce0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3F1YXJlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+                                            class="photo-circle"
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div class="col">
+                                          <div class="d-flex flex-column meta">
+                                            <div class="name">
+                                              SKINSIS - Skin Disease Detection
+                                            </div>
+                                            <div class="tech">
+                                              Java, Python, HTML
+                                            </div>
+                                            <div class="amount">
+                                              6 Contributors
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="col-auto align-self-start pe-0"
+                                        >
+                                          <div class="dropdown">
+                                            <button
+                                              class="btn d-flex align-items-center"
+                                              type="button"
+                                              data-bs-toggle="dropdown"
+                                              aria-expanded="false"
+                                            >
+                                              <iconify-icon
+                                                icon="fluent:more-horizontal-32-filled"
+                                              ></iconify-icon>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                              <li>
+                                                <a
+                                                  class="dropdown-item"
+                                                  href="#"
+                                                  >Edit</a
+                                                >
+                                              </li>
+                                              <li>
+                                                <a
+                                                  class="dropdown-item"
+                                                  href="#"
+                                                  >Delete</a
+                                                >
+                                              </li>
+                                            </ul>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row mb-2">
+                                  <div class="col">
+                                    <p class="ellipsis-3">
+                                      This app can detect skin diseases on the
+                                      face and give recommendations as first
+                                      aid. This app can help a lot of people to
+                                      overcome the skin disease on their face
+                                      and spread awareness about their skin's
+                                      health. How this app is going to work is
+                                      by using image recognition to detect the
+                                      face. After it classifies the disease, it
+                                      will show recommendations on how to cure
+                                      it.
+                                      <br />
+                                      <br />
+                                      Check for more info by following our
+                                      progress in github :)
+                                    </p>
+                                  </div>
+                                </div>
+                                <div class="row mb-2">
+                                  <div class="col-lg-4">
+                                    <img
+                                      src="https://camo.githubusercontent.com/b73aae9127e113246fb1665d2002922e0bbcecd74bcbe5fbcd42e2b7eb2d6006/68747470733a2f2f696d6775722e636f6d2f675145646f64332e706e67"
+                                      class="img-fluid"
+                                      alt=""
+                                    />
+                                  </div>
+                                </div>
+                                <div class="row justify-content-end">
+                                  <div class="col-auto">
+                                    <button
+                                      class="btn btn-light d-flex align-items-center border rounded-pill"
+                                      onclick="window.location.href='project.html';"
+                                    >
+                                      Go to project
+                                      <iconify-icon
+                                        icon="el:share-alt"
+                                        class="ms-2"
+                                      ></iconify-icon>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                <!-- certification tab content -->
                 <div
                   class="tab-pane fade"
                   id="contact-tab-pane"
@@ -259,7 +388,102 @@
                   aria-labelledby="contact-tab"
                   tabindex="0"
                 >
-                  ...
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col p-0">
+                        <div class="container">
+                          <div class="row mb-4">
+                            <div class="col">
+                              <button
+                                class="btn w-100 btn-light btn-lg d-flex align-items-center justify-content-center"
+                                data-bs-toggle="modal"
+                                data-bs-target="#newCertificateModal"
+                              >
+                                Add new certificate
+                                <iconify-icon
+                                  icon="carbon:add-filled"
+                                  class="ms-2"
+                                ></iconify-icon>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col p-0">
+                              <div class="container">
+                                <div class="row row-cols-lg-2 gx-3">
+                                  <div class="col">
+                                    <div
+                                      class="container certificate bg-abu mb-4 p-4 rounded-3"
+                                    >
+                                      <div class="row justify-content-end">
+                                        <div class="col-auto">
+                                          <div class="dropdown">
+                                            <button
+                                              class="btn d-flex align-items-center"
+                                              type="button"
+                                              data-bs-toggle="dropdown"
+                                              aria-expanded="false"
+                                            >
+                                              <iconify-icon
+                                                icon="fluent:more-horizontal-32-filled"
+                                              ></iconify-icon>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                              <li>
+                                                <a
+                                                  class="dropdown-item"
+                                                  href="#"
+                                                  >Edit</a
+                                                >
+                                              </li>
+                                              <li>
+                                                <a
+                                                  class="dropdown-item"
+                                                  href="#"
+                                                  >Delete</a
+                                                >
+                                              </li>
+                                            </ul>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="row justify-content-center mb-3"
+                                      >
+                                        <div class="col-lg-10">
+                                          <img
+                                            src="https://camo.githubusercontent.com/b73aae9127e113246fb1665d2002922e0bbcecd74bcbe5fbcd42e2b7eb2d6006/68747470733a2f2f696d6775722e636f6d2f675145646f64332e706e67"
+                                            class="img-fluid rounded-3"
+                                            alt=""
+                                          />
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col">
+                                          <a
+                                            href="/certificate.html"
+                                            class="text-decoration-none text-black"
+                                          >
+                                            <div class="name">
+                                              Dicoding Completion Module
+                                              Certificate
+                                            </div>
+                                            <div class="date">
+                                              Earned: May 24, 2022 02:30:00
+                                            </div>
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -267,6 +491,204 @@
         </div>
       </section>
     </main>
+
+    <!-- add new project modal -->
+    <div
+      class="modal fade"
+      id="newProjectModal"
+      tabindex="-1"
+      aria-labelledby="newProjectModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="newProjectModalLabel">
+              Add Project
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" />
+                  </div>
+                  <form action="" enctype="multipart/form-data">
+                    <div class="mb-3">
+                      <label
+                        for="exampleFormControlTextarea1"
+                        class="form-label"
+                        >Description Project</label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                      ></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <button class="btn">
+                        <iconify-icon icon="bi:image"></iconify-icon>
+                      </button>
+                    </div>
+                    <div class="d-flex mb-3">
+                      <div class="profile-picture-container bg-abu me-3">
+                        <img
+                          class="logo-project img-fluid"
+                          src="https://images.unsplash.com/photo-1495615080073-6b89c9839ce0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3F1YXJlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+                          alt=""
+                        />
+                      </div>
+                      <input
+                        id="uploadLogoProject"
+                        type="file"
+                        accept="image/*"
+                        hidden
+                      />
+                      <div class="d-flex flex-column flex-fill">
+                        <div class="mb-3">
+                          <label class="form-label">Contributor</label>
+                          <input type="text" class="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="url"
+                        ><iconify-icon
+                          icon="arcticons:url-checker"
+                        ></iconify-icon
+                      ></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Project url"
+                        aria-label="Username"
+                        aria-describedby="url"
+                      />
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="language"
+                        ><iconify-icon
+                          icon="ant-design:code-outlined"
+                        ></iconify-icon
+                      ></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Programming Language"
+                        aria-label="Username"
+                        aria-describedby="language"
+                      />
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button type="button" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- add new certificate modal -->
+    <div
+      class="modal fade"
+      id="newCertificateModal"
+      tabindex="-1"
+      aria-labelledby="newCertificateModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="newCertificateModalLabel">
+              Add Certificate
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="title" class="form-label">Certificate of</label>
+                    <input type="text" class="form-control" id="title" />
+                  </div>
+                  <form action="" enctype="multipart/form-data">
+                    <div class="mb-3">
+                      <label
+                        for="exampleFormControlTextarea1"
+                        class="form-label"
+                        >Tell us your story</label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                      ></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <button class="btn">
+                        <iconify-icon icon="bi:image"></iconify-icon>
+                      </button>
+                      <button class="btn">
+                        <iconify-icon icon="bxs:video-plus"></iconify-icon>
+                      </button>
+                    </div>
+                    <div class="">
+                      <input
+                        type="file"
+                        class="form-control certificate-input"
+                      />
+                    </div>
+                    <div class="input-group my-3">
+                      <span class="input-group-text"
+                        ><iconify-icon
+                          icon="fluent-mdl2:date-time-mirrored"
+                        ></iconify-icon
+                      ></span>
+                      <input type="date" class="form-control" />
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button type="button" class="btn btn-primary">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- jquery -->
     <script
@@ -285,5 +707,23 @@
 
     <!-- iconify -->
     <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
+
+    <!-- filepond -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/filepond/4.30.4/filepond.min.js"
+      integrity="sha512-l+50U3iKl0++46sldyNg5mOh27O0OWyWWsU2UnGfIVcxC+fEttAvao0Rns9KclIELHihYJppMWmM5sWof0M7uA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script>
+      const inputElement = document.querySelector(".certificate-input");
+
+      // Create a FilePond instance
+      const pond = FilePond.create(inputElement);
+    </script>
+
+    <!-- index.js -->
+    <script src="/assets/js/index.js"></script>
   </body>
 </html>
