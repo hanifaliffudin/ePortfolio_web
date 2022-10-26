@@ -1,487 +1,532 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Profile - ePortfolio</title>
-    <!-- bootstrap 5 -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-      crossorigin="anonymous"
-    />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ePortfolio</title>
 
-    <!-- filepond -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/filepond/4.30.4/filepond.css"
-      integrity="sha512-OwkTbucz29JjQUeii4ZRkjY/E+Xdg4AfffPZICCf98rYKWIHxX87AwwuIQ73rbVrev8goqrKmaXyu+VxyDqr1A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- style.css -->
-    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script src="//unpkg.com/alpinejs" defer></script>
+
+    <style>
+      .ellipsis-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .logo-picture-container {
+        cursor: pointer;
+        border-radius: 50%;
+      }
+    </style>
   </head>
+
   <body>
-    <header>
-      <nav class="navbar navbar-expand-lg bg-abu">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">FILKOM Student Dashboard</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="/">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/discovery.html">Discovery</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#">Profile</a>
-              </li>
-            </ul>
-            <form class="ms-lg-5" role="search">
-              <button
-                class="btn btn-outline-danger d-flex align-items-center"
-                type="submit"
+    <nav x-data="{ isOpen: false }" class="relative bg-white shadow">
+      <div class="container px-6 py-4 mx-auto">
+        <div class="lg:flex lg:items-center lg:justify-between">
+          <div class="flex items-center justify-between">
+            <div class="text-xl font-semibold text-gray-700">
+              <a
+                class="text-2xl font-bold text-black transition-colors duration-300 transform lg:text-3xl hover:text-gray-700"
+                href="#"
+                >FILKOM Student Dashboard</a
               >
-                Sign out
-                <iconify-icon icon="bi:arrow-right" class="ms-2"></iconify-icon>
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="flex lg:hidden">
+              <button
+                x-cloak
+                @click="isOpen = !isOpen"
+                type="button"
+                class="text-black hover:text-gray-600 dar focus:outline-none focus:text-gray-600"
+                aria-label="toggle menu"
+              >
+                <svg
+                  x-show="!isOpen"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4 8h16M4 16h16"
+                  />
+                </svg>
+
+                <svg
+                  x-show="isOpen"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
               </button>
-            </form>
+            </div>
+          </div>
+
+          <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+          <div
+            x-cloak
+            :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
+            class="absolute z-20 inset-x-0 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center"
+          >
+            <div
+              class="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8"
+            >
+              <a
+                href="/"
+                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
+                >Home</a
+              >
+              <a
+                href="/discovery.html"
+                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
+                >Discovery</a
+              >
+              <a
+                href="/profile.html"
+                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
+                >Profile</a
+              >
+            </div>
+
+            <div class="flex items-center mt-4 lg:mt-0">
+              <button
+                type="button"
+                class="text-red-500 ring-1 ring-red-500 hover:bg-red-200 focus:ring-1 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+              >
+                Sign Out
+                <svg
+                  aria-hidden="true"
+                  class="ml-2 -mr-1 w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
 
-    <main class="px-4 px-md-0">
+    <main class="md:mx-72">
       <section>
-        <div class="container profile my-5">
-          <div class="row">
-            <div class="col-lg-3">
-              <div class="container">
-                <div class="row">
-                  <div class="col">
+        <div class="md:container md:mx-auto my-16">
+          <div class="flex">
+            <div class="flex-initial w-1/4 mr-8">
+              <img
+                class="w-full h-auto rounded-full mb-2"
+                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                alt="Rounded avatar"
+              />
+              <div class="flex justify-end">
+                <button type="button" class="mr-4">
+                  <iconify-icon
+                    icon="fluent:more-horizontal-32-filled"
+                    style="font-size: 26px"
+                  ></iconify-icon>
+                </button>
+              </div>
+              <p class="font-bold text-xl">Nafira Ramadhannis</p>
+              <p class="font-light text-sm">175150201111007</p>
+              <p class="text-xl my-2">Informatic Engineering</p>
+              <p>
+                Enthusiast at Android Developer, Web Developer, and UX/UI Design
+              </p>
+            </div>
+            <div class="flex-initial w-3/4">
+              <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+                <ul
+                  class="flex flex-wrap -mb-px text-sm font-medium text-center"
+                  id="myTab"
+                  data-tabs-toggle="#myTabContent"
+                  role="tablist"
+                >
+                  <li class="mr-2" role="presentation">
+                    <button
+                      class="inline-block p-4 rounded-t-lg border-b-2 text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500"
+                      id="profile-tab"
+                      data-tabs-target="#profile"
+                      type="button"
+                      role="tab"
+                      aria-controls="profile"
+                      aria-selected="true"
+                    >
+                      Feed
+                    </button>
+                  </li>
+                  <li class="mr-2" role="presentation">
+                    <button
+                      class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700"
+                      id="dashboard-tab"
+                      data-tabs-target="#dashboard"
+                      type="button"
+                      role="tab"
+                      aria-controls="dashboard"
+                      aria-selected="false"
+                    >
+                      Projects
+                    </button>
+                  </li>
+                  <li class="mr-2" role="presentation">
+                    <button
+                      class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700"
+                      id="settings-tab"
+                      data-tabs-target="#settings"
+                      type="button"
+                      role="tab"
+                      aria-controls="settings"
+                      aria-selected="false"
+                    >
+                      Certification
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <div id="myTabContent">
+                <div
+                  class=""
+                  id="profile"
+                  role="tabpanel"
+                  aria-labelledby="profile-tab"
+                >
+                  <div
+                    class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg post"
+                  >
+                    <div class="flex mb-4">
+                      <img
+                        class="w-14 h-14 rounded-full"
+                        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                        alt="Rounded avatar"
+                      />
+                      <div
+                        class="flex flex-col meta ml-4 leading-tight flex-auto"
+                      >
+                        <div class="font-bold text-lg">Nafira Ramadhannis</div>
+                        <div class="font-light text-xs">175150201111007</div>
+                        <div class="font-light text-xs">
+                          11.20 AM 12 Oct 2022
+                        </div>
+                      </div>
+                      <div
+                        x-data="{ isOpen: false }"
+                        class="relative inline-block"
+                      >
+                        <!-- Dropdown toggle button -->
+                        <button
+                          @click="isOpen = !isOpen"
+                          class="relative z-10 block border border-transparent rounded-md"
+                        >
+                          <iconify-icon
+                            icon="fluent:more-horizontal-32-filled"
+                          ></iconify-icon>
+                        </button>
+
+                        <!-- Dropdown menu -->
+                        <div
+                          x-show="isOpen"
+                          @click.away="isOpen = false"
+                          x-transition:enter="transition ease-out duration-100"
+                          x-transition:enter-start="opacity-0 scale-90"
+                          x-transition:enter-end="opacity-100 scale-100"
+                          x-transition:leave="transition ease-in duration-100"
+                          x-transition:leave-start="opacity-100 scale-100"
+                          x-transition:leave-end="opacity-0 scale-90"
+                          class="absolute right-0 z-20 w-28 py-2 mt-2 bg-white rounded-md shadow-xl"
+                        >
+                          <a
+                            href="#"
+                            class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
+                          >
+                            Edit
+                          </a>
+
+                          <a
+                            href="#"
+                            class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
+                          >
+                            Delete
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="ellipsis-3 mb-3">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Asperiores molestiae blanditiis ducimus ipsum. Magnam sed
+                      labore aperiam dolorum. Eum quidem, dolorem rem voluptates
+                      vero accusamus? Beatae fuga totam assumenda facilis?
+                    </p>
                     <img
-                      src="https://images.unsplash.com/photo-1495615080073-6b89c9839ce0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3F1YXJlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
-                      class="img-fluid rounded-circle"
-                      alt=""
+                      class="max-w-sm h-auto rounded-md"
+                      src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
+                      alt="image description"
                     />
                   </div>
                 </div>
-                <div class="row justify-content-end">
-                  <div class="col-auto">
-                    <button class="btn">
-                      <iconify-icon
-                        icon="fluent:more-horizontal-32-filled"
-                        style="font-size: 26px"
-                      ></iconify-icon>
-                    </button>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="name">Nafira Ramadhannis</div>
-                    <div class="nim">175150201111007</div>
-                    <div class="major my-2">Informatic Engineering</div>
-                    <div class="position">
-                      Enthusiast at Android Developer, Web Developer, and UX/UI
-                      Design
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-9 mt-5 mt-lg-0">
-              <!-- tab control -->
-              <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link active"
-                    id="home-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#home-tab-pane"
-                    type="button"
-                    role="tab"
-                    aria-controls="home-tab-pane"
-                    aria-selected="true"
-                  >
-                    Feed
-                  </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link"
-                    id="profile-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#profile-tab-pane"
-                    type="button"
-                    role="tab"
-                    aria-controls="profile-tab-pane"
-                    aria-selected="false"
-                  >
-                    Projects
-                  </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link"
-                    id="contact-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#contact-tab-pane"
-                    type="button"
-                    role="tab"
-                    aria-controls="contact-tab-pane"
-                    aria-selected="false"
-                  >
-                    Certification
-                  </button>
-                </li>
-              </ul>
-              <!-- tab content -->
-              <div class="tab-content" id="myTabContent">
-                <!-- feed tab content -->
                 <div
-                  class="tab-pane fade show active"
-                  id="home-tab-pane"
+                  class="hidden rounded-lg"
+                  id="dashboard"
                   role="tabpanel"
-                  aria-labelledby="home-tab"
-                  tabindex="0"
+                  aria-labelledby="dashboard-tab"
                 >
-                  <div class="container-fluid">
-                    <div class="row">
-                      <div class="col p-0">
-                        <div class="container post bg-abu mb-4 p-4 rounded-3">
-                          <div class="row">
-                            <div class="col">
-                              <div class="container">
-                                <div class="row align-items-center">
-                                  <div class="col-auto p-0">
-                                    <img
-                                      src="https://images.unsplash.com/photo-1495615080073-6b89c9839ce0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3F1YXJlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
-                                      class="photo-circle"
-                                      alt=""
-                                    />
-                                  </div>
-                                  <div class="col">
-                                    <div class="d-flex flex-column meta">
-                                      <div class="name">Nafira Ramadhannis</div>
-                                      <div class="nim">175150201111007</div>
-                                      <div class="date">
-                                        11.20 AM 12 Oct 2022
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-auto align-self-start pe-0">
-                                    <div class="dropdown">
-                                      <button
-                                        class="btn d-flex align-items-center"
-                                        type="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                      >
-                                        <iconify-icon
-                                          icon="fluent:more-horizontal-32-filled"
-                                        ></iconify-icon>
-                                      </button>
-                                      <ul class="dropdown-menu">
-                                        <li>
-                                          <a class="dropdown-item" href="#"
-                                            >Edit</a
-                                          >
-                                        </li>
-                                        <li>
-                                          <a class="dropdown-item" href="#"
-                                            >Delete</a
-                                          >
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row my-2">
-                            <div class="col">
-                              <p>
-                                Today I just passed my AAD exam and I got my
-                                certification! Check it out at my Certification
-                                page or at https://link.developer.google/nafir
-                              </p>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-lg-4">
-                              <img
-                                src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
-                                class="img-fluid"
-                                alt=""
-                              />
-                            </div>
-                          </div>
+                  <button
+                    type="button"
+                    class="text-white mb-6 justify-center w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    data-modal-toggle="new-project-modal"
+                  >
+                    Add new project
+                    <iconify-icon
+                      icon="carbon:add-filled"
+                      class="ml-2"
+                    ></iconify-icon>
+                  </button>
+                  <div
+                    class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg post"
+                  >
+                    <div class="flex mb-4">
+                      <img
+                        class="w-14 h-14 rounded-full"
+                        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                        alt="Rounded avatar"
+                      />
+                      <div
+                        class="flex flex-col meta ml-4 leading-tight flex-auto"
+                      >
+                        <div class="font-bold text-lg">
+                          SKINSIS - Skin Disease Detection
+                        </div>
+                        <div class="font-light text-xs">Java, Python, HTML</div>
+                        <div class="font-light text-xs">6 Contributors</div>
+                      </div>
+                      <div
+                        x-data="{ isOpen: false }"
+                        class="relative inline-block"
+                      >
+                        <!-- Dropdown toggle button -->
+                        <button
+                          @click="isOpen = !isOpen"
+                          class="relative z-10 block border border-transparent rounded-md"
+                        >
+                          <iconify-icon
+                            icon="fluent:more-horizontal-32-filled"
+                          ></iconify-icon>
+                        </button>
+
+                        <!-- Dropdown menu -->
+                        <div
+                          x-show="isOpen"
+                          @click.away="isOpen = false"
+                          x-transition:enter="transition ease-out duration-100"
+                          x-transition:enter-start="opacity-0 scale-90"
+                          x-transition:enter-end="opacity-100 scale-100"
+                          x-transition:leave="transition ease-in duration-100"
+                          x-transition:leave-start="opacity-100 scale-100"
+                          x-transition:leave-end="opacity-0 scale-90"
+                          class="absolute right-0 z-20 w-28 py-2 mt-2 bg-white rounded-md shadow-xl"
+                        >
+                          <a
+                            href="#"
+                            class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
+                          >
+                            Edit
+                          </a>
+
+                          <a
+                            href="#"
+                            class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
+                          >
+                            Delete
+                          </a>
                         </div>
                       </div>
                     </div>
+                    <p class="ellipsis-3 mb-3">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Asperiores molestiae blanditiis ducimus ipsum. Magnam sed
+                      labore aperiam dolorum. Eum quidem, dolorem rem voluptates
+                      vero accusamus? Beatae fuga totam assumenda facilis?
+                    </p>
+                    <img
+                      class="max-w-sm h-auto rounded-md"
+                      src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
+                      alt="image description"
+                    />
                   </div>
                 </div>
-                <!-- projects tab content -->
                 <div
-                  class="tab-pane fade"
-                  id="profile-tab-pane"
+                  class="hidden"
+                  id="settings"
                   role="tabpanel"
-                  aria-labelledby="profile-tab"
-                  tabindex="0"
+                  aria-labelledby="settings-tab"
                 >
-                  <div class="container-fluid">
-                    <div class="row">
-                      <div class="col p-0">
-                        <div class="container">
-                          <div class="row mb-4">
-                            <div class="col p-0">
-                              <button
-                                class="btn w-100 btn-light btn-lg d-flex align-items-center justify-content-center"
-                                data-bs-toggle="modal"
-                                data-bs-target="#newProjectModal"
-                              >
-                                Add new project
-                                <iconify-icon
-                                  icon="carbon:add-filled"
-                                  class="ms-2"
-                                ></iconify-icon>
-                              </button>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col p-0">
-                              <div
-                                class="container project bg-abu mb-4 p-4 rounded-3"
-                              >
-                                <div class="row mb-2">
-                                  <div class="col">
-                                    <div class="container">
-                                      <div class="row align-items-center">
-                                        <div class="col-auto p-0">
-                                          <img
-                                            src="https://images.unsplash.com/photo-1495615080073-6b89c9839ce0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3F1YXJlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
-                                            class="photo-circle"
-                                            alt=""
-                                          />
-                                        </div>
-                                        <div class="col">
-                                          <div class="d-flex flex-column meta">
-                                            <div class="name">
-                                              SKINSIS - Skin Disease Detection
-                                            </div>
-                                            <div class="tech">
-                                              Java, Python, HTML
-                                            </div>
-                                            <div class="amount">
-                                              6 Contributors
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div
-                                          class="col-auto align-self-start pe-0"
-                                        >
-                                          <div class="dropdown">
-                                            <button
-                                              class="btn d-flex align-items-center"
-                                              type="button"
-                                              data-bs-toggle="dropdown"
-                                              aria-expanded="false"
-                                            >
-                                              <iconify-icon
-                                                icon="fluent:more-horizontal-32-filled"
-                                              ></iconify-icon>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                              <li>
-                                                <a
-                                                  class="dropdown-item"
-                                                  href="#"
-                                                  >Edit</a
-                                                >
-                                              </li>
-                                              <li>
-                                                <a
-                                                  class="dropdown-item"
-                                                  href="#"
-                                                  >Delete</a
-                                                >
-                                              </li>
-                                            </ul>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="row mb-2">
-                                  <div class="col">
-                                    <p class="ellipsis-3">
-                                      This app can detect skin diseases on the
-                                      face and give recommendations as first
-                                      aid. This app can help a lot of people to
-                                      overcome the skin disease on their face
-                                      and spread awareness about their skin's
-                                      health. How this app is going to work is
-                                      by using image recognition to detect the
-                                      face. After it classifies the disease, it
-                                      will show recommendations on how to cure
-                                      it.
-                                      <br />
-                                      <br />
-                                      Check for more info by following our
-                                      progress in github :)
-                                    </p>
-                                  </div>
-                                </div>
-                                <div class="row mb-2">
-                                  <div class="col-lg-4">
-                                    <img
-                                      src="https://camo.githubusercontent.com/b73aae9127e113246fb1665d2002922e0bbcecd74bcbe5fbcd42e2b7eb2d6006/68747470733a2f2f696d6775722e636f6d2f675145646f64332e706e67"
-                                      class="img-fluid"
-                                      alt=""
-                                    />
-                                  </div>
-                                </div>
-                                <div class="row justify-content-end">
-                                  <div class="col-auto">
-                                    <button
-                                      class="btn btn-light d-flex align-items-center border rounded-pill"
-                                      onclick="window.location.href='project.html';"
-                                    >
-                                      Go to project
-                                      <iconify-icon
-                                        icon="el:share-alt"
-                                        class="ms-2"
-                                      ></iconify-icon>
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                  <button
+                    type="button"
+                    class="text-white mb-6 justify-center w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    data-modal-toggle="new-certificate-modal"
+                  >
+                    Add new certificate
+                    <iconify-icon
+                      icon="carbon:add-filled"
+                      class="ml-2"
+                    ></iconify-icon>
+                  </button>
+                  <div class="grid grid-cols-2 gap-8">
+                    <div
+                      class="block px-4 py-2 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md"
+                    >
+                      <div class="flex justify-end">
+                        <div
+                          x-data="{ isOpen: false }"
+                          class="relative inline-block"
+                        >
+                          <!-- Dropdown toggle button -->
+                          <button
+                            @click="isOpen = !isOpen"
+                            class="relative z-10 block border border-transparent rounded-md"
+                          >
+                            <iconify-icon
+                              icon="fluent:more-horizontal-32-filled"
+                            ></iconify-icon>
+                          </button>
+
+                          <!-- Dropdown menu -->
+                          <div
+                            x-show="isOpen"
+                            @click.away="isOpen = false"
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="opacity-0 scale-90"
+                            x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-100"
+                            x-transition:leave-start="opacity-100 scale-100"
+                            x-transition:leave-end="opacity-0 scale-90"
+                            class="absolute right-0 z-20 w-28 py-2 mt-2 bg-white rounded-md shadow-xl"
+                          >
+                            <a
+                              href="#"
+                              class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
+                            >
+                              Edit
+                            </a>
+
+                            <a
+                              href="#"
+                              class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
+                            >
+                              Delete
+                            </a>
                           </div>
                         </div>
                       </div>
+                      <a href="#" class="">
+                        <div class="flex justify-center mb-3">
+                          <img
+                            class="w-auto h-auto rounded-md"
+                            src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
+                            alt="image description"
+                          />
+                        </div>
+                        <h5
+                          class="text-xl font-bold tracking-tight text-gray-900"
+                        >
+                          Dicoding Completion Module Certificate
+                        </h5>
+                        <p
+                          class="font-light text-sm text-gray-700 dark:text-gray-400 mb-4"
+                        >
+                          Earned: May 24, 2022 02:30:00
+                        </p>
+                      </a>
                     </div>
-                  </div>
-                </div>
-                <!-- certification tab content -->
-                <div
-                  class="tab-pane fade"
-                  id="contact-tab-pane"
-                  role="tabpanel"
-                  aria-labelledby="contact-tab"
-                  tabindex="0"
-                >
-                  <div class="container-fluid">
-                    <div class="row">
-                      <div class="col p-0">
-                        <div class="container">
-                          <div class="row mb-4">
-                            <div class="col">
-                              <button
-                                class="btn w-100 btn-light btn-lg d-flex align-items-center justify-content-center"
-                                data-bs-toggle="modal"
-                                data-bs-target="#newCertificateModal"
-                              >
-                                Add new certificate
-                                <iconify-icon
-                                  icon="carbon:add-filled"
-                                  class="ms-2"
-                                ></iconify-icon>
-                              </button>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col p-0">
-                              <div class="container">
-                                <div class="row row-cols-lg-2 gx-3">
-                                  <div class="col">
-                                    <div
-                                      class="container certificate bg-abu mb-4 p-4 rounded-3"
-                                    >
-                                      <div class="row justify-content-end">
-                                        <div class="col-auto">
-                                          <div class="dropdown">
-                                            <button
-                                              class="btn d-flex align-items-center"
-                                              type="button"
-                                              data-bs-toggle="dropdown"
-                                              aria-expanded="false"
-                                            >
-                                              <iconify-icon
-                                                icon="fluent:more-horizontal-32-filled"
-                                              ></iconify-icon>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                              <li>
-                                                <a
-                                                  class="dropdown-item"
-                                                  href="#"
-                                                  >Edit</a
-                                                >
-                                              </li>
-                                              <li>
-                                                <a
-                                                  class="dropdown-item"
-                                                  href="#"
-                                                  >Delete</a
-                                                >
-                                              </li>
-                                            </ul>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div
-                                        class="row justify-content-center mb-3"
-                                      >
-                                        <div class="col-lg-10">
-                                          <img
-                                            src="https://camo.githubusercontent.com/b73aae9127e113246fb1665d2002922e0bbcecd74bcbe5fbcd42e2b7eb2d6006/68747470733a2f2f696d6775722e636f6d2f675145646f64332e706e67"
-                                            class="img-fluid rounded-3"
-                                            alt=""
-                                          />
-                                        </div>
-                                      </div>
-                                      <div class="row">
-                                        <div class="col">
-                                          <a
-                                            href="/certificate.html"
-                                            class="text-decoration-none text-black"
-                                          >
-                                            <div class="name">
-                                              Dicoding Completion Module
-                                              Certificate
-                                            </div>
-                                            <div class="date">
-                                              Earned: May 24, 2022 02:30:00
-                                            </div>
-                                          </a>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                    <div
+                      class="block px-4 py-2 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md"
+                    >
+                      <div class="flex justify-end">
+                        <div
+                          x-data="{ isOpen: false }"
+                          class="relative inline-block"
+                        >
+                          <!-- Dropdown toggle button -->
+                          <button
+                            @click="isOpen = !isOpen"
+                            class="relative z-10 block border border-transparent rounded-md"
+                          >
+                            <iconify-icon
+                              icon="fluent:more-horizontal-32-filled"
+                            ></iconify-icon>
+                          </button>
+
+                          <!-- Dropdown menu -->
+                          <div
+                            x-show="isOpen"
+                            @click.away="isOpen = false"
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="opacity-0 scale-90"
+                            x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-100"
+                            x-transition:leave-start="opacity-100 scale-100"
+                            x-transition:leave-end="opacity-0 scale-90"
+                            class="absolute right-0 z-20 w-28 py-2 mt-2 bg-white rounded-md shadow-xl"
+                          >
+                            <a
+                              href="#"
+                              class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
+                            >
+                              Edit
+                            </a>
+
+                            <a
+                              href="#"
+                              class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
+                            >
+                              Delete
+                            </a>
                           </div>
                         </div>
                       </div>
+                      <a href="#" class="">
+                        <div class="flex justify-center mb-3">
+                          <img
+                            class="w-auto h-auto rounded-md"
+                            src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
+                            alt="image description"
+                          />
+                        </div>
+                        <h5
+                          class="text-xl font-bold tracking-tight text-gray-900"
+                        >
+                          Dicoding Completion Module Certificate
+                        </h5>
+                        <p
+                          class="font-light text-sm text-gray-700 dark:text-gray-400 mb-4"
+                        >
+                          Earned: May 24, 2022 02:30:00
+                        </p>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -490,205 +535,301 @@
           </div>
         </div>
       </section>
+
+      <!-- new project modal -->
+      <div
+        id="new-project-modal"
+        tabindex="-1"
+        aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full"
+      >
+        <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow">
+            <button
+              type="button"
+              class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+              data-modal-toggle="new-project-modal"
+            >
+              <svg
+                aria-hidden="true"
+                class="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+            <div class="py-6 px-6 lg:px-8">
+              <h3 class="mb-4 text-xl font-medium text-gray-900">
+                Add New Project
+              </h3>
+              <form class="space-y-6" action="#">
+                <div>
+                  <label
+                    for="title"
+                    class="block mb-2 text-sm font-medium text-gray-900"
+                    >Title</label
+                  >
+                  <input
+                    type="text"
+                    name="title"
+                    id="title"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    for="description"
+                    class="block mb-2 text-sm font-medium text-gray-900"
+                    >Description project</label
+                  >
+                  <textarea
+                    id="message"
+                    rows="4"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                  ></textarea>
+                </div>
+
+                <div class="flex">
+                  <button type="button">
+                    <iconify-icon icon="bi:image"></iconify-icon>
+                  </button>
+                </div>
+
+                <div class="flex items-center">
+                  <div class="logo-picture-container flex-none mr-2">
+                    <img
+                      class="w-16 h-16 rounded-full"
+                      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                      alt="Rounded avatar"
+                    />
+                  </div>
+                  <input
+                    id="uploadLogoProject"
+                    type="file"
+                    accept="image/*"
+                    hidden
+                  />
+                  <div class="flex-1">
+                    <label
+                      for="title"
+                      class="block mb-2 text-sm font-medium text-gray-900"
+                      >Contributor</label
+                    >
+                    <input
+                      type="text"
+                      name="title"
+                      id="title"
+                      class="bg-gray-50 mb-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                      required
+                    />
+                    <div
+                      class="border-dashed border-2 border-gray-500 rounded-md"
+                    >
+                      <button
+                        type="button"
+                        class="w-full flex items-center justify-center font-medium rounded py-1 text-sm text-center"
+                      >
+                        <iconify-icon icon="carbon:add-filled"></iconify-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex">
+                  <span
+                    class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300"
+                  >
+                    <iconify-icon icon="arcticons:url-checker"></iconify-icon>
+                  </span>
+                  <input
+                    type="text"
+                    id=""
+                    class="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                  />
+                </div>
+
+                <div class="flex">
+                  <span
+                    class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300"
+                  >
+                    <iconify-icon
+                      icon="ant-design:code-outlined"
+                    ></iconify-icon>
+                  </span>
+                  <input
+                    type="text"
+                    id=""
+                    class="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                  />
+                </div>
+
+                <div class="flex justify-end">
+                  <button
+                    type="submit"
+                    class="w-auto mr-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="submit"
+                    class="w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  >
+                    Add Project
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- new certificate modal -->
+      <div
+        id="new-certificate-modal"
+        tabindex="-1"
+        aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full"
+      >
+        <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow">
+            <button
+              type="button"
+              class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+              data-modal-toggle="new-certificate-modal"
+            >
+              <svg
+                aria-hidden="true"
+                class="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+            <div class="py-6 px-6 lg:px-8">
+              <h3 class="mb-4 text-xl font-medium text-gray-900">
+                Add New Certificate
+              </h3>
+              <form class="space-y-6" action="#">
+                <div>
+                  <label
+                    for="title"
+                    class="block mb-2 text-sm font-medium text-gray-900"
+                    >Certificate of</label
+                  >
+                  <input
+                    type="text"
+                    name="title"
+                    id="title"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    for="description"
+                    class="block mb-2 text-sm font-medium text-gray-900"
+                    >Tell us your story</label
+                  >
+                  <textarea
+                    id="message"
+                    rows="4"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                  ></textarea>
+                </div>
+
+                <div class="flex">
+                  <button type="button" class="mr-4">
+                    <iconify-icon icon="bi:image"></iconify-icon>
+                  </button>
+                  <button type="btn">
+                    <iconify-icon icon="bxs:video-plus"></iconify-icon>
+                  </button>
+                </div>
+
+                <div class="flex justify-center items-center w-full">
+                  <label
+                    for="dropzone-file"
+                    class="flex flex-col justify-center items-center w-full h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100"
+                  >
+                    <div
+                      class="flex flex-col justify-center items-center pt-5 pb-6"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="mb-3 w-10 h-10 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        ></path>
+                      </svg>
+                      <p
+                        class="mb-2 text-sm text-gray-500 dark:text-gray-400 font-semibold"
+                      >
+                        Upload Your Certificate
+                      </p>
+                    </div>
+                    <input
+                      id="dropzone-file"
+                      type="file"
+                      accept="image/*"
+                      class="hidden"
+                    />
+                  </label>
+                </div>
+
+                <div class="flex">
+                  <span
+                    class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300"
+                  >
+                    <iconify-icon
+                      icon="fluent-mdl2:date-time-mirrored"
+                    ></iconify-icon>
+                  </span>
+                  <input
+                    type="date"
+                    id=""
+                    class="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                  />
+                </div>
+
+                <div class="flex justify-end">
+                  <button
+                    type="submit"
+                    class="w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  >
+                    Add
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
-
-    <!-- add new project modal -->
-    <div
-      class="modal fade"
-      id="newProjectModal"
-      tabindex="-1"
-      aria-labelledby="newProjectModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="newProjectModalLabel">
-              Add Project
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="container">
-              <div class="row">
-                <div class="col">
-                  <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" />
-                  </div>
-                  <form action="" enctype="multipart/form-data">
-                    <div class="mb-3">
-                      <label
-                        for="exampleFormControlTextarea1"
-                        class="form-label"
-                        >Description Project</label
-                      >
-                      <textarea
-                        class="form-control"
-                        id="exampleFormControlTextarea1"
-                        rows="3"
-                      ></textarea>
-                    </div>
-                    <div class="mb-3">
-                      <button class="btn">
-                        <iconify-icon icon="bi:image"></iconify-icon>
-                      </button>
-                    </div>
-                    <div class="d-flex mb-3">
-                      <div class="profile-picture-container bg-abu me-3">
-                        <img
-                          class="logo-project img-fluid"
-                          src="https://images.unsplash.com/photo-1495615080073-6b89c9839ce0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3F1YXJlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
-                          alt=""
-                        />
-                      </div>
-                      <input
-                        id="uploadLogoProject"
-                        type="file"
-                        accept="image/*"
-                        hidden
-                      />
-                      <div class="d-flex flex-column flex-fill">
-                        <div class="mb-3">
-                          <label class="form-label">Contributor</label>
-                          <input type="text" class="form-control" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text" id="url"
-                        ><iconify-icon
-                          icon="arcticons:url-checker"
-                        ></iconify-icon
-                      ></span>
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Project url"
-                        aria-label="Username"
-                        aria-describedby="url"
-                      />
-                    </div>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text" id="language"
-                        ><iconify-icon
-                          icon="ant-design:code-outlined"
-                        ></iconify-icon
-                      ></span>
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Programming Language"
-                        aria-label="Username"
-                        aria-describedby="language"
-                      />
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <button type="button" class="btn btn-primary">Save</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- add new certificate modal -->
-    <div
-      class="modal fade"
-      id="newCertificateModal"
-      tabindex="-1"
-      aria-labelledby="newCertificateModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="newCertificateModalLabel">
-              Add Certificate
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="container">
-              <div class="row">
-                <div class="col">
-                  <div class="mb-3">
-                    <label for="title" class="form-label">Certificate of</label>
-                    <input type="text" class="form-control" id="title" />
-                  </div>
-                  <form action="" enctype="multipart/form-data">
-                    <div class="mb-3">
-                      <label
-                        for="exampleFormControlTextarea1"
-                        class="form-label"
-                        >Tell us your story</label
-                      >
-                      <textarea
-                        class="form-control"
-                        id="exampleFormControlTextarea1"
-                        rows="3"
-                      ></textarea>
-                    </div>
-                    <div class="mb-3">
-                      <button class="btn">
-                        <iconify-icon icon="bi:image"></iconify-icon>
-                      </button>
-                      <button class="btn">
-                        <iconify-icon icon="bxs:video-plus"></iconify-icon>
-                      </button>
-                    </div>
-                    <div class="">
-                      <input
-                        type="file"
-                        class="form-control certificate-input"
-                      />
-                    </div>
-                    <div class="input-group my-3">
-                      <span class="input-group-text"
-                        ><iconify-icon
-                          icon="fluent-mdl2:date-time-mirrored"
-                        ></iconify-icon
-                      ></span>
-                      <input type="date" class="form-control" />
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <button type="button" class="btn btn-primary">Add</button>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- jquery -->
     <script
@@ -698,32 +839,30 @@
       referrerpolicy="no-referrer"
     ></script>
 
-    <!-- bootstrap 5 -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-      crossorigin="anonymous"
-    ></script>
+    <!-- flowbite -->
+    <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
 
     <!-- iconify -->
     <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
 
-    <!-- filepond -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/filepond/4.30.4/filepond.min.js"
-      integrity="sha512-l+50U3iKl0++46sldyNg5mOh27O0OWyWWsU2UnGfIVcxC+fEttAvao0Rns9KclIELHihYJppMWmM5sWof0M7uA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-
     <script>
-      const inputElement = document.querySelector(".certificate-input");
+      // ganti foto profile
+      $(".logo-picture-container").click(function (e) {
+        $("#uploadLogoProject").click();
+      });
 
-      // Create a FilePond instance
-      const pond = FilePond.create(inputElement);
+      $("#uploadLogoProject").change(function () {
+        fasterPreview(this);
+      });
+
+      function fasterPreview(uploader) {
+        if (uploader.files && uploader.files[0]) {
+          $(".logo-project").attr(
+            "src",
+            window.URL.createObjectURL(uploader.files[0])
+          );
+        }
+      }
     </script>
-
-    <!-- index.js -->
-    <script src="/assets/js/index.js"></script>
   </body>
 </html>
