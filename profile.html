@@ -9,20 +9,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script src="//unpkg.com/alpinejs" defer></script>
-
-    <style>
-      .ellipsis-3 {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-
-      .logo-picture-container {
-        cursor: pointer;
-        border-radius: 50%;
-      }
-    </style>
   </head>
 
   <body>
@@ -93,17 +79,17 @@
             >
               <a
                 href="/"
-                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
+                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform hover:rounded-md lg:mt-0 hover:bg-gray-100"
                 >Home</a
               >
               <a
                 href="/discovery.html"
-                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
+                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform hover:rounded-md lg:mt-0 hover:bg-gray-100"
                 >Discovery</a
               >
               <a
                 href="/profile.html"
-                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
+                class="border-b-2 px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform hover:rounded-md lg:mt-0 hover:bg-gray-100"
                 >Profile</a
               >
             </div>
@@ -160,675 +146,198 @@
               </p>
             </div>
             <div class="flex-initial w-3/4">
-              <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
-                <ul
-                  class="flex flex-wrap -mb-px text-sm font-medium text-center"
-                  id="myTab"
-                  data-tabs-toggle="#myTabContent"
-                  role="tablist"
-                >
-                  <li class="mr-2" role="presentation">
-                    <button
-                      class="inline-block p-4 rounded-t-lg border-b-2 text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500"
-                      id="profile-tab"
-                      data-tabs-target="#profile"
-                      type="button"
-                      role="tab"
-                      aria-controls="profile"
-                      aria-selected="true"
+              <!-- tabs -->
+              <div
+                class="mb-4 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700"
+              >
+                <ul class="flex flex-wrap -mb-px">
+                  <li class="mr-2">
+                    <a
+                      href="/profile.html"
+                      class="inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active"
+                      aria-current="page"
+                      >About Me</a
                     >
-                      Feed
-                    </button>
                   </li>
-                  <li class="mr-2" role="presentation">
-                    <button
-                      class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700"
-                      id="dashboard-tab"
-                      data-tabs-target="#dashboard"
-                      type="button"
-                      role="tab"
-                      aria-controls="dashboard"
-                      aria-selected="false"
+                  <li class="mr-2">
+                    <a
+                      href="/activities.html"
+                      class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300"
+                      >Activities</a
                     >
-                      Projects
-                    </button>
                   </li>
-                  <li class="mr-2" role="presentation">
-                    <button
-                      class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700"
-                      id="settings-tab"
-                      data-tabs-target="#settings"
-                      type="button"
-                      role="tab"
-                      aria-controls="settings"
-                      aria-selected="false"
+                  <li class="mr-2">
+                    <a
+                      href="/achievements.html"
+                      class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300"
+                      >Achievements</a
                     >
-                      Certification
-                    </button>
                   </li>
                 </ul>
               </div>
-              <div id="myTabContent">
-                <div
-                  class=""
-                  id="profile"
-                  role="tabpanel"
-                  aria-labelledby="profile-tab"
+              <!-- tabs content -->
+              <div class="md:container md:mx-auto">
+                <button
+                  type="button"
+                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 focus:outline-none"
                 >
-                  <div
-                    class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg post"
-                  >
-                    <div class="flex mb-4">
-                      <img
-                        class="w-14 h-14 rounded-full"
-                        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                        alt="Rounded avatar"
-                      />
-                      <div
-                        class="flex flex-col meta ml-4 leading-tight flex-auto"
-                      >
-                        <div class="font-bold text-lg">Nafira Ramadhannis</div>
-                        <div class="font-light text-xs">175150201111007</div>
-                        <div class="font-light text-xs">
-                          11.20 AM 12 Oct 2022
-                        </div>
-                      </div>
-                      <div
-                        x-data="{ isOpen: false }"
-                        class="relative inline-block"
-                      >
-                        <!-- Dropdown toggle button -->
-                        <button
-                          @click="isOpen = !isOpen"
-                          class="relative z-10 block border border-transparent rounded-md"
-                        >
-                          <iconify-icon
-                            icon="fluent:more-horizontal-32-filled"
-                          ></iconify-icon>
-                        </button>
+                  Add block to profile
+                </button>
 
-                        <!-- Dropdown menu -->
-                        <div
-                          x-show="isOpen"
-                          @click.away="isOpen = false"
-                          x-transition:enter="transition ease-out duration-100"
-                          x-transition:enter-start="opacity-0 scale-90"
-                          x-transition:enter-end="opacity-100 scale-100"
-                          x-transition:leave="transition ease-in duration-100"
-                          x-transition:leave-start="opacity-100 scale-100"
-                          x-transition:leave-end="opacity-0 scale-90"
-                          class="absolute right-0 z-20 w-28 py-2 mt-2 bg-white rounded-md shadow-xl"
-                        >
-                          <a
-                            href="#"
-                            class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
-                          >
-                            Edit
-                          </a>
-
-                          <a
-                            href="#"
-                            class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
-                          >
-                            Delete
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <p class="ellipsis-3 mb-3">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Asperiores molestiae blanditiis ducimus ipsum. Magnam sed
-                      labore aperiam dolorum. Eum quidem, dolorem rem voluptates
-                      vero accusamus? Beatae fuga totam assumenda facilis?
-                    </p>
-                    <img
-                      class="max-w-sm h-auto rounded-md"
-                      src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
-                      alt="image description"
-                    />
+                <div class="bg-gray-300 rounded-md p-4 my-6">
+                  <div class="flex justify-between align-middle mb-2">
+                    <h2 class="font-bold text-xl">Personal Informations</h2>
+                    <button type="button">
+                      <iconify-icon icon="ci:edit"></iconify-icon>
+                    </button>
+                  </div>
+                  <div class="bg-white p-3 rounded-md">
+                    <b>Name</b> : Nafira Ramadhannis <br />
+                    <b>Student ID</b> : 175150201111007<br />
+                    <b>Major</b> : Informatics Engineer<br />
+                    <b>City</b> : Tuban, East Java <br />
+                    <b>Date Of Birth</b> : 6 January 1999<br />
+                    <b>Gender</b> : Female
                   </div>
                 </div>
-                <div
-                  class="hidden rounded-lg"
-                  id="dashboard"
-                  role="tabpanel"
-                  aria-labelledby="dashboard-tab"
-                >
-                  <button
-                    type="button"
-                    class="text-white mb-6 justify-center w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    data-modal-toggle="new-project-modal"
-                  >
-                    Add new project
-                    <iconify-icon
-                      icon="carbon:add-filled"
-                      class="ml-2"
-                    ></iconify-icon>
-                  </button>
-                  <div
-                    class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg post"
-                  >
-                    <div class="flex mb-4">
-                      <img
-                        class="w-14 h-14 rounded-full"
-                        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                        alt="Rounded avatar"
-                      />
-                      <div
-                        class="flex flex-col meta ml-4 leading-tight flex-auto"
-                      >
-                        <div class="font-bold text-lg">
-                          SKINSIS - Skin Disease Detection
-                        </div>
-                        <div class="font-light text-xs">Java, Python, HTML</div>
-                        <div class="font-light text-xs">6 Contributors</div>
-                      </div>
-                      <div
-                        x-data="{ isOpen: false }"
-                        class="relative inline-block"
-                      >
-                        <!-- Dropdown toggle button -->
-                        <button
-                          @click="isOpen = !isOpen"
-                          class="relative z-10 block border border-transparent rounded-md"
-                        >
-                          <iconify-icon
-                            icon="fluent:more-horizontal-32-filled"
-                          ></iconify-icon>
-                        </button>
 
-                        <!-- Dropdown menu -->
-                        <div
-                          x-show="isOpen"
-                          @click.away="isOpen = false"
-                          x-transition:enter="transition ease-out duration-100"
-                          x-transition:enter-start="opacity-0 scale-90"
-                          x-transition:enter-end="opacity-100 scale-100"
-                          x-transition:leave="transition ease-in duration-100"
-                          x-transition:leave-start="opacity-100 scale-100"
-                          x-transition:leave-end="opacity-0 scale-90"
-                          class="absolute right-0 z-20 w-28 py-2 mt-2 bg-white rounded-md shadow-xl"
-                        >
-                          <a
-                            href="#"
-                            class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
-                          >
-                            Edit
-                          </a>
-
-                          <a
-                            href="#"
-                            class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
-                          >
-                            Delete
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <p class="ellipsis-3 mb-3">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Asperiores molestiae blanditiis ducimus ipsum. Magnam sed
-                      labore aperiam dolorum. Eum quidem, dolorem rem voluptates
-                      vero accusamus? Beatae fuga totam assumenda facilis?
-                    </p>
-                    <img
-                      class="max-w-sm h-auto rounded-md"
-                      src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
-                      alt="image description"
-                    />
+                <div class="bg-gray-300 rounded-md p-4 my-6">
+                  <div class="flex justify-between align-middle mb-2">
+                    <h2 class="font-bold text-xl">About Me</h2>
+                    <button type="button">
+                      <iconify-icon icon="ci:edit"></iconify-icon>
+                    </button>
+                  </div>
+                  <div class="bg-white p-3 rounded-md">
+                    I am currently studying at Higher Colleges of Technology
+                    major in Quality and Strategic Management, where I am
+                    actively involved in different courses related to the
+                    subject job. My recent volunteer activities in your company
+                    last year was including documentation of different projects
+                    and other activities like setting up quality testing
+                    parameters. I really would like to work for a company that
+                    offers learning opportunities and developing my quality
+                    skills.
                   </div>
                 </div>
-                <div
-                  class="hidden"
-                  id="settings"
-                  role="tabpanel"
-                  aria-labelledby="settings-tab"
-                >
-                  <button
-                    type="button"
-                    class="text-white mb-6 justify-center w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    data-modal-toggle="new-certificate-modal"
-                  >
-                    Add new certificate
-                    <iconify-icon
-                      icon="carbon:add-filled"
-                      class="ml-2"
-                    ></iconify-icon>
-                  </button>
-                  <div class="grid grid-cols-2 gap-8">
-                    <div
-                      class="block px-4 py-2 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md"
+
+                <div class="bg-gray-300 rounded-md p-4 my-6">
+                  <div class="flex justify-between align-middle mb-2">
+                    <h2 class="font-bold text-xl">Newest activities</h2>
+                  </div>
+                  <div class="bg-white p-3 rounded-md"><br /><br /></div>
+                  <div class="flex justify-center mt-2">
+                    <a
+                      href="#"
+                      class="inline-flex items-center font-medium text-gray-600 hover:underline"
                     >
-                      <div class="flex justify-end">
-                        <div
-                          x-data="{ isOpen: false }"
-                          class="relative inline-block"
-                        >
-                          <!-- Dropdown toggle button -->
-                          <button
-                            @click="isOpen = !isOpen"
-                            class="relative z-10 block border border-transparent rounded-md"
-                          >
-                            <iconify-icon
-                              icon="fluent:more-horizontal-32-filled"
-                            ></iconify-icon>
-                          </button>
+                      Show All Activities
+                      <svg
+                        aria-hidden="true"
+                        class="ml-1 w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
 
-                          <!-- Dropdown menu -->
-                          <div
-                            x-show="isOpen"
-                            @click.away="isOpen = false"
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="opacity-0 scale-90"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-100"
-                            x-transition:leave-start="opacity-100 scale-100"
-                            x-transition:leave-end="opacity-0 scale-90"
-                            class="absolute right-0 z-20 w-28 py-2 mt-2 bg-white rounded-md shadow-xl"
-                          >
-                            <a
-                              href="#"
-                              class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
-                            >
-                              Edit
-                            </a>
-
-                            <a
-                              href="#"
-                              class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
-                            >
-                              Delete
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                      <a href="#" class="">
-                        <div class="flex justify-center mb-3">
-                          <img
-                            class="w-auto h-auto rounded-md"
-                            src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
-                            alt="image description"
-                          />
-                        </div>
-                        <h5
-                          class="text-xl font-bold tracking-tight text-gray-900"
+                <div class="bg-gray-300 rounded-md p-4 my-6">
+                  <div class="flex justify-between align-middle mb-2">
+                    <h2 class="font-bold text-xl">Social Media</h2>
+                    <button type="button">
+                      <iconify-icon icon="ci:edit"></iconify-icon>
+                    </button>
+                  </div>
+                  <div class="bg-white p-3 rounded-md">
+                    <div class="flex">
+                      <button
+                        type="button"
+                        class="text-white bg-[#fb3958] hover:bg-[#fb3958]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 mr-2 my-2"
+                      >
+                        <iconify-icon
+                          icon="akar-icons:instagram-fill"
+                          class="mr-2"
+                        ></iconify-icon>
+                        Instagram
+                      </button>
+                      <button
+                        type="button"
+                        class="text-white bg-[#0077b5] hover:bg-[#0077b5]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 mr-2 my-2"
+                      >
+                        <iconify-icon
+                          icon="akar-icons:linkedin-box-fill"
+                          class="mr-2"
+                        ></iconify-icon>
+                        LinkedIn
+                      </button>
+                      <button
+                        type="button"
+                        class="text-white bg-[#1da1f2] hover:bg-[#1da1f2]/90 focus:ring-4 focus:outline-none focus:ring-[#1da1f2]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#1da1f2]/55 mr-2 my-2"
+                      >
+                        <svg
+                          class="mr-2 -ml-1 w-4 h-4"
+                          aria-hidden="true"
+                          focusable="false"
+                          data-prefix="fab"
+                          data-icon="twitter"
+                          role="img"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 512 512"
                         >
-                          Dicoding Completion Module Certificate
-                        </h5>
-                        <p
-                          class="font-light text-sm text-gray-700 dark:text-gray-400 mb-4"
+                          <path
+                            fill="currentColor"
+                            d="M459.4 151.7c.325 4.548 .325 9.097 .325 13.65 0 138.7-105.6 298.6-298.6 298.6-59.45 0-114.7-17.22-161.1-47.11 8.447 .974 16.57 1.299 25.34 1.299 49.06 0 94.21-16.57 130.3-44.83-46.13-.975-84.79-31.19-98.11-72.77 6.498 .974 12.99 1.624 19.82 1.624 9.421 0 18.84-1.3 27.61-3.573-48.08-9.747-84.14-51.98-84.14-102.1v-1.299c13.97 7.797 30.21 12.67 47.43 13.32-28.26-18.84-46.78-51.01-46.78-87.39 0-19.49 5.197-37.36 14.29-52.95 51.65 63.67 129.3 105.3 216.4 109.8-1.624-7.797-2.599-15.92-2.599-24.04 0-57.83 46.78-104.9 104.9-104.9 30.21 0 57.5 12.67 76.67 33.14 23.72-4.548 46.46-13.32 66.6-25.34-7.798 24.37-24.37 44.83-46.13 57.83 21.12-2.273 41.58-8.122 60.43-16.24-14.29 20.79-32.16 39.31-52.63 54.25z"
+                          ></path>
+                        </svg>
+                        Twitter
+                      </button>
+                      <button
+                        type="button"
+                        class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 my-2"
+                      >
+                        <svg
+                          class="mr-2 -ml-1 w-4 h-4"
+                          aria-hidden="true"
+                          focusable="false"
+                          data-prefix="fab"
+                          data-icon="github"
+                          role="img"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 496 512"
                         >
-                          Earned: May 24, 2022 02:30:00
-                        </p>
-                      </a>
-                    </div>
-                    <div
-                      class="block px-4 py-2 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md"
-                    >
-                      <div class="flex justify-end">
-                        <div
-                          x-data="{ isOpen: false }"
-                          class="relative inline-block"
-                        >
-                          <!-- Dropdown toggle button -->
-                          <button
-                            @click="isOpen = !isOpen"
-                            class="relative z-10 block border border-transparent rounded-md"
-                          >
-                            <iconify-icon
-                              icon="fluent:more-horizontal-32-filled"
-                            ></iconify-icon>
-                          </button>
-
-                          <!-- Dropdown menu -->
-                          <div
-                            x-show="isOpen"
-                            @click.away="isOpen = false"
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="opacity-0 scale-90"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-100"
-                            x-transition:leave-start="opacity-100 scale-100"
-                            x-transition:leave-end="opacity-0 scale-90"
-                            class="absolute right-0 z-20 w-28 py-2 mt-2 bg-white rounded-md shadow-xl"
-                          >
-                            <a
-                              href="#"
-                              class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
-                            >
-                              Edit
-                            </a>
-
-                            <a
-                              href="#"
-                              class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
-                            >
-                              Delete
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                      <a href="#" class="">
-                        <div class="flex justify-center mb-3">
-                          <img
-                            class="w-auto h-auto rounded-md"
-                            src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
-                            alt="image description"
-                          />
-                        </div>
-                        <h5
-                          class="text-xl font-bold tracking-tight text-gray-900"
-                        >
-                          Dicoding Completion Module Certificate
-                        </h5>
-                        <p
-                          class="font-light text-sm text-gray-700 dark:text-gray-400 mb-4"
-                        >
-                          Earned: May 24, 2022 02:30:00
-                        </p>
-                      </a>
+                          <path
+                            fill="currentColor"
+                            d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"
+                          ></path>
+                        </svg>
+                        Github
+                      </button>
                     </div>
                   </div>
+                </div>
+
+                <div class="bg-gray-300 rounded-md p-4 my-6">
+                  <div class="flex justify-between align-middle mb-2">
+                    <h2 class="font-bold text-xl">Skills</h2>
+                    <button type="button">
+                      <iconify-icon icon="ci:edit"></iconify-icon>
+                    </button>
+                  </div>
+                  <div class="bg-white p-3 rounded-md"><br /><br /></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      <!-- new project modal -->
-      <div
-        id="new-project-modal"
-        tabindex="-1"
-        aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full"
-      >
-        <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-          <!-- Modal content -->
-          <div class="relative bg-white rounded-lg shadow">
-            <button
-              type="button"
-              class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
-              data-modal-toggle="new-project-modal"
-            >
-              <svg
-                aria-hidden="true"
-                class="w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <span class="sr-only">Close modal</span>
-            </button>
-            <div class="py-6 px-6 lg:px-8">
-              <h3 class="mb-4 text-xl font-medium text-gray-900">
-                Add New Project
-              </h3>
-              <form class="space-y-6" action="#">
-                <div>
-                  <label
-                    for="title"
-                    class="block mb-2 text-sm font-medium text-gray-900"
-                    >Title</label
-                  >
-                  <input
-                    type="text"
-                    name="title"
-                    id="title"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required
-                  />
-                </div>
-                <div>
-                  <label
-                    for="description"
-                    class="block mb-2 text-sm font-medium text-gray-900"
-                    >Description project</label
-                  >
-                  <textarea
-                    id="message"
-                    rows="4"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                  ></textarea>
-                </div>
-
-                <div class="flex">
-                  <button type="button">
-                    <iconify-icon icon="bi:image"></iconify-icon>
-                  </button>
-                </div>
-
-                <div class="flex items-center">
-                  <div class="logo-picture-container flex-none mr-2">
-                    <img
-                      class="w-16 h-16 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                      alt="Rounded avatar"
-                    />
-                  </div>
-                  <input
-                    id="uploadLogoProject"
-                    type="file"
-                    accept="image/*"
-                    hidden
-                  />
-                  <div class="flex-1">
-                    <label
-                      for="title"
-                      class="block mb-2 text-sm font-medium text-gray-900"
-                      >Contributor</label
-                    >
-                    <input
-                      type="text"
-                      name="title"
-                      id="title"
-                      class="bg-gray-50 mb-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                      required
-                    />
-                    <div
-                      class="border-dashed border-2 border-gray-500 rounded-md"
-                    >
-                      <button
-                        type="button"
-                        class="w-full flex items-center justify-center font-medium rounded py-1 text-sm text-center"
-                      >
-                        <iconify-icon icon="carbon:add-filled"></iconify-icon>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="flex">
-                  <span
-                    class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300"
-                  >
-                    <iconify-icon icon="arcticons:url-checker"></iconify-icon>
-                  </span>
-                  <input
-                    type="text"
-                    id=""
-                    class="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
-                  />
-                </div>
-
-                <div class="flex">
-                  <span
-                    class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300"
-                  >
-                    <iconify-icon
-                      icon="ant-design:code-outlined"
-                    ></iconify-icon>
-                  </span>
-                  <input
-                    type="text"
-                    id=""
-                    class="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
-                  />
-                </div>
-
-                <div class="flex justify-end">
-                  <button
-                    type="submit"
-                    class="w-auto mr-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                  >
-                    Save
-                  </button>
-                  <button
-                    type="submit"
-                    class="w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                  >
-                    Add Project
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- new certificate modal -->
-      <div
-        id="new-certificate-modal"
-        tabindex="-1"
-        aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full"
-      >
-        <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-          <!-- Modal content -->
-          <div class="relative bg-white rounded-lg shadow">
-            <button
-              type="button"
-              class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
-              data-modal-toggle="new-certificate-modal"
-            >
-              <svg
-                aria-hidden="true"
-                class="w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <span class="sr-only">Close modal</span>
-            </button>
-            <div class="py-6 px-6 lg:px-8">
-              <h3 class="mb-4 text-xl font-medium text-gray-900">
-                Add New Certificate
-              </h3>
-              <form class="space-y-6" action="#">
-                <div>
-                  <label
-                    for="title"
-                    class="block mb-2 text-sm font-medium text-gray-900"
-                    >Certificate of</label
-                  >
-                  <input
-                    type="text"
-                    name="title"
-                    id="title"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required
-                  />
-                </div>
-                <div>
-                  <label
-                    for="description"
-                    class="block mb-2 text-sm font-medium text-gray-900"
-                    >Tell us your story</label
-                  >
-                  <textarea
-                    id="message"
-                    rows="4"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                  ></textarea>
-                </div>
-
-                <div class="flex">
-                  <button type="button" class="mr-4">
-                    <iconify-icon icon="bi:image"></iconify-icon>
-                  </button>
-                  <button type="btn">
-                    <iconify-icon icon="bxs:video-plus"></iconify-icon>
-                  </button>
-                </div>
-
-                <div class="flex justify-center items-center w-full">
-                  <label
-                    for="dropzone-file"
-                    class="flex flex-col justify-center items-center w-full h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100"
-                  >
-                    <div
-                      class="flex flex-col justify-center items-center pt-5 pb-6"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="mb-3 w-10 h-10 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                        ></path>
-                      </svg>
-                      <p
-                        class="mb-2 text-sm text-gray-500 dark:text-gray-400 font-semibold"
-                      >
-                        Upload Your Certificate
-                      </p>
-                    </div>
-                    <input
-                      id="dropzone-file"
-                      type="file"
-                      accept="image/*"
-                      class="hidden"
-                    />
-                  </label>
-                </div>
-
-                <div class="flex">
-                  <span
-                    class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300"
-                  >
-                    <iconify-icon
-                      icon="fluent-mdl2:date-time-mirrored"
-                    ></iconify-icon>
-                  </span>
-                  <input
-                    type="date"
-                    id=""
-                    class="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
-                  />
-                </div>
-
-                <div class="flex justify-end">
-                  <button
-                    type="submit"
-                    class="w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                  >
-                    Add
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
     </main>
 
     <!-- jquery -->
@@ -839,30 +348,7 @@
       referrerpolicy="no-referrer"
     ></script>
 
-    <!-- flowbite -->
-    <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
-
     <!-- iconify -->
     <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
-
-    <script>
-      // ganti foto profile
-      $(".logo-picture-container").click(function (e) {
-        $("#uploadLogoProject").click();
-      });
-
-      $("#uploadLogoProject").change(function () {
-        fasterPreview(this);
-      });
-
-      function fasterPreview(uploader) {
-        if (uploader.files && uploader.files[0]) {
-          $(".logo-project").attr(
-            "src",
-            window.URL.createObjectURL(uploader.files[0])
-          );
-        }
-      }
-    </script>
   </body>
 </html>

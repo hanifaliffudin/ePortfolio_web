@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ePortfolio</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="//unpkg.com/alpinejs" defer></script>
+  </head>
+
+  <body>
+    <nav x-data="{ isOpen: false }" class="relative bg-white shadow">
+      <div class="container px-6 py-4 mx-auto">
+        <div class="lg:flex lg:items-center lg:justify-between">
+          <div class="flex items-center justify-between">
+            <div class="text-xl font-semibold text-gray-700">
+              <a
+                class="text-2xl font-bold text-black transition-colors duration-300 transform lg:text-3xl hover:text-gray-700"
+                href="#"
+                >FILKOM Student Dashboard</a
+              >
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="flex lg:hidden">
+              <button
+                x-cloak
+                @click="isOpen = !isOpen"
+                type="button"
+                class="text-black hover:text-gray-600 dar focus:outline-none focus:text-gray-600"
+                aria-label="toggle menu"
+              >
+                <svg
+                  x-show="!isOpen"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4 8h16M4 16h16"
+                  />
+                </svg>
+
+                <svg
+                  x-show="isOpen"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+          <div
+            x-cloak
+            :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
+            class="absolute z-20 inset-x-0 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center"
+          >
+            <div
+              class="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8"
+            >
+              <a
+                href="/"
+                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
+                >Home</a
+              >
+              <a
+                href="/discovery.html"
+                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
+                >Discovery</a
+              >
+              <a
+                href="/profile.html"
+                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
+                >Profile</a
+              >
+            </div>
+
+            <div class="flex items-center mt-4 lg:mt-0">
+              <button
+                type="button"
+                class="text-red-500 ring-1 ring-red-500 hover:bg-red-200 focus:ring-1 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+              >
+                Sign Out
+                <svg
+                  aria-hidden="true"
+                  class="ml-2 -mr-1 w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="md:mx-72">
+      <section>
+        <div class="md:container md:mx-auto my-16">
+          <div class="flex">
+            <div class="flex-initial w-1/4 mr-8">
+              <img
+                class="w-full h-auto rounded-full mb-2"
+                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                alt="Rounded avatar"
+              />
+              <div class="flex justify-end">
+                <button type="button" class="mr-4">
+                  <iconify-icon
+                    icon="fluent:more-horizontal-32-filled"
+                    style="font-size: 26px"
+                  ></iconify-icon>
+                </button>
+              </div>
+              <p class="font-bold text-xl">Nafira Ramadhannis</p>
+              <p class="font-light text-sm">175150201111007</p>
+              <p class="text-xl my-2">Informatic Engineering</p>
+              <p>
+                Enthusiast at Android Developer, Web Developer, and UX/UI Design
+              </p>
+            </div>
+            <div class="flex-initial w-3/4">
+              <!-- tabs -->
+              <div
+                class="mb-4 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700"
+              >
+                <ul class="flex flex-wrap -mb-px">
+                  <li class="mr-2">
+                    <a
+                      href="/profile.html"
+                      class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300"
+                      >About Me</a
+                    >
+                  </li>
+                  <li class="mr-2">
+                    <a
+                      href="/activities.html"
+                      class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300"
+                      >Activities</a
+                    >
+                  </li>
+                  <li class="mr-2">
+                    <a
+                      href="/achievements.html"
+                      class="inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active"
+                      aria-current="page"
+                      >Achievements</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <!-- tabs content -->
+              <div class="md:container md:mx-auto">
+                <button
+                  type="button"
+                  class="text-white mb-6 justify-center w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  data-modal-toggle="new-certificate-modal"
+                >
+                  Add new certificate
+                  <iconify-icon
+                    icon="carbon:add-filled"
+                    class="ml-2"
+                  ></iconify-icon>
+                </button>
+                <div class="grid grid-cols-2 gap-8">
+                  <div
+                    class="block px-4 py-2 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md"
+                  >
+                    <div class="flex justify-end">
+                      <div
+                        x-data="{ isOpen: false }"
+                        class="relative inline-block"
+                      >
+                        <!-- Dropdown toggle button -->
+                        <button
+                          @click="isOpen = !isOpen"
+                          class="relative z-10 block border border-transparent rounded-md"
+                        >
+                          <iconify-icon
+                            icon="fluent:more-horizontal-32-filled"
+                          ></iconify-icon>
+                        </button>
+
+                        <!-- Dropdown menu -->
+                        <div
+                          x-show="isOpen"
+                          @click.away="isOpen = false"
+                          x-transition:enter="transition ease-out duration-100"
+                          x-transition:enter-start="opacity-0 scale-90"
+                          x-transition:enter-end="opacity-100 scale-100"
+                          x-transition:leave="transition ease-in duration-100"
+                          x-transition:leave-start="opacity-100 scale-100"
+                          x-transition:leave-end="opacity-0 scale-90"
+                          class="absolute right-0 z-20 w-28 py-2 mt-2 bg-white rounded-md shadow-xl"
+                        >
+                          <a
+                            href="#"
+                            class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
+                          >
+                            Edit
+                          </a>
+
+                          <a
+                            href="#"
+                            class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
+                          >
+                            Delete
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <a href="#" class="">
+                      <div class="flex justify-center mb-3">
+                        <img
+                          class="w-auto h-auto rounded-md"
+                          src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
+                          alt="image description"
+                        />
+                      </div>
+                      <h5
+                        class="text-xl font-bold tracking-tight text-gray-900"
+                      >
+                        Dicoding Completion Module Certificate
+                      </h5>
+                      <p
+                        class="font-light text-sm text-gray-700 dark:text-gray-400 mb-4"
+                      >
+                        Earned: May 24, 2022 02:30:00
+                      </p>
+                    </a>
+                  </div>
+                  <div
+                    class="block px-4 py-2 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md"
+                  >
+                    <div class="flex justify-end">
+                      <div
+                        x-data="{ isOpen: false }"
+                        class="relative inline-block"
+                      >
+                        <!-- Dropdown toggle button -->
+                        <button
+                          @click="isOpen = !isOpen"
+                          class="relative z-10 block border border-transparent rounded-md"
+                        >
+                          <iconify-icon
+                            icon="fluent:more-horizontal-32-filled"
+                          ></iconify-icon>
+                        </button>
+
+                        <!-- Dropdown menu -->
+                        <div
+                          x-show="isOpen"
+                          @click.away="isOpen = false"
+                          x-transition:enter="transition ease-out duration-100"
+                          x-transition:enter-start="opacity-0 scale-90"
+                          x-transition:enter-end="opacity-100 scale-100"
+                          x-transition:leave="transition ease-in duration-100"
+                          x-transition:leave-start="opacity-100 scale-100"
+                          x-transition:leave-end="opacity-0 scale-90"
+                          class="absolute right-0 z-20 w-28 py-2 mt-2 bg-white rounded-md shadow-xl"
+                        >
+                          <a
+                            href="#"
+                            class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
+                          >
+                            Edit
+                          </a>
+
+                          <a
+                            href="#"
+                            class="block px-4 py-3 text-sm capitalize transition-colors duration-300 transform hover:bg-gray-100"
+                          >
+                            Delete
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <a href="#" class="">
+                      <div class="flex justify-center mb-3">
+                        <img
+                          class="w-auto h-auto rounded-md"
+                          src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
+                          alt="image description"
+                        />
+                      </div>
+                      <h5
+                        class="text-xl font-bold tracking-tight text-gray-900"
+                      >
+                        Dicoding Completion Module Certificate
+                      </h5>
+                      <p
+                        class="font-light text-sm text-gray-700 dark:text-gray-400 mb-4"
+                      >
+                        Earned: May 24, 2022 02:30:00
+                      </p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- jquery -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+      integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!-- flowbite -->
+    <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+
+    <!-- iconify -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
+  </body>
+</html>

@@ -88,17 +88,17 @@
             >
               <a
                 href="/"
-                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
+                class="border-b-2 px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform hover:rounded-md lg:mt-0 hover:bg-gray-100"
                 >Home</a
               >
               <a
                 href="/discovery.html"
-                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
+                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform hover:rounded-md lg:mt-0 hover:bg-gray-100"
                 >Discovery</a
               >
               <a
                 href="/profile.html"
-                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
+                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform hover:rounded-md lg:mt-0 hover:bg-gray-100"
                 >Profile</a
               >
             </div>
@@ -130,89 +130,136 @@
     </nav>
 
     <main class="md:mx-72">
-      <section>
-        <div class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg my-16">
-          <textarea
-            id="message"
-            rows="2"
-            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Your message..."
-          ></textarea>
-          <div class="flex mt-4 justify-between">
-            <div class="flex">
-              <button type="button" class="mr-4">
-                <iconify-icon icon="bi:image"></iconify-icon>
-              </button>
-              <button type="btn">
-                <iconify-icon icon="bxs:video-plus"></iconify-icon>
-              </button>
+      <div class="md:container md:mx-auto my-16">
+        <div class="flex">
+          <div class="flex-initial w-1/4 mr-8">
+            <div class="flex justify-center mb-3">
+              <img
+                class="w-3/4 h-auto rounded-full mb-2"
+                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                alt="Rounded avatar"
+              />
             </div>
-            <button
-              type="button"
-              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
-            >
-              Post
-            </button>
-          </div>
-        </div>
-      </section>
 
-      <section>
-        <div
-          class="md:container md:mx-auto bg-gray-300 p-6 rounded-lg post my-16"
-        >
-          <div class="flex mb-4">
-            <img
-              class="w-14 h-14 rounded-full"
-              src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              alt="Rounded avatar"
-            />
-            <div class="flex flex-col meta ml-4 leading-tight">
-              <div class="font-bold text-lg">Nafira Ramadhannis</div>
-              <div class="font-light text-xs">175150201111007</div>
-              <div class="font-light text-xs">11.20 AM 12 Oct 2022</div>
+            <p class="font-bold text-xl">Nafira Ramadhannis</p>
+            <p class="font-light text-sm">175150201111007</p>
+            <p class="text-xl my-2">Informatic Engineering</p>
+            <p>
+              Enthusiast at Android Developer, Web Developer, and UX/UI Design
+            </p>
+          </div>
+          <div class="flex-initial w-3/4">
+            <div class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg">
+              <textarea
+                id="message"
+                rows="2"
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Your message..."
+              ></textarea>
+              <div class="flex mt-4 justify-between">
+                <div class="flex">
+                  <button type="button" class="mr-4">
+                    <iconify-icon
+                      icon="bi:image"
+                      style="font-size: 24px"
+                    ></iconify-icon>
+                  </button>
+                  <button type="button" class="mr-4">
+                    <iconify-icon
+                      icon="bxs:video-plus"
+                      style="font-size: 24px"
+                    ></iconify-icon>
+                  </button>
+                  <button
+                    type="button"
+                    class="bg-white hover:bg-gray-100 font-medium rounded-full text-sm px-3 py-0 text-center inline-flex items-center mr-2"
+                  >
+                    <iconify-icon
+                      icon="ooui:articles-ltr"
+                      class="mr-2"
+                    ></iconify-icon>
+                    Write Article
+                  </button>
+                  <button
+                    type="button"
+                    class="bg-white hover:bg-gray-100 font-medium rounded-full text-sm px-3 py-0 text-center inline-flex items-center mr-2"
+                  >
+                    <iconify-icon
+                      icon="codicon:new-folder"
+                      class="mr-2"
+                    ></iconify-icon>
+                    Add Project
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+                >
+                  Post
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="md:container md:mx-auto bg-gray-300 p-6 rounded-lg post my-16"
+            >
+              <div class="flex mb-4">
+                <img
+                  class="w-14 h-14 rounded-full"
+                  src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                  alt="Rounded avatar"
+                />
+                <div class="flex flex-col meta ml-4 leading-tight">
+                  <div class="font-bold text-lg">Nafira Ramadhannis</div>
+                  <div class="font-light text-xs">175150201111007</div>
+                  <div class="font-light text-xs">11.20 AM 12 Oct 2022</div>
+                </div>
+              </div>
+              <p class="ellipsis-3 mb-6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Asperiores molestiae blanditiis ducimus ipsum. Magnam sed labore
+                aperiam dolorum. Eum quidem, dolorem rem voluptates vero
+                accusamus? Beatae fuga totam assumenda facilis?
+              </p>
+              <img
+                class="max-w-sm h-auto rounded-md"
+                src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
+                alt="image description"
+              />
+            </div>
+
+            <div
+              class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg post"
+            >
+              <div class="flex mb-4">
+                <img
+                  class="w-14 h-14 rounded-full object-cover"
+                  src="https://ubico.id/wp-content/uploads/2019/11/project-details-2.jpg"
+                  alt="Rounded avatar"
+                />
+                <div class="flex flex-col meta ml-4 leading-tight flex-auto">
+                  <div class="font-bold text-lg">
+                    SKINSIS - Skin Disease Detection
+                  </div>
+                  <div class="font-light text-xs">Java, Python, HTML</div>
+                  <div class="font-light text-xs">6 Contributors</div>
+                </div>
+              </div>
+              <p class="ellipsis-3 mb-6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Asperiores molestiae blanditiis ducimus ipsum. Magnam sed labore
+                aperiam dolorum. Eum quidem, dolorem rem voluptates vero
+                accusamus? Beatae fuga totam assumenda facilis?
+              </p>
+              <img
+                class="max-w-sm h-auto rounded-md"
+                src="https://cdn.dribbble.com/users/2279170/screenshots/18260328/media/9ac184a31d30bb99849a08d9540cc0ea.png?compress=1"
+                alt="image description"
+              />
             </div>
           </div>
-          <p class="ellipsis-3 mb-3">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores
-            molestiae blanditiis ducimus ipsum. Magnam sed labore aperiam
-            dolorum. Eum quidem, dolorem rem voluptates vero accusamus? Beatae
-            fuga totam assumenda facilis?
-          </p>
-          <img
-            class="max-w-sm h-auto rounded-md"
-            src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
-            alt="image description"
-          />
         </div>
-        <div
-          class="md:container md:mx-auto bg-gray-300 p-6 rounded-lg post my-16"
-        >
-          <div class="flex mb-4">
-            <img
-              class="w-14 h-14 rounded-full"
-              src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              alt="Rounded avatar"
-            />
-            <div class="flex flex-col meta ml-4 leading-tight">
-              <div class="font-bold text-lg">Nafira Ramadhannis</div>
-              <div class="font-light text-xs">175150201111007</div>
-              <div class="font-light text-xs">11.20 AM 12 Oct 2022</div>
-            </div>
-          </div>
-          <p class="ellipsis-3 mb-3">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores
-            molestiae blanditiis ducimus ipsum. Magnam sed labore aperiam
-            dolorum. Eum quidem, dolorem rem voluptates vero accusamus? Beatae
-            fuga totam assumenda facilis?
-          </p>
-          <img
-            class="max-w-sm h-auto rounded-md"
-            src="https://lh3.googleusercontent.com/-NZ8qBt7gA5U/X1XryKNvwgI/AAAAAAAABDg/ZzUBtKnSoXIs6LUQvWAVijG6VaihzJRoACK8BGAsYHg/s512/2020-09-07.png"
-            alt="image description"
-          />
-        </div>
-      </section>
+      </div>
     </main>
 
     <!-- iconify -->
