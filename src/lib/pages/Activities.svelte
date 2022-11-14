@@ -1,7 +1,7 @@
 <script>
-  import DropdownPost from "../components/DropdownPost.svelte";
   import PostCard from "../components/PostCard.svelte";
   import ProfileBar from "../components/ProfileBar.svelte";
+  import ProfileTabs from "../components/ProfileTabs.svelte";
   import ProjectCard from "../components/ProjectCard.svelte";
 </script>
 
@@ -13,33 +13,8 @@
 
         <div class="flex-initial w-3/4">
           <!-- tabs -->
-          <div
-            class="mb-4 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700"
-          >
-            <ul class="flex flex-wrap -mb-px">
-              <li class="mr-2">
-                <a
-                  href="profile"
-                  class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300"
-                  >About Me</a
-                >
-              </li>
-              <li class="mr-2">
-                <a
-                  href="activities"
-                  class="inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active"
-                  aria-current="page">Activities</a
-                >
-              </li>
-              <li class="mr-2">
-                <a
-                  href="achievements"
-                  class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300"
-                  >Achievements</a
-                >
-              </li>
-            </ul>
-          </div>
+          <ProfileTabs active={"activities"} />
+
           <!-- tabs content -->
           <div class="md:container md:mx-auto">
             <div class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg">

@@ -2,7 +2,7 @@
   import DropdownPost from "./DropdownPost.svelte";
 </script>
 
-<div class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg post">
+<div class="md:container md:mx-auto bg-gray-100 p-6 rounded-lg post mb-16">
   <div class="flex mb-4 align-top">
     <img
       class="w-14 h-14 rounded-full object-cover"
