@@ -1,6 +1,20 @@
 <script>
   import PostCard from "../components/PostCard.svelte";
   import ProjectCard from "../components/ProjectCard.svelte";
+
+  import { writable } from "svelte/store";
+  import { onMount } from "svelte";
+
+  const articleStore = writable(null);
+  async function getArticle() {
+    let response = await fetch("http://localhost:4000/");
+    return response.ok ? await response.json() : null;
+  }
+
+  onMount(async () => {
+    let article = await getArticle();
+    if (article) articleStore.update((data) => article);
+  });
 </script>
 
 <main class="md:mx-72">
@@ -21,7 +35,7 @@
         <p>Enthusiast at Android Developer, Web Developer, and UX/UI Design</p>
       </div>
       <div class="flex-initial w-3/4">
-        <div class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg">
+        <div class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg mb-8">
           <textarea
             id="message"
             rows="2"
@@ -45,6 +59,12 @@
             </button>
           </div>
         </div>
+
+        <!-- {#if $articleStore}
+          {#each $articleStore as $article}
+            <PostCard article={$article} />
+          {/each}
+        {/if} -->
 
         <PostCard />
 

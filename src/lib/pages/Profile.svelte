@@ -1,6 +1,7 @@
 <script>
   import AboutMe from "../components/AboutMe.svelte";
   import ProfileBar from "../components/ProfileBar.svelte";
+  import ProfileTabs from "../components/ProfileTabs.svelte";
 </script>
 
 <main class="md:mx-72">
@@ -11,33 +12,8 @@
 
         <div class="flex-initial w-3/4">
           <!-- tabs -->
-          <div
-            class="mb-4 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700"
-          >
-            <ul class="flex flex-wrap -mb-px">
-              <li class="mr-2">
-                <a
-                  href="profile"
-                  class="inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active"
-                  aria-current="page">About Me</a
-                >
-              </li>
-              <li class="mr-2">
-                <a
-                  href="activities"
-                  class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300"
-                  >Activities</a
-                >
-              </li>
-              <li class="mr-2">
-                <a
-                  href="achievements"
-                  class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300"
-                  >Achievements</a
-                >
-              </li>
-            </ul>
-          </div>
+          <ProfileTabs active={"aboutme"} />
+
           <!-- tabs content -->
           <AboutMe />
         </div>

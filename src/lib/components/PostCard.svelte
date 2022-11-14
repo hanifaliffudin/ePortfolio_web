@@ -1,25 +1,16 @@
 <script>
+  export let article = "";
   import DropdownPost from "./DropdownPost.svelte";
   import SvelteMarkdown from "svelte-markdown";
-  const source = `
-  ## This is a header
-
-This is a paragraph.
-
-* This is a list
-* With two items
-  1. And a sublist
-  2. That is ordered
-    * With another
-    * Sublist inside
-
-| Syntax      | Description |
-| ----------- | ----------- |
-| Header      | Title       |
-| Paragraph   | Text        |`;
+  let source;
+  if (article) {
+    source = article.markdown;
+  } else {
+    source = `lorem ipsum dolor sit amet, consectetur adipis`;
+  }
 </script>
 
-<div class="md:container md:mx-auto bg-gray-100 p-6 rounded-lg post-card my-16">
+<div class="md:container md:mx-auto bg-gray-100 p-6 rounded-lg post-card mb-16">
   <div class="flex mb-4 align-top">
     <img
       class="w-14 h-14 rounded-full object-cover"
