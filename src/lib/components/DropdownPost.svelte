@@ -1,3 +1,28 @@
+<script>
+  import { navigate } from "svelte-routing";
+
+  export let idPost;
+
+  async function deletePost() {
+    await fetch("http://localhost:8800/api/posts/" + idPost, {
+      method: "DELETE",
+      body: JSON.stringify({
+        userId: "637628e52ae47d8d8eacc2ae",
+      }),
+    })
+      .then((response) => {
+        if (response.status == 200) {
+          navigate("/activities");
+        } else if (response.status == 500) {
+          alert("You can only delete your post");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+</script>
+
 <button
   id="multiLevelDropdownButton"
   data-dropdown-toggle="dropdown"
@@ -16,12 +41,19 @@
     aria-labelledby="multiLevelDropdownButton"
   >
     <li>
-      <a href="#" class="block py-2 px-4 hover:bg-gray-100">Edit</a>
+      <a href="/post/edit/{idPost}" class="block py-2 px-4 hover:bg-gray-100"
+        >Edit</a
+      >
     </li>
     <li>
-      <a href="#" class="block py-2 px-4 hover:bg-gray-100">Delete</a>
+      <button
+        type="button"
+        on:click={deletePost}
+        class="block w-full text-start py-2 px-4 hover:bg-gray-100"
+        >Delete</button
+      >
     </li>
-    <li>
+    <!-- <li>
       <button
         id="doubleDropdownButton"
         data-dropdown-toggle="doubleDropdown"
@@ -81,6 +113,6 @@
           </li>
         </ul>
       </div>
-    </li>
+    </li> -->
   </ul>
 </div>

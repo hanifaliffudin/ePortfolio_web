@@ -17,20 +17,29 @@
     </li>
     <li class="mr-2">
       <a
+        href="articles"
+        class="{active == 'articles'
+          ? 'border-blue-600 text-blue-600'
+          : 'border-transparent hover:text-gray-600 hover:border-gray-300'} inline-block p-4 rounded-t-lg border-b-2 "
+        >Articles</a
+      >
+    </li>
+    <li class="mr-2">
+      <a
+        href="collections"
+        class="{active == 'collections'
+          ? 'border-blue-600 text-blue-600'
+          : 'border-transparent hover:text-gray-600 hover:border-gray-300'} inline-block p-4 rounded-t-lg border-b-2 bo"
+        >Collections</a
+      >
+    </li>
+    <li class="mr-2">
+      <a
         href="activities"
         class="{active == 'activities'
           ? 'border-blue-600 text-blue-600'
           : 'border-transparent hover:text-gray-600 hover:border-gray-300'} inline-block p-4 rounded-t-lg border-b-2"
         aria-current="page">Activities</a
-      >
-    </li>
-    <li class="mr-2">
-      <a
-        href="repository"
-        class="{active == 'repository'
-          ? 'border-blue-600 text-blue-600'
-          : 'border-transparent hover:text-gray-600 hover:border-gray-300'} inline-block p-4 rounded-t-lg border-b-2 bo"
-        >Repository</a
       >
     </li>
   </ul>

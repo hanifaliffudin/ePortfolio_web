@@ -1,20 +1,43 @@
 <script>
   import PostCard from "../components/PostCard.svelte";
   import ProjectCard from "../components/ProjectCard.svelte";
-
   import { writable } from "svelte/store";
   import { onMount } from "svelte";
 
-  const articleStore = writable(null);
-  async function getArticle() {
-    let response = await fetch("http://localhost:4000/");
+  const postStore = writable(null);
+  async function getPost() {
+    let response = await fetch("http://localhost:8800/api/posts/timeline/all");
     return response.ok ? await response.json() : null;
   }
 
   onMount(async () => {
-    let article = await getArticle();
-    if (article) articleStore.update((data) => article);
+    let post = await getPost();
+    if (post) postStore.update((data) => post);
   });
+
+  let userId = "637628e52ae47d8d8eacc2aesd";
+  let desc;
+
+  async function doPost() {
+    await fetch("http://localhost:8800/api/posts/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        desc,
+      }),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("Success:", result);
+        location.reload();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
 </script>
 
 <main class="md:mx-72">
@@ -36,12 +59,12 @@
       </div>
       <div class="flex-initial w-3/4">
         <div class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg mb-8">
-          <textarea
-            id="message"
-            rows="2"
-            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Your message..."
-          />
+          <a
+            href="/post/create"
+            class="block w-full text-gray-500 bg-white hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-5 text-start"
+          >
+            What's going on?
+          </a>
           <div class="flex mt-4 justify-between">
             <div class="flex">
               <button type="button" class="mr-4">
@@ -51,22 +74,18 @@
                 <iconify-icon icon="bxs:video-plus" style="font-size: 24px" />
               </button>
             </div>
-            <button
-              type="button"
-              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
-            >
-              Post
-            </button>
           </div>
         </div>
 
-        <!-- {#if $articleStore}
-          {#each $articleStore as $article}
-            <PostCard article={$article} />
+        {#if $postStore}
+          {#each $postStore as $post}
+            {#if $post.isPublic}
+              <PostCard post={$post} />
+            {/if}
           {/each}
-        {/if} -->
+        {/if}
 
-        <PostCard />
+        <!-- <PostCard /> -->
 
         <ProjectCard />
       </div>
