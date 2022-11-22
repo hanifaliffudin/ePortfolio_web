@@ -1,13 +1,13 @@
 <div class="md:container md:mx-auto">
   <button
     type="button"
-    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 focus:outline-none"
-    data-modal-toggle="addBlockModal"
+    class="w-full mb-8 bg-blue-700 text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-5 py-3 text-center inline-flex items-center justify-center"
   >
     Add block to profile
+    <iconify-icon class="ml-2" icon="akar-icons:plus" />
   </button>
 
-  <div class="bg-gray-300 rounded-md p-4 my-6">
+  <div class="bg-gray-300 rounded-md p-4 mb-8">
     <div class="flex justify-between align-middle mb-2">
       <h2 class="font-bold text-xl">Personal Informations</h2>
       <button type="button">
@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div class="bg-gray-300 rounded-md p-4 my-6">
+  <div class="bg-gray-300 rounded-md p-4 mb-8">
     <div class="flex justify-between align-middle mb-2">
       <h2 class="font-bold text-xl">About Me</h2>
       <button type="button">
@@ -42,7 +42,7 @@
     </div>
   </div>
 
-  <div class="bg-gray-300 rounded-md p-4 my-6">
+  <div class="bg-gray-300 rounded-md p-4 mb-8">
     <div class="flex justify-between align-middle mb-2">
       <h2 class="font-bold text-xl">Newest activities</h2>
     </div>
@@ -70,7 +70,7 @@
     </div>
   </div>
 
-  <div class="bg-gray-300 rounded-md p-4 my-6">
+  <div class="bg-gray-300 rounded-md p-4 mb-8">
     <div class="flex justify-between align-middle mb-2">
       <h2 class="font-bold text-xl">Social Media</h2>
       <button type="button">
@@ -139,7 +139,7 @@
     </div>
   </div>
 
-  <div class="bg-gray-300 rounded-md p-4 my-6">
+  <div class="bg-gray-300 rounded-md p-4 mb-8">
     <div class="flex justify-between align-middle mb-2">
       <h2 class="font-bold text-xl">Skills</h2>
       <button type="button">
