@@ -3,8 +3,9 @@
 
   export let idPost;
 
-  let postData, source, date, time;
+  let postData, date, time;
   let desc, visibility;
+  let userId = localStorage.getItem("userId");
 
   const today = new Date().toLocaleDateString("id", {
     day: "numeric",
@@ -12,42 +13,49 @@
     year: "numeric",
   });
 
-  fetch("http://localhost:8800/api/posts/" + idPost)
-    .then((response) => response.json())
-    .then((data) => (postData = data))
-    .then(() => {
-      desc = postData.desc;
-      date = new Date(postData.createdAt).toLocaleDateString("id", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      });
-      time = new Date(postData.createdAt).toLocaleTimeString("id", {
-        hour: "numeric",
-        minute: "2-digit",
-      });
-    });
+  // get data post
+  async function getPost() {
+    const response = await fetch("http://localhost:8800/api/posts/" + idPost);
 
+    if (!response.ok) {
+      alert(response.statusText);
+    }
+    const data = await response.json();
+    postData = data;
+    desc = postData.desc;
+    date = new Date(postData.createdAt).toLocaleDateString("id", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+    time = new Date(postData.createdAt).toLocaleTimeString("id", {
+      hour: "numeric",
+      minute: "2-digit",
+    });
+  }
+
+  getPost();
+
+  // update data post
   async function updatePost() {
-    await fetch("http://localhost:8800/api/posts/" + idPost, {
+    const response = await fetch("http://localhost:8800/api/posts/" + idPost, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "637628e52ae47d8d8eacc2ae",
+        userId: userId,
         desc,
         isPublic: visibility == "public" ? true : false,
       }),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("Success:", result);
-        navigate("/activities");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    });
+
+    if (!response.ok) {
+      alert(response.statusText);
+    } else {
+      navigate("/activities");
+    }
+    const data = await response.json();
   }
 </script>
 

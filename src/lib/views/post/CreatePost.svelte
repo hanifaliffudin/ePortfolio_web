@@ -1,42 +1,45 @@
 <script>
   import { navigate } from "svelte-routing";
+  import SvelteMarkdown from "svelte-markdown";
 
-  let desc, visibility;
+  let source = ``;
+  let visibility;
+  let userId = localStorage.getItem("userId");
 
+  // create a post
   async function createPost() {
-    await fetch("http://localhost:8800/api/posts/", {
+    const response = await fetch("http://localhost:8800/api/posts/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "637628e52ae47d8d8eacc2ae",
-        desc,
+        userId: userId,
+        desc: source,
         isPublic: visibility == "public" ? true : false,
       }),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("Success:", result);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    });
+
+    if (!response.ok) {
+      alert(response.statusText);
+    } else {
+      navigate("/");
+    }
+    const data = await response.json();
   }
 </script>
 
-<section class="bg-white dark:bg-gray-900">
-  <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+<section class="flex">
+  <div class="py-8 px-4 w-1/2 lg:py-8">
     <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
       Add a new post
     </h2>
     <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
       <div class="sm:col-span-2">
         <textarea
-          bind:value={desc}
+          bind:value={source}
           id="description"
-          rows="8"
+          rows="18"
           class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           placeholder="Write your thoughts here..."
         />
@@ -66,6 +69,16 @@
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
         >Post</button
       >
+    </div>
+  </div>
+  <div class="py-8 px-4 w-1/2 lg:py-8">
+    <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+      Preview
+    </h2>
+    <div
+      class="prose prose-neutral p-4 border-2 border-gray-100 rounded h-96 overflow-auto"
+    >
+      <SvelteMarkdown {source} />
     </div>
   </div>
 </section>

@@ -7,10 +7,12 @@
   import PostCard from "../components/PostCard.svelte";
 
   const postStore = writable(null);
+
+  let userId = localStorage.getItem("userId");
+
+  // get all user posts
   async function getPost() {
-    let response = await fetch(
-      "http://localhost:8800/api/posts/all/637628e52ae47d8d8eacc2ae"
-    );
+    let response = await fetch("http://localhost:8800/api/posts/all/" + userId);
     return response.ok ? await response.json() : null;
   }
 
@@ -18,30 +20,6 @@
     let post = await getPost();
     if (post) postStore.update((data) => post);
   });
-
-  let desc, visibility;
-
-  async function doPost() {
-    await fetch("http://localhost:8800/api/posts/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: "637628e52ae47d8d8eacc2ae",
-        desc,
-        isPublic: visibility == "public" ? true : false,
-      }),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("Success:", result);
-        location.reload();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
 </script>
 
 <main class="md:mx-72">

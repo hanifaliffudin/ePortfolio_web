@@ -3,23 +3,24 @@
 
   export let idPost;
 
+  let userId = localStorage.getItem("userId");
+
+  // delete post
   async function deletePost() {
-    await fetch("http://localhost:8800/api/posts/" + idPost, {
+    const response = await fetch("http://localhost:8800/api/posts/" + idPost, {
       method: "DELETE",
       body: JSON.stringify({
-        userId: "637628e52ae47d8d8eacc2ae",
+        userId: userId,
       }),
-    })
-      .then((response) => {
-        if (response.status == 200) {
-          navigate("/activities");
-        } else if (response.status == 500) {
-          alert("You can only delete your post");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    });
+
+    if (!response.ok) {
+      alert("You can only delete your post");
+    } else {
+      navigate("/activities");
+    }
+
+    const data = await response.json();
   }
 </script>
 

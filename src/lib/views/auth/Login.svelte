@@ -1,4 +1,27 @@
 <script>
+  let email, password;
+
+  // login
+  async function login() {
+    const response = await fetch("http://localhost:8800/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    if (!response.ok) {
+      alert(response.statusText);
+    } else {
+      const data = await response.json();
+      localStorage.setItem("jwt", data.jwt);
+      localStorage.setItem("userId", data.userId);
+      document.location.href = "/";
+    }
+  }
 </script>
 
 <section class="bg-gray-50 dark:bg-gray-900">
@@ -6,7 +29,7 @@
     class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
   >
     <a
-      href="#"
+      href="/login"
       class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
     >
       <img
@@ -25,7 +48,7 @@
         >
           Sign in to your account
         </h1>
-        <form class="space-y-4 md:space-y-6" action="#">
+        <form class="space-y-4 md:space-y-6" on:submit|preventDefault={login}>
           <div>
             <label
               for="email"
@@ -33,6 +56,7 @@
               >Your email</label
             >
             <input
+              bind:value={email}
               type="email"
               name="email"
               id="email"
@@ -48,6 +72,7 @@
               >Password</label
             >
             <input
+              bind:value={password}
               type="password"
               name="password"
               id="password"
@@ -56,23 +81,7 @@
               required
             />
           </div>
-          <div class="flex items-center justify-between">
-            <div class="flex items-start">
-              <div class="flex items-center h-5">
-                <input
-                  id="remember"
-                  aria-describedby="remember"
-                  type="checkbox"
-                  class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                  required
-                />
-              </div>
-              <div class="ml-3 text-sm">
-                <label for="remember" class="text-gray-500 dark:text-gray-300"
-                  >Remember me</label
-                >
-              </div>
-            </div>
+          <div class="flex items-center justify-end">
             <a
               href=""
               class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"

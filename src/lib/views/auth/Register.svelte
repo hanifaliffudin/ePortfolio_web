@@ -1,3 +1,45 @@
+<script>
+  import {
+    useForm,
+    Hint,
+    HintGroup,
+    validators,
+    required,
+    minLength,
+    email,
+  } from "svelte-use-form";
+  import { passwordMatch, containNumbers } from "./customValidators";
+  import { navigate } from "svelte-routing";
+
+  const form = useForm();
+
+  const requiredMessage = "This field is required";
+
+  let username, emailUser, password;
+
+  // register
+  async function register() {
+    const response = await fetch("http://localhost:8800/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: emailUser,
+        username,
+        password,
+      }),
+    });
+
+    if (!response.ok) {
+      alert(response.statusText);
+    } else {
+      navigate("/login");
+    }
+    const data = await response.json();
+  }
+</script>
+
 <section class="bg-gray-50 dark:bg-gray-900">
   <div
     class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
@@ -22,22 +64,11 @@
         >
           Create an account
         </h1>
-        <form class="space-y-4 md:space-y-6" action="#">
-          <div>
-            <label
-              for="username"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Username</label
-            >
-            <input
-              type="text"
-              name="username"
-              id="username"
-              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="username"
-              required
-            />
-          </div>
+        <form
+          on:submit|preventDefault={register}
+          class="space-y-4 md:space-y-6"
+          use:form
+        >
           <div>
             <label
               for="email"
@@ -45,6 +76,8 @@
               >Email</label
             >
             <input
+              bind:value={emailUser}
+              use:validators={[required, email]}
               type="email"
               name="email"
               id="email"
@@ -52,6 +85,42 @@
               placeholder="name@company.com"
               required
             />
+            <HintGroup for="email">
+              <Hint on="required"
+                ><div class="text-sm mt-2 text-red-600">
+                  {requiredMessage}
+                </div></Hint
+              >
+              <Hint on="email" hideWhenRequired
+                ><div class="text-sm mt-2 text-red-600">
+                  This must be a valid email
+                </div></Hint
+              >
+            </HintGroup>
+          </div>
+          <div>
+            <label
+              for="username"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Name</label
+            >
+            <input
+              bind:value={username}
+              use:validators={[required]}
+              type="text"
+              name="username"
+              id="username"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="your name"
+              required
+            />
+            <HintGroup for="username">
+              <Hint on="required"
+                ><div class="text-sm mt-2 text-red-600">
+                  {requiredMessage}
+                </div></Hint
+              >
+            </HintGroup>
           </div>
           <div>
             <label
@@ -60,6 +129,7 @@
               >Password</label
             >
             <input
+              use:validators={[required, minLength(8), containNumbers(2)]}
               type="password"
               name="password"
               id="password"
@@ -67,46 +137,60 @@
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
             />
+            <HintGroup for="password">
+              <Hint on="required"
+                ><div class="text-sm mt-2 text-red-600">
+                  {requiredMessage}
+                </div></Hint
+              >
+              <Hint on="minLength" hideWhenRequired let:value
+                ><div class="text-sm mt-2 text-red-600">
+                  This field must have at least {value} characters.
+                </div></Hint
+              >
+              <Hint on="containNumbers" hideWhen="minLength" let:value>
+                <div class="text-sm mt-2 text-red-600">
+                  This field must contain at least {value} numbers.
+                </div>
+              </Hint>
+            </HintGroup>
           </div>
           <div>
             <label
-              for="confirm-password"
+              for="passwordConfirmation"
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >Confirm password</label
             >
             <input
-              type="confirm-password"
-              name="confirm-password"
-              id="confirm-password"
+              bind:value={password}
+              use:validators={[required, passwordMatch]}
+              type="password"
+              name="passwordConfirmation"
+              id="passwordConfirmation"
               placeholder="••••••••"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
             />
-          </div>
-          <div class="flex items-start">
-            <div class="flex items-center h-5">
-              <input
-                id="terms"
-                aria-describedby="terms"
-                type="checkbox"
-                class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                required
-              />
-            </div>
-            <div class="ml-3 text-sm">
-              <label
-                for="terms"
-                class="font-light text-gray-500 dark:text-gray-300"
-                >I accept the <a
-                  class="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                  href="#">Terms and Conditions</a
-                ></label
+            <HintGroup for="passwordConfirmation">
+              <Hint on="required"
+                ><div class="text-sm mt-2 text-red-600">
+                  {requiredMessage}
+                </div></Hint
               >
-            </div>
+              <Hint on="passwordMatch" hideWhenRequired
+                ><div class="text-sm mt-2 text-red-600">
+                  Passwords do not match
+                </div></Hint
+              >
+            </HintGroup><br />
           </div>
+
           <button
+            disabled={!$form.valid}
             type="submit"
-            class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            class="w-full {!$form.valid
+              ? 'cursor-not-allowed'
+              : ''} text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >Create an account</button
           >
           <p class="text-sm font-light text-gray-500 dark:text-gray-400">

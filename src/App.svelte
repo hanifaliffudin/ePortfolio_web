@@ -16,81 +16,97 @@
   import Articles from "./lib/pages/Articles.svelte";
   import CreateArticle from "./lib/views/article/CreateArticle.svelte";
   import ViewArticle from "./lib/views/article/ViewArticle.svelte";
+  import EditProfile from "./lib/pages/EditProfile.svelte";
 
   export let url = "";
+
+  // get jwt from localstorage
+  let jwt = localStorage.getItem("jwt");
 </script>
 
 <Router {url}>
-  <Route path="login" component={Login} />
-  <Route path="signup" component={Register} />
-  <Route path="reset-password" component={ResetPassword} />
+  {#if jwt}{:else}
+    <Route path="login" component={Login} />
+    <Route path="signup" component={Register} />
+    <Route path="reset-password" component={ResetPassword} />
+  {/if}
 
-  <Route path="/">
-    <Navbar active="home" />
-    <Home />
-  </Route>
+  <!-- if jwt null, to login -->
+  {#if !jwt}
+    <Route component={Login} />
+  {:else}
+    <Route path="/">
+      <Navbar active="home" />
+      <Home />
+    </Route>
 
-  <Route path="profile">
-    <Navbar active="profile" />
-    <Profile />
-  </Route>
+    <Route path="profile">
+      <Navbar active="profile" />
+      <Profile />
+    </Route>
 
-  <Route path="articles">
-    <Navbar active="profile" />
-    <Articles />
-  </Route>
+    <Route path="edit-profile">
+      <Navbar active="profile" />
+      <EditProfile />
+    </Route>
 
-  <Route path="activities">
-    <Navbar active="profile" />
-    <Activities />
-  </Route>
+    <Route path="articles">
+      <Navbar active="profile" />
+      <Articles />
+    </Route>
 
-  <Route path="collections">
-    <Navbar active="profile" />
-    <Collections />
-  </Route>
+    <Route path="activities">
+      <Navbar active="profile" />
+      <Activities />
+    </Route>
 
-  <!-- article -->
-  <Route path="article/test" let:params>
-    <Navbar active="article" />
-    <ViewArticle />
-  </Route>
+    <Route path="collections">
+      <Navbar active="profile" />
+      <Collections />
+    </Route>
 
-  <Route path="article/create">
-    <Navbar active="article" />
-    <CreateArticle />
-  </Route>
-  <!-- end article -->
+    <!-- article -->
+    <Route path="article/test" let:params>
+      <Navbar active="article" />
+      <ViewArticle />
+    </Route>
 
-  <!-- post -->
-  <Route path="post/:id" let:params>
-    <Navbar active="post" />
-    <ViewPost idPost={params.id} />
-  </Route>
+    <Route path="article/create">
+      <Navbar active="article" />
+      <CreateArticle />
+    </Route>
+    <!-- end article -->
 
-  <Route path="post/create">
-    <Navbar active="post" />
-    <CreatePost />
-  </Route>
+    <!-- post -->
+    <Route path="post/:id" let:params>
+      <Navbar active="post" />
+      <ViewPost idPost={params.id} />
+    </Route>
 
-  <Route path="post/edit/:id" let:params>
-    <Navbar active="post" />
-    <EditPost idPost={params.id} />
-  </Route>
+    <Route path="post/create">
+      <Navbar active="post" />
+      <CreatePost />
+    </Route>
 
-  <Route path="create-post">
-    <Navbar active="post" />
-    <CreatePost />
-  </Route>
-  <!-- end post -->
+    <Route path="post/edit/:id" let:params>
+      <Navbar active="post" />
+      <EditPost idPost={params.id} />
+    </Route>
 
-  <Route path="discovery">
-    <Navbar active="discovery" />
-    <Discovery />
-  </Route>
+    <Route path="create-post">
+      <Navbar active="post" />
+      <CreatePost />
+    </Route>
+    <!-- end post -->
 
-  <Route path="editor">
-    <Navbar active="editor" />
-    <MarkdownEditor />
-  </Route>
+    <Route path="discovery">
+      <Navbar active="discovery" />
+      <Discovery />
+    </Route>
+
+    <Route path="editor">
+      <Navbar active="editor" />
+      <MarkdownEditor />
+    </Route>
+  {/if}
 </Router>
