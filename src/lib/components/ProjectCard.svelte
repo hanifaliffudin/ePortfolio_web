@@ -14,7 +14,7 @@
       <div class="font-light text-xs">Java, Python, HTML</div>
       <div class="font-light text-xs">6 Contributors</div>
     </div>
-    <DropdownPost />
+    <!-- <DropdownPost /> -->
   </div>
   <a href="project">
     <p class="ellipsis-3 mb-6">

@@ -5,6 +5,8 @@
   import { onMount } from "svelte";
 
   const postStore = writable(null);
+
+  // get all posts
   async function getPost() {
     let response = await fetch("http://localhost:8800/api/posts/timeline/all");
     return response.ok ? await response.json() : null;
@@ -14,30 +16,6 @@
     let post = await getPost();
     if (post) postStore.update((data) => post);
   });
-
-  let userId = "637628e52ae47d8d8eacc2aesd";
-  let desc;
-
-  async function doPost() {
-    await fetch("http://localhost:8800/api/posts/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId,
-        desc,
-      }),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("Success:", result);
-        location.reload();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
 </script>
 
 <main class="md:mx-72">

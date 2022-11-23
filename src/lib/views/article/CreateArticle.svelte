@@ -4,27 +4,27 @@
 
   let source = ``;
   let desc, visibility;
+  let userId = localStorage.getItem("userId");
 
-  async function createPost() {
-    await fetch("http://localhost:8800/api/posts/", {
+  async function createArticle() {
+    const response = await fetch("http://localhost:8800/api/articles/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "637628e52ae47d8d8eacc2ae",
+        userId: userId,
         desc,
         isPublic: visibility == "public" ? true : false,
       }),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("Success:", result);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    });
+
+    if (!response.ok) {
+      alert(response.statusText);
+    } else {
+      navigate("/");
+    }
+    const data = await response.json();
   }
 </script>
 

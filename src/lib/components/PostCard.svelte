@@ -29,11 +29,14 @@
       <div class="font-bold text-lg">Nafira Ramadhannis</div>
       <div class="font-light text-xs">175150201111007</div>
       <div class="font-light text-xs">
+        <!-- if updated -->
         {post.createdAt != post.updatedAt ? "Last updated on " : ""}
+        <!-- time -->
         {date.toLocaleTimeString("id", {
           hour: "numeric",
           minute: "2-digit",
         })}
+        <!-- date -->
         {date.toLocaleDateString("id") == today.toLocaleDateString("id")
           ? "Today"
           : date.toLocaleDateString("id", {

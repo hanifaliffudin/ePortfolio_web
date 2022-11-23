@@ -1,5 +1,24 @@
 <script>
+  import { navigate } from "svelte-routing";
+
   export let active;
+
+  // get jwt
+  let jwt = localStorage.getItem("jwt");
+
+  // logout
+  const logout = async () => {
+    await fetch("http://localhost:8800/api/auth/logout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+
+    // clear localStorage
+    localStorage.clear();
+
+    navigate("/login");
+  };
 </script>
 
 <nav class="bg-gray-300 border-gray-200 px-2 sm:px-4 py-2.5 rounded ">
@@ -68,7 +87,8 @@
         </li>
         <li>
           <a
-            href="/login"
+            href="#"
+            on:click={logout}
             class="text-red-500 ring-1 ring-red-500 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:hover:ring-red-700 inline-flex items-center px-5 py-1.5 md:ml-5"
             >Sign Out
             <svg

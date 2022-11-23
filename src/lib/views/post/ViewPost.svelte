@@ -6,7 +6,7 @@
 
   let postData, source, date, time, userIdPost;
 
-  let userId = "637628e52ae47d8d8eacc2ae";
+  let userId = localStorage.getItem("userId");
 
   const today = new Date().toLocaleDateString("id", {
     day: "numeric",
@@ -14,22 +14,29 @@
     year: "numeric",
   });
 
-  fetch("http://localhost:8800/api/posts/" + idPost)
-    .then((response) => response.json())
-    .then((data) => (postData = data))
-    .then(() => {
-      source = postData.desc;
-      userIdPost = postData.userId;
-      date = new Date(postData.createdAt).toLocaleDateString("id", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      });
-      time = new Date(postData.createdAt).toLocaleTimeString("id", {
-        hour: "numeric",
-        minute: "2-digit",
-      });
+  // get data post
+  async function getPost() {
+    const response = await fetch("http://localhost:8800/api/posts/" + idPost);
+
+    if (!response.ok) {
+      alert(response.statusText);
+    }
+    const data = await response.json();
+    postData = data;
+    source = postData.desc;
+    userIdPost = postData.userId;
+    date = new Date(postData.createdAt).toLocaleDateString("id", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
     });
+    time = new Date(postData.createdAt).toLocaleTimeString("id", {
+      hour: "numeric",
+      minute: "2-digit",
+    });
+  }
+
+  getPost();
 </script>
 
 <main class="md:mx-72">
@@ -47,8 +54,8 @@
               <div class="font-bold text-lg">Nafira Ramadhannis</div>
               <div class="font-light text-xs">175150201111007</div>
               <div class="font-light text-xs">
-                {date == today ? "Today" : date}
                 {time}
+                {date == today ? "Today" : date}
               </div>
             </div>
             {#if userId == userIdPost}{/if}
