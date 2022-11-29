@@ -1,26 +1,86 @@
+<script>
+  import { navigate } from "svelte-routing";
+
+  let alert,
+    src,
+    userData,
+    name,
+    nim,
+    prodi,
+    kota,
+    tglLahir,
+    gender,
+    interest,
+    btnCancel;
+
+  // get userId from localStorage
+  let userId = localStorage.getItem("userId");
+
+  // get data user
+  async function getUser() {
+    const response = await fetch("http://localhost:8800/api/users/" + userId, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      navigate("/login");
+      localStorage.clear();
+    }
+
+    const data = await response.json();
+    userData = data;
+    name = userData.username;
+    nim = userData.nim;
+    prodi = userData.major;
+    kota = userData.city;
+    if (userData.dateBirth) {
+      tglLahir = new Date(userData.dateBirth).toLocaleDateString("en", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+    } else {
+      tglLahir = null;
+      alert.classList.remove("hidden");
+      btnCancel.classList.add("hidden");
+    }
+
+    userData.gender ? (gender = userData.gender) : (gender = "male");
+    interest = userData.interest;
+    if (userData.profilePicture != "") {
+      src = "http://127.0.0.1:8800/" + userData.profilePicture;
+    } else {
+      src = "/icon-user.png";
+    }
+  }
+
+  getUser();
+</script>
+
 <div class="md:container md:mx-auto">
-  <button
+  <a
+    href="/add-block"
     type="button"
     class="w-full mb-8 bg-blue-700 text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-5 py-3 text-center inline-flex items-center justify-center"
   >
     Add block to profile
     <iconify-icon class="ml-2" icon="akar-icons:plus" />
-  </button>
+  </a>
 
   <div class="bg-gray-300 rounded-md p-4 mb-8">
     <div class="flex justify-between align-middle mb-2">
       <h2 class="font-bold text-xl">Personal Informations</h2>
-      <button type="button">
+      <a href="/edit-profile">
         <iconify-icon icon="ci:edit" />
-      </button>
+      </a>
     </div>
     <div class="bg-white p-3 rounded-md">
-      <b>Name</b> : Nafira Ramadhannis <br />
-      <b>Student ID</b> : 175150201111007<br />
-      <b>Major</b> : Informatics Engineer<br />
-      <b>City</b> : Tuban, East Java <br />
-      <b>Date Of Birth</b> : 6 January 1999<br />
-      <b>Gender</b> : Female
+      <b>Name</b> : {name} <br />
+      <b>Student ID</b> : {nim}<br />
+      <b>Major</b> : {prodi}<br />
+      <b>City</b> : {kota} <br />
+      <b>Date Of Birth</b> : {tglLahir}<br />
+      <b>Gender</b> : <span class="capitalize">{gender}</span>
     </div>
   </div>
 
