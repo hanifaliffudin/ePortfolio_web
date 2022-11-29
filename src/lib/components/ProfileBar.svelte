@@ -3,7 +3,7 @@
 
   let userId = localStorage.getItem("userId");
 
-  let userData, name, profilePicure;
+  let userData, name, profilePicture, nim, prodi, interest;
 
   // get data user
   async function getResponse() {
@@ -17,7 +17,14 @@
     const data = await response.json();
     userData = data;
     name = userData.username;
-    profilePicure = userData.profilePicure;
+    nim = userData.nim;
+    prodi = userData.major;
+    interest = userData.interest;
+    if (userData.profilePicture) {
+      profilePicture = "http://127.0.0.1:8800/" + userData.profilePicture;
+    } else {
+      profilePicture = "/icon-user.png";
+    }
   }
 
   getResponse();
@@ -26,7 +33,7 @@
 <div class="flex-initial w-1/4 mr-8">
   <img
     class="w-full h-auto rounded-full mb-2"
-    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+    src={profilePicture}
     alt="Rounded avatar"
   />
   <div class="flex justify-end">
@@ -56,7 +63,7 @@
     </div>
   </div>
   <p class="font-bold text-2xl">{name}</p>
-  <p class="font-light text-sm">175150201111007</p>
-  <p class="text-xl my-2">Informatic Engineering</p>
-  <p>Enthusiast at Android Developer, Web Developer, and UX/UI Design</p>
+  <p class="font-light text-sm">{nim}</p>
+  <p class="text-xl my-2">{prodi}</p>
+  <p>{interest}</p>
 </div>

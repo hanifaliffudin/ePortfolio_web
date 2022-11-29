@@ -16,7 +16,8 @@
   import Articles from "./lib/pages/Articles.svelte";
   import CreateArticle from "./lib/views/article/CreateArticle.svelte";
   import ViewArticle from "./lib/views/article/ViewArticle.svelte";
-  import EditProfile from "./lib/pages/EditProfile.svelte";
+  import EditProfile from "./lib/views/profile/EditProfile.svelte";
+  import AddBlock from "./lib/views/profile/AddBlock.svelte";
 
   export let url = "";
 
@@ -25,11 +26,9 @@
 </script>
 
 <Router {url}>
-  {#if jwt}{:else}
-    <Route path="login" component={Login} />
-    <Route path="signup" component={Register} />
-    <Route path="reset-password" component={ResetPassword} />
-  {/if}
+  <Route path="login" component={Login} />
+  <Route path="signup" component={Register} />
+  <Route path="reset-password" component={ResetPassword} />
 
   <!-- if jwt null, to login -->
   {#if !jwt}
@@ -40,6 +39,7 @@
       <Home />
     </Route>
 
+    <!-- Profile -->
     <Route path="profile">
       <Navbar active="profile" />
       <Profile />
@@ -49,6 +49,12 @@
       <Navbar active="profile" />
       <EditProfile />
     </Route>
+
+    <Route path="add-block">
+      <Navbar active="profile" />
+      <AddBlock />
+    </Route>
+    <!-- End Profile -->
 
     <Route path="articles">
       <Navbar active="profile" />

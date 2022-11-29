@@ -3,8 +3,31 @@
 
   export let active;
 
-  // get jwt
-  let jwt = localStorage.getItem("jwt");
+  let home, discovery, profile;
+
+  // get userId from localStorage
+  let userId = localStorage.getItem("userId");
+
+  // get data user
+  async function getUser() {
+    const response = await fetch("http://localhost:8800/api/users/" + userId, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      navigate("/login");
+      localStorage.clear();
+    }
+
+    const data = await response.json();
+    if (!data.dateBirth) {
+      home.classList.add("hidden");
+      discovery.classList.add("hidden");
+      profile.classList.add("hidden");
+    }
+  }
+
+  getUser();
 
   // logout
   const logout = async () => {
@@ -60,6 +83,7 @@
       >
         <li>
           <a
+            bind:this={home}
             href="/"
             class="{active == 'home'
               ? 'md:text-blue-700 md:px-0 border-b-2 border-b-black bg-blue-700'
@@ -69,6 +93,7 @@
         </li>
         <li>
           <a
+            bind:this={discovery}
             href="/discovery"
             class="{active == 'discovery'
               ? 'md:text-blue-700 md:px-0 border-b-2 border-b-black bg-blue-700'
@@ -78,6 +103,7 @@
         </li>
         <li>
           <a
+            bind:this={profile}
             href="/profile"
             class="{active == 'profile'
               ? 'md:text-blue-700 md:px-0 border-b-2 border-b-black bg-blue-700'

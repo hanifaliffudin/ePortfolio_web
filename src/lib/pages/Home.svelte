@@ -3,8 +3,30 @@
   import ProjectCard from "../components/ProjectCard.svelte";
   import { writable } from "svelte/store";
   import { onMount } from "svelte";
+  import { navigate } from "svelte-routing";
 
   const postStore = writable(null);
+
+  // get jwt from localstorage
+  let jwt = localStorage.getItem("jwt");
+
+  async function checkUserAuth() {
+    const response = await fetch("http://localhost:8800/api/auth/user/" + jwt);
+
+    // kalau tidak ada
+    if (!response.ok) {
+      // clear localStorage
+      localStorage.clear();
+
+      navigate("/login");
+    }
+
+    const content = await response.json();
+
+    if (!content.dateBirth) {
+      navigate("/edit-profile");
+    }
+  }
 
   // get all posts
   async function getPost() {
@@ -13,6 +35,7 @@
   }
 
   onMount(async () => {
+    checkUserAuth();
     let post = await getPost();
     if (post) postStore.update((data) => post);
   });
