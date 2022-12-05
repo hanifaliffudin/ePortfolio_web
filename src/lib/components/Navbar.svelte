@@ -112,8 +112,7 @@
           >
         </li>
         <li>
-          <a
-            href="#"
+          <button
             on:click={logout}
             class="text-red-500 ring-1 ring-red-500 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:hover:ring-red-700 inline-flex items-center px-5 py-1.5 md:ml-5"
             >Sign Out
@@ -129,7 +128,7 @@
                 d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
                 clip-rule="evenodd"
               />
-            </svg></a
+            </svg></button
           >
         </li>
       </ul>

@@ -1,7 +1,6 @@
 <script>
   import ProfileBar from "../components/ProfileBar.svelte";
   import ProfileTabs from "../components/ProfileTabs.svelte";
-  import ProjectCard from "../components/ProjectCard.svelte";
   import { writable } from "svelte/store";
   import { onMount } from "svelte";
   import PostCard from "../components/PostCard.svelte";
@@ -65,7 +64,7 @@
               {/each}
             {/if}
 
-            <ProjectCard />
+            <!-- <ProjectCard /> -->
           </div>
         </div>
       </div>

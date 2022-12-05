@@ -34,9 +34,34 @@
       hour: "numeric",
       minute: "2-digit",
     });
+
+    getUser();
   }
 
   getPost();
+
+  let userData, name, profilePicture, nim;
+
+  // get data user
+  async function getUser() {
+    const response = await fetch(
+      "http://localhost:8800/api/users/" + userIdPost
+    );
+
+    if (!response.ok) {
+      console.log(response.statusText);
+    }
+
+    const data = await response.json();
+    userData = data;
+    name = userData.username;
+    nim = userData.nim;
+    if (userData.profilePicture) {
+      profilePicture = "http://127.0.0.1:8800/" + userData.profilePicture;
+    } else {
+      profilePicture = "/icon-user.png";
+    }
+  }
 </script>
 
 <main class="md:mx-72">
@@ -46,13 +71,13 @@
         <div class="md:container md:mx-auto bg-gray-100 p-6 rounded-lg post">
           <div class="flex mb-4">
             <img
-              class="w-14 h-14 rounded-full"
-              src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+              class="w-14 h-14 rounded-full object-cover"
+              src={profilePicture}
               alt="Rounded avatar"
             />
             <div class="flex flex-col meta ml-4 leading-tight flex-auto">
-              <div class="font-bold text-lg">Nafira Ramadhannis</div>
-              <div class="font-light text-xs">175150201111007</div>
+              <div class="font-bold text-lg">{name}</div>
+              <div class="font-light text-xs">{nim}</div>
               <div class="font-light text-xs">
                 {time}
                 {date == today ? "Today" : date}
