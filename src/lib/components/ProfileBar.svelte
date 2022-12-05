@@ -6,7 +6,7 @@
   let userData, name, profilePicture, nim, prodi, interest;
 
   // get data user
-  async function getResponse() {
+  async function getUser() {
     const response = await fetch("http://localhost:8800/api/users/" + userId);
 
     if (!response.ok) {
@@ -27,15 +27,17 @@
     }
   }
 
-  getResponse();
+  getUser();
 </script>
 
 <div class="flex-initial w-1/4 mr-8">
-  <img
-    class="w-full h-auto rounded-full mb-2"
-    src={profilePicture}
-    alt="Rounded avatar"
-  />
+  <div class="flex justify-center">
+    <img
+      class="w-48 h-48 rounded-full mb-2 object-cover"
+      src={profilePicture}
+      alt="Rounded avatar"
+    />
+  </div>
   <div class="flex justify-end">
     <button
       id="multiLevelDropdownButton"

@@ -16,18 +16,45 @@
   } else {
     source = `lorem ipsum dolor sit amet, consectetur adipis`;
   }
+
+  let userId = post.userId;
+
+  let userData, name, profilePicture, nim;
+
+  // get data user
+  async function getUser() {
+    const response = await fetch("http://localhost:8800/api/users/" + userId);
+
+    if (!response.ok) {
+      // navigate("/login");
+      // localStorage.clear();
+      console.log(response.statusText);
+    }
+
+    const data = await response.json();
+    userData = data;
+    name = userData.username;
+    nim = userData.nim;
+    if (userData.profilePicture) {
+      profilePicture = "http://127.0.0.1:8800/" + userData.profilePicture;
+    } else {
+      profilePicture = "/icon-user.png";
+    }
+  }
+
+  getUser();
 </script>
 
 <div class="md:container md:mx-auto bg-gray-100 p-6 rounded-lg post-card mb-8">
   <div class="flex mb-4 ">
     <img
       class="w-14 h-14 rounded-full object-cover"
-      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+      src={profilePicture}
       alt="Rounded avatar"
     />
-    <div class="flex flex-col meta ml-4 leading-tight flex-auto">
-      <div class="font-bold text-lg">Nafira Ramadhannis</div>
-      <div class="font-light text-xs">175150201111007</div>
+    <div class="flex flex-col ml-4 leading-tight flex-auto">
+      <div class="font-bold text-lg">{name}</div>
+      <div class="font-light text-xs">{nim}</div>
       <div class="font-light text-xs">
         <!-- if updated -->
         {post.createdAt != post.updatedAt ? "Last updated on " : ""}

@@ -17,7 +17,10 @@
   import CreateArticle from "./lib/views/article/CreateArticle.svelte";
   import ViewArticle from "./lib/views/article/ViewArticle.svelte";
   import EditProfile from "./lib/views/profile/EditProfile.svelte";
-  import AddBlock from "./lib/views/profile/AddBlock.svelte";
+  import EditAbout from "./lib/views/profile/EditAbout.svelte";
+  import EditSocMed from "./lib/views/profile/EditSocMed.svelte";
+  import EditSkill from "./lib/views/profile/EditSkill.svelte";
+  import EditArticle from "./lib/views/article/EditArticle.svelte";
 
   export let url = "";
 
@@ -50,9 +53,19 @@
       <EditProfile />
     </Route>
 
-    <Route path="add-block">
+    <Route path="edit-about">
       <Navbar active="profile" />
-      <AddBlock />
+      <EditAbout />
+    </Route>
+
+    <Route path="edit-socmed">
+      <Navbar active="profile" />
+      <EditSocMed />
+    </Route>
+
+    <Route path="edit-skill">
+      <Navbar active="profile" />
+      <EditSkill />
     </Route>
     <!-- End Profile -->
 
@@ -72,14 +85,19 @@
     </Route>
 
     <!-- article -->
-    <Route path="article/test" let:params>
+    <Route path="article/:id" let:params>
       <Navbar active="article" />
-      <ViewArticle />
+      <ViewArticle idArticle={params.id} />
     </Route>
 
     <Route path="article/create">
       <Navbar active="article" />
       <CreateArticle />
+    </Route>
+
+    <Route path="article/edit/:id" let:params>
+      <Navbar active="article" />
+      <EditArticle idArticle={params.id} />
     </Route>
     <!-- end article -->
 
