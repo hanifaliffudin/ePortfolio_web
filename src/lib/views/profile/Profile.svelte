@@ -1,14 +1,15 @@
 <script>
-  import AboutMe from "../components/AboutMe.svelte";
-  import ProfileBar from "../components/ProfileBar.svelte";
-  import ProfileTabs from "../components/ProfileTabs.svelte";
+  import AboutMe from "../../components/AboutMe.svelte";
+  import ProfileBar from "../../components/ProfileBar.svelte";
+  import ProfileTabs from "../../components/ProfileTabs.svelte";
+  let userId = localStorage.getItem("userId");
 </script>
 
 <main class="md:mx-72">
   <section>
     <div class="md:container md:mx-auto my-16">
       <div class="flex">
-        <ProfileBar />
+        <ProfileBar {userId} />
 
         <div class="flex-initial w-3/4">
           <!-- tabs -->

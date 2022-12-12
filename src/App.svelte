@@ -1,19 +1,18 @@
 <script>
   import { Router, Link, Route } from "svelte-routing";
   import Navbar from "./lib/components/Navbar.svelte";
-  import Activities from "./lib/pages/Activities.svelte";
+  import Activities from "./lib/views/profile/Activities.svelte";
   import Discovery from "./lib/pages/Discovery.svelte";
   import Home from "./lib/pages/Home.svelte";
   import Login from "./lib/views/auth/Login.svelte";
-  import MarkdownEditor from "./lib/pages/MarkdownEditor.svelte";
-  import Profile from "./lib/pages/Profile.svelte";
+  import Profile from "./lib/views/profile/Profile.svelte";
   import Register from "./lib/views/auth/Register.svelte";
   import ResetPassword from "./lib/views/auth/ResetPassword.svelte";
   import CreatePost from "./lib/views/post/CreatePost.svelte";
   import Collections from "./lib/pages/Collections.svelte";
   import EditPost from "./lib/views/post/EditPost.svelte";
   import ViewPost from "./lib/views/post/ViewPost.svelte";
-  import Articles from "./lib/pages/Articles.svelte";
+  import Articles from "./lib/views/profile/Articles.svelte";
   import CreateArticle from "./lib/views/article/CreateArticle.svelte";
   import ViewArticle from "./lib/views/article/ViewArticle.svelte";
   import EditProfile from "./lib/views/profile/EditProfile.svelte";
@@ -21,6 +20,12 @@
   import EditSocMed from "./lib/views/profile/EditSocMed.svelte";
   import EditSkill from "./lib/views/profile/EditSkill.svelte";
   import EditArticle from "./lib/views/article/EditArticle.svelte";
+  import AddBlock from "./lib/views/profile/AddBlock.svelte";
+  import EditBlock from "./lib/views/profile/EditBlock.svelte";
+  import ViewProfile from "./lib/views/userProfile/ViewProfile.svelte";
+  import ViewArticles from "./lib/views/userProfile/ViewArticles.svelte";
+  import ViewCollections from "./lib/views/userProfile/ViewCollections.svelte";
+  import ViewActivities from "./lib/views/userProfile/ViewActivities.svelte";
 
   export let url = "";
 
@@ -53,6 +58,16 @@
       <EditProfile />
     </Route>
 
+    <Route path="add-block">
+      <Navbar active="profile" />
+      <AddBlock />
+    </Route>
+
+    <Route path="edit-block/:index" let:params>
+      <Navbar active="profile" />
+      <EditBlock indexBlock={params.index} />
+    </Route>
+
     <Route path="edit-about">
       <Navbar active="profile" />
       <EditAbout />
@@ -68,6 +83,28 @@
       <EditSkill />
     </Route>
     <!-- End Profile -->
+
+    <!-- Profile User -->
+    <Route path="profile/:id" let:params>
+      <Navbar active="user" />
+      <ViewProfile userId={params.id} />
+    </Route>
+
+    <Route path="articles/:id" let:params>
+      <Navbar active="user" />
+      <ViewArticles userId={params.id} />
+    </Route>
+
+    <Route path="collections/:id" let:params>
+      <Navbar active="user" />
+      <ViewCollections userId={params.id} />
+    </Route>
+
+    <Route path="activities/:id" let:params>
+      <Navbar active="user" />
+      <ViewActivities userId={params.id} />
+    </Route>
+    <!-- End Profile User -->
 
     <Route path="articles">
       <Navbar active="profile" />
@@ -126,11 +163,6 @@
     <Route path="discovery">
       <Navbar active="discovery" />
       <Discovery />
-    </Route>
-
-    <Route path="editor">
-      <Navbar active="editor" />
-      <MarkdownEditor />
     </Route>
   {/if}
 </Router>

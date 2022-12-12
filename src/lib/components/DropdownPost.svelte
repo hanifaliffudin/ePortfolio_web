@@ -1,5 +1,6 @@
 <script>
   import { navigate } from "svelte-routing";
+  import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
 
   export let idPost;
 
@@ -7,13 +8,16 @@
 
   // delete post
   async function deletePost() {
-    const response = await fetch("http://localhost:8800/api/posts/" + idPost, {
-      method: "DELETE",
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-      body: JSON.stringify({
-        userId: userId,
-      }),
-    });
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/posts/" + idPost,
+      {
+        method: "DELETE",
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+        body: JSON.stringify({
+          userId: userId,
+        }),
+      }
+    );
 
     if (!response.ok) {
       alert("You can only delete your post");
@@ -25,35 +29,10 @@
   }
 </script>
 
-<button
-  id="multiLevelDropdownButton"
-  data-dropdown-toggle="dropdown"
-  class="font-medium h-3"
-  type="button"
+<Button btnClass="p-0 h-3"
+  ><iconify-icon icon="fluent:more-horizontal-32-filled" /></Button
 >
-  <iconify-icon icon="fluent:more-horizontal-32-filled" />
-</button>
-<!-- Dropdown menu -->
-<div
-  id="dropdown"
-  class="hidden z-10 w-32 bg-white rounded divide-y divide-gray-100 shadow"
->
-  <ul
-    class="py-1 text-sm text-gray-700"
-    aria-labelledby="multiLevelDropdownButton"
-  >
-    <li>
-      <a href="/post/edit/{idPost}" class="block py-2 px-4 hover:bg-gray-100"
-        >Edit</a
-      >
-    </li>
-    <li>
-      <button
-        type="button"
-        on:click={deletePost}
-        class="block w-full text-start py-2 px-4 hover:bg-gray-100"
-        >Delete</button
-      >
-    </li>
-  </ul>
-</div>
+<Dropdown class="w-auto">
+  <DropdownItem><a href="/post/edit/{idPost}">Edit</a></DropdownItem>
+  <DropdownItem on:click={deletePost}>Delete</DropdownItem>
+</Dropdown>

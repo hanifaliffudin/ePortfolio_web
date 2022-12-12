@@ -1,0 +1,96 @@
+<script>
+  import ProfileBar from "../../components/ProfileBar.svelte";
+  import { writable } from "svelte/store";
+  import { onMount } from "svelte";
+  import ArticleCard from "../../components/ArticleCard.svelte";
+
+  const articleStore = writable(null);
+
+  export let userId;
+  let userIdLocal = localStorage.getItem("userId");
+
+  let all = [];
+
+  // get all user articles
+  async function getArticle() {
+    let response = await fetch(
+      "http://103.187.223.15:8800/api/articles/all/" + userId
+    );
+    return response.ok ? await response.json() : null;
+  }
+
+  onMount(async () => {
+    let article = await getArticle();
+    if (article) {
+      article.forEach((element) => {
+        // filter private article
+        if (element.isPublic == false && element.userId != userIdLocal) {
+        } else {
+          all.push(element);
+          all = all;
+        }
+        // sorting article
+        all.sort(function (a, b) {
+          // @ts-ignore
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+      });
+      articleStore.update((data) => all);
+    }
+  });
+</script>
+
+<main class="md:mx-72">
+  <section>
+    <div class="md:container md:mx-auto my-16">
+      <div class="flex">
+        <ProfileBar {userId} />
+
+        <div class="flex-initial w-3/4">
+          <!-- tabs -->
+          <div
+            class="mb-4 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700"
+          >
+            <ul class="flex flex-wrap -mb-px">
+              <li class="mr-2">
+                <a
+                  href="/profile/{userId}"
+                  class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
+                  >About Me</a
+                >
+              </li>
+              <li class="mr-2">
+                <a
+                  href="/articles/{userId}"
+                  class="border-blue-600 text-blue-600 inline-block p-4 rounded-t-lg border-b-2 "
+                  >Articles</a
+                >
+              </li>
+              <li class="mr-2">
+                <a
+                  href="/collections/{userId}"
+                  class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
+                  >Collections</a
+                >
+              </li>
+              <li class="mr-2">
+                <a
+                  href="/activities/{userId}"
+                  class="
+          border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2"
+                  aria-current="page">Activities</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          {#if $articleStore}
+            {#each $articleStore as $article}
+              <ArticleCard article={$article} />
+            {/each}
+          {/if}
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

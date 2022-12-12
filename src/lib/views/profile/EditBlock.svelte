@@ -1,10 +1,14 @@
 <script>
-  import { navigate } from "svelte-routing";
   import SvelteMarkdown from "svelte-markdown";
+
+  export let indexBlock;
 
   let userId = localStorage.getItem("userId");
 
-  let userData, about;
+  let userData,
+    title = "",
+    desc,
+    blocks = [];
 
   // get data user
   async function getUser() {
@@ -22,14 +26,26 @@
 
     const data = await response.json();
     userData = data;
-    about = userData.about;
+    blocks = userData.blockProfile;
+    title = blocks[indexBlock].title;
+    desc = blocks[indexBlock].desc;
   }
 
   getUser();
 
   // update data user
-  async function update() {
+  async function update(type) {
     let response;
+
+    if (type == "update") {
+      blocks[indexBlock].title = title;
+      blocks[indexBlock].desc = desc;
+    } else {
+      blocks = [
+        ...blocks.slice(0, indexBlock),
+        ...blocks.slice(indexBlock + 1, blocks.length),
+      ];
+    }
 
     response = await fetch("http://103.187.223.15:8800/api/users/" + userId, {
       method: "PUT",
@@ -38,7 +54,8 @@
       },
       body: JSON.stringify({
         userId: userId,
-        about: about,
+        blockProfile: blocks,
+        // about: desc,
       }),
     });
 
@@ -46,10 +63,10 @@
       alert(response.statusText);
       console.log(response.status);
       console.log(response.statusText);
+    } else {
+      const data = await response.json();
+      document.location.href = "/profile";
     }
-
-    const data = await response.json();
-    document.location.href = "/profile";
   }
 </script>
 
@@ -57,17 +74,34 @@
   <section class="flex">
     <div class="py-8 px-4 w-1/2 lg:py-8">
       <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-        Edit About Me
+        Edit Block
       </h2>
 
       <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
         <div class="sm:col-span-2">
+          <label
+            for="title"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >Title</label
+          >
+          <input
+            bind:value={title}
+            type="text"
+            id="title"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>
+        <div class="sm:col-span-2">
+          <label
+            for="description"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >Description</label
+          >
           <textarea
-            bind:value={about}
+            bind:value={desc}
             id="description"
-            rows="18"
+            rows="8"
             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            placeholder="Write your thoughts here..."
           />
         </div>
       </div>
@@ -82,28 +116,30 @@
       </div>
       <div class="flex justify-end items-center mt-4 space-x-2">
         <button
-          on:click={update}
+          on:click={() => update("update")}
           type="button"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
           >Update</button
         >
         <button
+          on:click={() => update("delete")}
           type="button"
-          on:click={() => history.back()}
-          class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+          class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+          >Delete</button
         >
-          Cancel
-        </button>
       </div>
     </div>
     <div class="py-8 px-4 w-1/2 lg:py-8">
       <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
         Preview
       </h2>
-      <div
-        class="prose prose-neutral p-4 border-2 border-gray-100 rounded h-96 overflow-auto"
-      >
-        <SvelteMarkdown source={about} />
+      <div class="bg-gray-300 rounded-md p-4 mb-8">
+        <div class="flex justify-between align-middle mb-2">
+          <h2 class="font-bold text-xl">{title}</h2>
+        </div>
+        <div class="bg-white p-3 rounded-md prose prose-neutral">
+          <SvelteMarkdown source={desc} />
+        </div>
       </div>
     </div>
   </section>

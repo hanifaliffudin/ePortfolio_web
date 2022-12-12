@@ -1,18 +1,16 @@
 <script>
-  import { navigate } from "svelte-routing";
-
   let alert,
     src,
     files,
     userData,
     name,
+    role,
     nim,
     prodi,
     kota,
     tglLahir,
     gender,
-    interest,
-    btnCancel;
+    interest;
 
   // preview profile picture
   function loadFile(e) {
@@ -24,18 +22,22 @@
 
   // get data user
   async function getUser() {
-    const response = await fetch("http://localhost:8800/api/users/" + userId, {
-      method: "GET",
-    });
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/users/" + userId,
+      {
+        method: "GET",
+      }
+    );
 
     if (!response.ok) {
-      navigate("/login");
+      document.location.href = "/login";
       localStorage.clear();
     }
 
     const data = await response.json();
     userData = data;
     name = userData.username;
+    role = userData.role;
     nim = userData.nim;
     prodi = userData.major;
     kota = userData.city;
@@ -44,13 +46,13 @@
     } else {
       tglLahir = null;
       alert.classList.remove("hidden");
-      btnCancel.classList.add("hidden");
     }
 
-    userData.gender ? (gender = userData.gender) : (gender = "male");
+    userData.gender ? (gender = userData.gender) : (gender = "");
+    userData.role ? (role = userData.role) : (role = "");
     interest = userData.interest;
-    if (userData.profilePicture != "") {
-      src = "http://127.0.0.1:8800/" + userData.profilePicture;
+    if (userData.profilePicture) {
+      src = "http://103.187.223.15:8800/" + userData.profilePicture;
     } else {
       src = "/icon-user.png";
     }
@@ -68,12 +70,12 @@
       dataUpdate.append("username", name);
       dataUpdate.append("profilePicture", files[0]);
 
-      response = await fetch("http://localhost:8800/api/users/" + userId, {
+      response = await fetch("http://103.187.223.15:8800/api/users/" + userId, {
         method: "PUT",
         body: dataUpdate,
       });
     } else {
-      response = await fetch("http://localhost:8800/api/users/" + userId, {
+      response = await fetch("http://103.187.223.15:8800/api/users/" + userId, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -82,6 +84,7 @@
           userId: userId,
           username: name,
           email: userData.email,
+          role: role,
           nim: nim,
           major: prodi,
           city: kota,
@@ -99,12 +102,7 @@
     }
 
     const data = await response.json();
-    navigate("/profile");
-  }
-
-  // back
-  function back() {
-    history.back();
+    document.location.href = "/profile";
   }
 </script>
 
@@ -120,152 +118,170 @@
     <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
       Update Profile
     </h2>
-    <form
-      action="#"
-      on:submit|preventDefault={update}
-      enctype="multipart/form-data"
-    >
-      <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
-        <div>
-          <img
-            class="w-36 h-36 rounded-full profile-picture mb-4 object-cover"
-            {src}
-            alt="Default avatar"
-          />
-          <input
-            bind:files
-            on:change={loadFile}
-            type="file"
-            accept=".jpg, .jpeg, .png"
-          />
+    {#if userData}
+      <form
+        action="#"
+        on:submit|preventDefault={update}
+        enctype="multipart/form-data"
+      >
+        <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+          <div>
+            <img
+              class="w-36 h-36 rounded-full profile-picture mb-4 object-cover ring-2 ring-gray-200 p-1"
+              {src}
+              alt="Default avatar"
+            />
+            <input
+              bind:files
+              on:change={loadFile}
+              type="file"
+              accept=".jpg, .jpeg, .png"
+            />
+          </div>
+          <div class="sm:col-span-2">
+            <label
+              for="name"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Name</label
+            >
+            <input
+              bind:value={name}
+              type="text"
+              name="name"
+              id="name"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Type your name"
+              required
+            />
+          </div>
+          {#if role == "mahasiswa"}
+            <div class="w-full">
+              <label
+                for="nim"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >NIM</label
+              >
+              <input
+                bind:value={nim}
+                type="text"
+                name="nim"
+                id="nim"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Your NIM"
+              />
+            </div>
+            <div class="w-full">
+              <label
+                for="prodi"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Major</label
+              >
+              <input
+                bind:value={prodi}
+                type="text"
+                name="prodi"
+                id="prodi"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Your Major"
+              />
+            </div>
+          {/if}
+
+          <div class="w-full">
+            <label
+              for="city"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >City</label
+            >
+            <input
+              bind:value={kota}
+              type="text"
+              name="city"
+              id="city"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Your city"
+            />
+          </div>
+          <div class="w-full">
+            <label
+              for="tglLahir"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Date of birth</label
+            >
+            <input
+              bind:value={tglLahir}
+              type="date"
+              name="tglLahir"
+              id="tglLahir"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Your Major"
+            />
+          </div>
+          <div class="w-full">
+            <label
+              for="gender"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Gender</label
+            >
+            <select
+              bind:value={gender}
+              id="gender"
+              required
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div class="w-full">
+            <label
+              for="role"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Role</label
+            >
+            <select
+              bind:value={role}
+              id="role"
+              required
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option value="dosen">Dosen</option>
+              <option value="mahasiswa">Mahasiswa</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label
+              for="interest"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Interest</label
+            >
+            <textarea
+              bind:value={interest}
+              id="interest"
+              rows="8"
+              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Write your interest here..."
+            />
+          </div>
         </div>
-        <div class="sm:col-span-2">
-          <label
-            for="name"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Nama</label
+        <div class="flex items-center justify-end space-x-4">
+          <button
+            type="submit"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-          <input
-            bind:value={name}
-            type="text"
-            name="name"
-            id="name"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Type your name"
-            required
-          />
+            Update
+          </button>
+          {#if tglLahir}
+            <button
+              type="button"
+              on:click={() => history.back()}
+              class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+            >
+              Cancel
+            </button>
+          {/if}
         </div>
-        <div class="w-full">
-          <label
-            for="nim"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >NIM</label
-          >
-          <input
-            bind:value={nim}
-            type="text"
-            name="nim"
-            id="nim"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Your NIM"
-            required
-          />
-        </div>
-        <div class="w-full">
-          <label
-            for="prodi"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Program Studi</label
-          >
-          <input
-            bind:value={prodi}
-            type="text"
-            name="prodi"
-            id="prodi"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Your Major"
-            required
-          />
-        </div>
-        <div class="w-full">
-          <label
-            for="city"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Kota</label
-          >
-          <input
-            bind:value={kota}
-            type="text"
-            name="city"
-            id="city"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Your city"
-            required
-          />
-        </div>
-        <div class="w-full">
-          <label
-            for="tglLahir"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Tanggal Lahir</label
-          >
-          <input
-            bind:value={tglLahir}
-            type="date"
-            name="tglLahir"
-            id="tglLahir"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Your Major"
-            required
-          />
-        </div>
-        <div class="w-full">
-          <label
-            for="gender"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Jenis Kelamin</label
-          >
-          <select
-            bind:value={gender}
-            id="gender"
-            required
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
-        <div class="sm:col-span-2">
-          <label
-            for="interest"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Interest</label
-          >
-          <textarea
-            bind:value={interest}
-            id="interest"
-            rows="8"
-            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Write your interest here..."
-          />
-        </div>
-      </div>
-      <div class="flex items-center space-x-4">
-        <button
-          type="submit"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Update
-        </button>
-        <button
-          bind:this={btnCancel}
-          type="button"
-          on:click={back}
-          class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
+      </form>
+    {/if}
   </div>
 </section>

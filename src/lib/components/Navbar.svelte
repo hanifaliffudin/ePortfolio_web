@@ -10,9 +10,12 @@
 
   // get data user
   async function getUser() {
-    const response = await fetch("http://localhost:8800/api/users/" + userId, {
-      method: "GET",
-    });
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/users/" + userId,
+      {
+        method: "GET",
+      }
+    );
 
     if (!response.ok) {
       navigate("/login");
@@ -31,7 +34,7 @@
 
   // logout
   const logout = async () => {
-    await fetch("http://localhost:8800/api/auth/logout", {
+    await fetch("http://103.187.223.15:8800/api/auth/logout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",

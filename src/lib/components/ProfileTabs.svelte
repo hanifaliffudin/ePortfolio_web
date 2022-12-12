@@ -29,7 +29,7 @@
         href="collections"
         class="{active == 'collections'
           ? 'border-blue-600 text-blue-600'
-          : 'border-transparent hover:text-gray-600 hover:border-gray-300'} inline-block p-4 rounded-t-lg border-b-2 bo"
+          : 'border-transparent hover:text-gray-600 hover:border-gray-300'} inline-block p-4 rounded-t-lg border-b-2"
         >Collections</a
       >
     </li>

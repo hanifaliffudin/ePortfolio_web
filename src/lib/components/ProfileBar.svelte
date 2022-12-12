@@ -1,13 +1,17 @@
 <script>
   import { navigate } from "svelte-routing";
+  import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
 
-  let userId = localStorage.getItem("userId");
+  export let userId;
+  let userIdLocal = localStorage.getItem("userId");
 
   let userData, name, profilePicture, nim, prodi, interest;
 
   // get data user
   async function getUser() {
-    const response = await fetch("http://localhost:8800/api/users/" + userId);
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/users/" + userId
+    );
 
     if (!response.ok) {
       navigate("/login");
@@ -21,7 +25,7 @@
     prodi = userData.major;
     interest = userData.interest;
     if (userData.profilePicture) {
-      profilePicture = "http://127.0.0.1:8800/" + userData.profilePicture;
+      profilePicture = "http://103.187.223.15:8800/" + userData.profilePicture;
     } else {
       profilePicture = "/icon-user.png";
     }
@@ -30,42 +34,30 @@
   getUser();
 </script>
 
-<div class="flex-initial w-1/4 mr-8">
-  <div class="flex justify-center">
-    <img
-      class="w-48 h-48 rounded-full mb-2 object-cover"
-      src={profilePicture}
-      alt="Rounded avatar"
-    />
-  </div>
-  <div class="flex justify-end">
-    <button
-      id="multiLevelDropdownButton"
-      data-dropdown-toggle="dropdown"
-      class="font-medium h-3 justify-self-end"
-      type="button"
-    >
-      <iconify-icon icon="fluent:more-horizontal-32-filled" />
-    </button>
-    <!-- Dropdown menu -->
-    <div
-      id="dropdown"
-      class="hidden z-10 w-32 bg-white rounded divide-y divide-gray-100 shadow"
-    >
-      <ul
-        class="py-1 text-sm text-gray-700"
-        aria-labelledby="multiLevelDropdownButton"
-      >
-        <li>
-          <a href="/edit-profile" class="block py-2 px-4 hover:bg-gray-100"
-            >Edit</a
-          >
-        </li>
-      </ul>
+{#if userData}
+  <div class="flex-initial w-1/4 mr-8">
+    <div class="flex justify-center">
+      <img
+        class="w-48 h-48 rounded-full mb-2 object-cover ring-2 ring-gray-200 p-1"
+        src={profilePicture}
+        alt="Rounded avatar"
+      />
     </div>
+    {#if userIdLocal == userId}
+      <div class="flex justify-end">
+        <Button btnClass="p-0 h-3 mb-4"
+          ><iconify-icon icon="fluent:more-horizontal-32-filled" /></Button
+        >
+        <Dropdown class="w-auto">
+          <DropdownItem><a href="/edit-profile">Edit</a></DropdownItem>
+        </Dropdown>
+      </div>
+    {/if}
+    <p class="font-bold text-2xl">{name}</p>
+    <p class="font-light text-sm">{nim}</p>
+    <p class="text-xl my-2">{prodi}</p>
+    <p>{interest}</p>
   </div>
-  <p class="font-bold text-2xl">{name}</p>
-  <p class="font-light text-sm">{nim}</p>
-  <p class="text-xl my-2">{prodi}</p>
-  <p>{interest}</p>
-</div>
+{:else}
+  <div class="flex-initial w-1/4 mr-8" />
+{/if}

@@ -3,7 +3,7 @@
 
   // login
   async function login() {
-    const response = await fetch("http://localhost:8800/api/auth/login", {
+    const response = await fetch("http://103.187.223.15:8800/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -83,7 +83,7 @@
           </div>
           <div class="flex items-center justify-end">
             <a
-              href=""
+              href="#/"
               class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
               >Forgot password?</a
             >

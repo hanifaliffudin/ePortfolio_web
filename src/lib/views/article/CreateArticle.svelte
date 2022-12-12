@@ -25,7 +25,7 @@
     dataUpdate.append("coverArticle", files[0]);
     dataUpdate.append("data", JSON.stringify(dataArticle));
 
-    const response = await fetch("http://localhost:8800/api/articles/", {
+    const response = await fetch("http://103.187.223.15:8800/api/articles/", {
       method: "POST",
       body: dataUpdate,
     });
