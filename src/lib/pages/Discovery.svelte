@@ -15,9 +15,9 @@
       />
       <p class="text-center">
         Or see other students from your
-        <a href="#" class="text-blue-500">study program</a>,
-        <a href="#" class="text-blue-500">interest</a>, or
-        <a href="#" class="text-blue-500">collage year</a>.
+        <a href="#/" class="text-blue-500">study program</a>,
+        <a href="#/" class="text-blue-500">interest</a>, or
+        <a href="#/" class="text-blue-500">collage year</a>.
       </p>
     </div>
   </section>

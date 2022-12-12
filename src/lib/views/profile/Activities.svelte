@@ -1,9 +1,9 @@
 <script>
-  import ProfileBar from "../components/ProfileBar.svelte";
-  import ProfileTabs from "../components/ProfileTabs.svelte";
+  import ProfileBar from "../../components/ProfileBar.svelte";
+  import ProfileTabs from "../../components/ProfileTabs.svelte";
   import { writable } from "svelte/store";
   import { onMount } from "svelte";
-  import PostCard from "../components/PostCard.svelte";
+  import PostCard from "../../components/PostCard.svelte";
 
   const postStore = writable(null);
 
@@ -11,7 +11,9 @@
 
   // get all user posts
   async function getPost() {
-    let response = await fetch("http://localhost:8800/api/posts/all/" + userId);
+    let response = await fetch(
+      "http://103.187.223.15:8800/api/posts/all/" + userId
+    );
     return response.ok ? await response.json() : null;
   }
 
@@ -25,7 +27,7 @@
   <section>
     <div class="md:container md:mx-auto my-16">
       <div class="flex">
-        <ProfileBar />
+        <ProfileBar {userId} />
 
         <div class="flex-initial w-3/4">
           <!-- tabs -->
@@ -63,8 +65,6 @@
                 <PostCard post={$post} />
               {/each}
             {/if}
-
-            <!-- <ProjectCard /> -->
           </div>
         </div>
       </div>

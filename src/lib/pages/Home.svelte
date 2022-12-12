@@ -1,7 +1,5 @@
 <script>
   import PostCard from "../components/PostCard.svelte";
-  import ProjectCard from "../components/ProjectCard.svelte";
-  import { writable } from "svelte/store";
   import { onMount } from "svelte";
   import { navigate } from "svelte-routing";
   import ArticleCard from "../components/ArticleCard.svelte";
@@ -12,7 +10,9 @@
   let jwt = localStorage.getItem("jwt");
 
   async function checkUserAuth() {
-    const response = await fetch("http://localhost:8800/api/auth/user/" + jwt);
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/auth/user/" + jwt
+    );
 
     // kalau tidak ada
     if (!response.ok) {
@@ -24,7 +24,7 @@
 
     const content = await response.json();
 
-    if (!content.dateBirth) {
+    if (!content.gender) {
       navigate("/edit-profile");
     } else {
       getUser();
@@ -37,7 +37,9 @@
 
   // get data user
   async function getUser() {
-    const response = await fetch("http://localhost:8800/api/users/" + userId);
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/users/" + userId
+    );
 
     if (!response.ok) {
       navigate("/login");
@@ -51,7 +53,7 @@
     prodi = userData.major;
     interest = userData.interest;
     if (userData.profilePicture) {
-      profilePicture = "http://127.0.0.1:8800/" + userData.profilePicture;
+      profilePicture = "http://103.187.223.15:8800/" + userData.profilePicture;
     } else {
       profilePicture = "/icon-user.png";
     }
@@ -59,14 +61,16 @@
 
   // get all posts
   async function getPost() {
-    let response = await fetch("http://localhost:8800/api/posts/timeline/all");
+    let response = await fetch(
+      "http://103.187.223.15:8800/api/posts/timeline/all"
+    );
     return response.ok ? await response.json() : null;
   }
 
-  // get all posts
+  // get all articles
   async function getArticle() {
     let response = await fetch(
-      "http://localhost:8800/api/articles/timeline/all"
+      "http://103.187.223.15:8800/api/articles/timeline/all"
     );
     return response.ok ? await response.json() : null;
   }
@@ -75,16 +79,25 @@
     checkUserAuth();
     let post = await getPost();
     let articles = await getArticle();
-    // console.log(post);
     post.forEach((element) => {
-      all.push(element);
-      all = all;
+      // filter private post
+      if (element.isPublic == false && element.userId != userId) {
+      } else {
+        all.push(element);
+        all = all;
+      }
     });
     articles.forEach((element) => {
-      all.push(element);
-      all = all;
+      // filter private article
+      if (element.isPublic == false && element.userId != userId) {
+      } else {
+        all.push(element);
+        all = all;
+      }
+      // sorting all posts and articles
       all.sort(function (a, b) {
-        return new Date(b.updatedAt) - new Date(a.updatedAt);
+        // @ts-ignore
+        return new Date(b.createdAt) - new Date(a.createdAt);
       });
     });
   });
@@ -93,20 +106,26 @@
 <main class="md:mx-72">
   <div class="md:container md:mx-auto my-16">
     <div class="flex">
-      <div class="flex-initial w-1/4 mr-8">
-        <div class="flex justify-center mb-3">
-          <img
-            class="w-48 h-48 object-cover rounded-full mb-2"
-            src={profilePicture}
-            alt="Rounded avatar"
-          />
+      {#if userData}
+        <div class="flex-initial w-1/4 mr-8">
+          <a href="/profile" class="hover:underline">
+            <div class="flex justify-center mb-3">
+              <img
+                class="w-48 h-48 object-cover rounded-full mb-2 ring-2 ring-gray-200 p-1"
+                src={profilePicture}
+                alt="Rounded avatar"
+              />
+            </div>
+            <p class="font-bold text-xl">{name}</p>
+          </a>
+          <p class="font-light text-sm">{nim}</p>
+          <p class="text-xl my-2">{prodi}</p>
+          <p>{interest}</p>
         </div>
+      {:else}
+        <div class="flex-initial w-1/4 mr-8" />
+      {/if}
 
-        <p class="font-bold text-xl">{name}</p>
-        <p class="font-light text-sm">{nim}</p>
-        <p class="text-xl my-2">{prodi}</p>
-        <p>{interest}</p>
-      </div>
       <div class="flex-initial w-3/4">
         <div class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg mb-8">
           <a
@@ -127,13 +146,15 @@
           </div>
         </div>
 
-        {#each all as element}
-          {#if element.title}
-            <ArticleCard article={element} />
-          {:else}
-            <PostCard post={element} />
-          {/if}
-        {/each}
+        {#if all}
+          {#each all as element}
+            {#if element.title}
+              <ArticleCard article={element} />
+            {:else}
+              <PostCard post={element} />
+            {/if}
+          {/each}
+        {/if}
       </div>
     </div>
   </div>

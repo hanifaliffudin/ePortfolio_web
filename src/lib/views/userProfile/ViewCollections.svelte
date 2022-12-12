@@ -1,10 +1,8 @@
 <script>
   import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
+  import ProfileBar from "../../components/ProfileBar.svelte";
 
-  import ProfileBar from "../components/ProfileBar.svelte";
-  import ProfileTabs from "../components/ProfileTabs.svelte";
-
-  let userId = localStorage.getItem("userId");
+  export let userId;
 </script>
 
 <main class="md:mx-72">
@@ -15,7 +13,41 @@
 
         <div class="flex-initial w-3/4">
           <!-- tabs -->
-          <ProfileTabs active={"collections"} />
+          <div
+            class="mb-4 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700"
+          >
+            <ul class="flex flex-wrap -mb-px">
+              <li class="mr-2">
+                <a
+                  href="/profile/{userId}"
+                  class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
+                  >About Me</a
+                >
+              </li>
+              <li class="mr-2">
+                <a
+                  href="/articles/{userId}"
+                  class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
+                  >Articles</a
+                >
+              </li>
+              <li class="mr-2">
+                <a
+                  href="/collections/{userId}"
+                  class="border-blue-600 text-blue-600 inline-block p-4 rounded-t-lg border-b-2 "
+                  >Collections</a
+                >
+              </li>
+              <li class="mr-2">
+                <a
+                  href="/activities/{userId}"
+                  class="
+          border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2"
+                  aria-current="page">Activities</a
+                >
+              </li>
+            </ul>
+          </div>
 
           <!-- tabs content -->
 
@@ -45,12 +77,6 @@
                 required
               />
             </div>
-            <button
-              type="submit"
-              class="p-2.5 px-6 ml-2 text-sm font-medium text-white bg-green-600 rounded-lg border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"
-            >
-              New
-            </button>
           </div>
 
           <hr />
@@ -66,15 +92,6 @@
                   Public
                 </div>
                 <div class="flex-auto" />
-                <Button btnClass="p-0 h-3"
-                  ><iconify-icon
-                    icon="fluent:more-horizontal-32-filled"
-                  /></Button
-                >
-                <Dropdown class="w-auto">
-                  <DropdownItem><a href="/post/edit/">Edit</a></DropdownItem>
-                  <DropdownItem>Delete</DropdownItem>
-                </Dropdown>
               </div>
               <div class="md:w-2/3 mb-3">
                 Membuat kalkulator sederhana mengikuti silabus Dasar Pemrograman
@@ -101,15 +118,6 @@
                   Private
                 </div>
                 <div class="flex-auto" />
-                <Button btnClass="p-0 h-3"
-                  ><iconify-icon
-                    icon="fluent:more-horizontal-32-filled"
-                  /></Button
-                >
-                <Dropdown class="w-auto">
-                  <DropdownItem><a href="/post/edit/">Edit</a></DropdownItem>
-                  <DropdownItem>Delete</DropdownItem>
-                </Dropdown>
               </div>
               <div class="md:w-2/3 mb-3">
                 Simple blog using Next and Markdown

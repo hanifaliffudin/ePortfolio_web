@@ -1,4 +1,4 @@
-export let countries = [
+export let skillsData = [
   "(American Society For Quality) ASQ Certified",
   ".NET Assemblies",
   ".NET Development",

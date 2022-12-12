@@ -8,7 +8,7 @@
 
   // create a post
   async function createPost() {
-    const response = await fetch("http://localhost:8800/api/posts/", {
+    const response = await fetch("http://103.187.223.15:8800/api/posts/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

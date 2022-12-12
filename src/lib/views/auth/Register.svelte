@@ -15,21 +15,25 @@
 
   const requiredMessage = "This field is required";
 
-  let username, emailUser, password;
+  let username, emailUser, password, role;
 
   // register
   async function register() {
-    const response = await fetch("http://localhost:8800/api/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: emailUser,
-        username,
-        password,
-      }),
-    });
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/auth/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: emailUser,
+          username,
+          password,
+          role,
+        }),
+      }
+    );
 
     if (!response.ok) {
       alert(response.statusText);
@@ -45,7 +49,7 @@
     class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
   >
     <a
-      href="#"
+      href="#/"
       class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
     >
       <img
@@ -100,7 +104,7 @@
           </div>
           <div>
             <label
-              for="username"
+              for="name"
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >Name</label
             >
@@ -108,10 +112,10 @@
               bind:value={username}
               use:validators={[required]}
               type="text"
-              name="username"
-              id="username"
+              name="name"
+              id="name"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="your name"
+              placeholder="Your Name"
               required
             />
             <HintGroup for="username">
@@ -121,6 +125,21 @@
                 </div></Hint
               >
             </HintGroup>
+          </div>
+          <div>
+            <label
+              for="role"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Role</label
+            >
+            <select
+              bind:value={role}
+              id="role"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option value="mahasiswa">Mahasiswa</option>
+              <option value="dosen">Dosen</option>
+            </select>
           </div>
           <div>
             <label

@@ -1,9 +1,9 @@
 <script>
-  import ProfileBar from "../components/ProfileBar.svelte";
-  import ProfileTabs from "../components/ProfileTabs.svelte";
+  import ProfileBar from "../../components/ProfileBar.svelte";
+  import ProfileTabs from "../../components/ProfileTabs.svelte";
   import { writable } from "svelte/store";
   import { onMount } from "svelte";
-  import ArticleCard from "../components/ArticleCard.svelte";
+  import ArticleCard from "../../components/ArticleCard.svelte";
 
   const articleStore = writable(null);
 
@@ -12,7 +12,7 @@
   // get all user articles
   async function getArticle() {
     let response = await fetch(
-      "http://localhost:8800/api/articles/all/" + userId
+      "http://103.187.223.15:8800/api/articles/all/" + userId
     );
     return response.ok ? await response.json() : null;
   }
@@ -27,7 +27,7 @@
   <section>
     <div class="md:container md:mx-auto my-16">
       <div class="flex">
-        <ProfileBar />
+        <ProfileBar {userId} />
 
         <div class="flex-initial w-3/4">
           <!-- tabs -->
