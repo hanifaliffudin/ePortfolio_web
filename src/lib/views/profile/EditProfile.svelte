@@ -10,6 +10,7 @@
     kota,
     tglLahir,
     gender,
+    academicField,
     interest;
 
   // preview profile picture
@@ -41,6 +42,7 @@
     nim = userData.nim;
     prodi = userData.major;
     kota = userData.city;
+    academicField = userData.academicField;
     if (userData.dateBirth) {
       tglLahir = new Date(userData.dateBirth).toLocaleDateString("en-CA");
     } else {
@@ -91,6 +93,7 @@
           dateBirth: tglLahir,
           gender: gender,
           interest: interest,
+          academicField,
         }),
       });
     }
@@ -168,6 +171,7 @@
                 id="nim"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Your NIM"
+                required
               />
             </div>
             <div class="w-full">
@@ -183,6 +187,7 @@
                 id="prodi"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Your Major"
+                required
               />
             </div>
           {/if}
@@ -249,20 +254,37 @@
               <option value="mahasiswa">Mahasiswa</option>
             </select>
           </div>
-          <div class="sm:col-span-2">
-            <label
-              for="interest"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Interest</label
-            >
-            <textarea
-              bind:value={interest}
-              id="interest"
-              rows="8"
-              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Write your interest here..."
-            />
-          </div>
+          {#if role == "mahasiswa"}
+            <div class="sm:col-span-2">
+              <label
+                for="interest"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Interest</label
+              >
+              <textarea
+                bind:value={interest}
+                id="interest"
+                rows="8"
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Write your interest here..."
+              />
+            </div>
+          {:else}
+            <div class="sm:col-span-2">
+              <label
+                for="academic-field"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Academic Field</label
+              >
+              <textarea
+                bind:value={academicField}
+                id="academic-field"
+                rows="5"
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Ex: Artificial Neural Network, Internet of Things, Software-Defined Networking"
+              />
+            </div>
+          {/if}
         </div>
         <div class="flex items-center justify-end space-x-4">
           <button

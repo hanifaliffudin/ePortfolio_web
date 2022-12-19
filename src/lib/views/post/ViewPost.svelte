@@ -4,7 +4,7 @@
 
   export let idPost;
 
-  let postData, source, date, time, userIdPost;
+  let postData, source, date, time, userIdPost, role;
 
   let userId = localStorage.getItem("userId");
 
@@ -58,6 +58,7 @@
     userData = data;
     name = userData.username;
     nim = userData.nim;
+    role = userData.role;
     if (userData.profilePicture) {
       profilePicture = "http://103.187.223.15:8800/" + userData.profilePicture;
     } else {
@@ -80,7 +81,9 @@
               />
               <div class="flex flex-col meta ml-4 leading-tight flex-auto">
                 <div class="font-bold text-lg">{name}</div>
-                <div class="font-light text-xs">{nim}</div>
+                {#if role == "mahasiswa"}
+                  <div class="font-light text-xs">{nim}</div>
+                {/if}
                 <div class="font-light text-xs">
                   {time}
                   {date == today ? "Today" : date}

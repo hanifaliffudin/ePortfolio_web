@@ -26,6 +26,13 @@
   import ViewArticles from "./lib/views/userProfile/ViewArticles.svelte";
   import ViewCollections from "./lib/views/userProfile/ViewCollections.svelte";
   import ViewActivities from "./lib/views/userProfile/ViewActivities.svelte";
+  import ViewCollection from "./lib/views/collection/ViewCollection.svelte";
+  import AddImage from "./lib/views/collection/AddImage.svelte";
+  import AddVideo from "./lib/views/collection/AddVideo.svelte";
+  import AddCertificate from "./lib/views/collection/AddCertificate.svelte";
+  import CreateCollection from "./lib/views/collection/CreateCollection.svelte";
+  import AllPostResults from "./lib/views/discovery/AllPostResults.svelte";
+  import AllArticleResults from "./lib/views/discovery/AllArticleResults.svelte";
 
   export let url = "";
 
@@ -116,10 +123,37 @@
       <Activities />
     </Route>
 
+    <!-- collection -->
     <Route path="collections">
       <Navbar active="profile" />
       <Collections />
     </Route>
+
+    <Route path="collection/create">
+      <Navbar active="collection" />
+      <CreateCollection />
+    </Route>
+
+    <Route path="collection/:id" let:params>
+      <Navbar active="collection" />
+      <ViewCollection idCollection={params.id} />
+    </Route>
+
+    <Route path="/collection/add-image/:id" let:params>
+      <Navbar active="collection" />
+      <AddImage idCollection={params.id} />
+    </Route>
+
+    <Route path="/collection/add-video/:id" let:params>
+      <Navbar active="collection" />
+      <AddVideo idCollection={params.id} />
+    </Route>
+
+    <Route path="/collection/add-certificate/:id" let:params>
+      <Navbar active="collection" />
+      <AddCertificate idCollection={params.id} />
+    </Route>
+    <!-- end collection -->
 
     <!-- article -->
     <Route path="article/:id" let:params>
@@ -163,6 +197,16 @@
     <Route path="discovery">
       <Navbar active="discovery" />
       <Discovery />
+    </Route>
+
+    <Route path="/all/posts/:search" let:params>
+      <Navbar active="discovery" />
+      <AllPostResults searchKeyword={params.search} />
+    </Route>
+
+    <Route path="/all/articles/:search" let:params>
+      <Navbar active="discovery" />
+      <AllArticleResults searchKeyword={params.search} />
     </Route>
   {/if}
 </Router>

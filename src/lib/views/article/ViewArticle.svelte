@@ -18,6 +18,8 @@
     nameUserArticle,
     profilePictureArticle,
     nimUserArticle,
+    roleUserArticle,
+    academicFieldUserArticle,
     commentInput,
     comments = [],
     userDataArticle;
@@ -64,6 +66,7 @@
     }
     const data = await response.json();
     articleData = data;
+    console.log(articleData);
     desc = articleData.desc;
     title = articleData.title;
     comments = articleData.comments;
@@ -98,6 +101,8 @@
     userDataArticle = data;
     nameUserArticle = userDataArticle.username;
     nimUserArticle = userDataArticle.nim;
+    roleUserArticle = userDataArticle.role;
+    academicFieldUserArticle = userDataArticle.academicField;
     if (userDataArticle.profilePicture) {
       profilePictureArticle =
         "http://103.187.223.15:8800/" + userDataArticle.profilePicture;
@@ -108,7 +113,6 @@
 
   // delete article
   async function deleteArticle() {
-    console.log(userId);
     const response = await fetch(
       "http://103.187.223.15:8800/api/articles/" + idArticle,
       {
@@ -209,7 +213,13 @@
                 />
                 <div class="flex flex-col ml-4 ">
                   <div class="font-bold text-lg">{nameUserArticle}</div>
-                  <div class="font-light text-xs">{nimUserArticle}</div>
+                  {#if roleUserArticle == "mahasiswa"}
+                    <div class="font-light text-xs">{nimUserArticle}</div>
+                  {:else}
+                    <div class="font-light text-xs">
+                      {academicFieldUserArticle ? academicFieldUserArticle : ""}
+                    </div>
+                  {/if}
                 </div>
               </a>
             </div>

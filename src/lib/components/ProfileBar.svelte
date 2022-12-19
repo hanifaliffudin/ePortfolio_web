@@ -5,7 +5,7 @@
   export let userId;
   let userIdLocal = localStorage.getItem("userId");
 
-  let userData, name, profilePicture, nim, prodi, interest;
+  let userData, name, profilePicture, nim, prodi, interest, role, academicField;
 
   // get data user
   async function getUser() {
@@ -24,6 +24,8 @@
     nim = userData.nim;
     prodi = userData.major;
     interest = userData.interest;
+    role = userData.role;
+    academicField = userData.academicField;
     if (userData.profilePicture) {
       profilePicture = "http://103.187.223.15:8800/" + userData.profilePicture;
     } else {
@@ -54,9 +56,13 @@
       </div>
     {/if}
     <p class="font-bold text-2xl">{name}</p>
-    <p class="font-light text-sm">{nim}</p>
-    <p class="text-xl my-2">{prodi}</p>
-    <p>{interest}</p>
+    {#if role == "mahasiswa"}
+      <p class="font-light text-sm">{nim ? nim : ""}</p>
+      <p class="text-xl my-2">{prodi ? prodi : ""}</p>
+      <p>{interest ? interest : ""}</p>
+    {:else}
+      <p>{academicField ? academicField : ""}</p>
+    {/if}
   </div>
 {:else}
   <div class="flex-initial w-1/4 mr-8" />
