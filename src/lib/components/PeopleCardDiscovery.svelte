@@ -61,7 +61,9 @@
             <div class="font-light text-sm">{majorUser}</div>
             <div>{interestUser}</div>
           {:else}
-            <div class="truncate w-96">{academicField}</div>
+            <div class="truncate w-96">
+              {academicField ? academicField : ""}
+            </div>
           {/if}
         </div>
       </a>
