@@ -120,11 +120,11 @@
             <p class="font-bold text-xl">{name}</p>
           </a>
           {#if role == "mahasiswa"}
-            <p class="font-light text-sm">{nim}</p>
-            <p class="text-xl my-2">{prodi}</p>
-            <p>{interest}</p>
+            <p class="font-light text-sm">{nim ? nim : ""}</p>
+            <p class="text-xl my-2">{prodi ? prodi : ""}</p>
+            <p>{interest ? interest : ""}</p>
           {:else}
-            <p>{academicField}</p>
+            <p>{academicField ? academicField : ""}</p>
           {/if}
         </div>
       {:else}

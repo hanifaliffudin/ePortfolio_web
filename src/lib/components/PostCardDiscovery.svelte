@@ -149,7 +149,7 @@
               <div class="font-light text-xs">{nimUserPost}</div>
             {:else}
               <div class="font-light text-xs truncate w-96">
-                {academicFieldPost}
+                {academicFieldPost ? academicFieldPost : ""}
               </div>
             {/if}
             <div class="font-light text-xs">
