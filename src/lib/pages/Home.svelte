@@ -5,6 +5,9 @@
   import ArticleCard from "../components/ArticleCard.svelte";
 
   let all = [];
+  let userId = localStorage.getItem("userId");
+
+  let userData, name, profilePicture, nim, prodi, interest, role, academicField;
 
   // get jwt from localstorage
   let jwt = localStorage.getItem("jwt");
@@ -31,10 +34,6 @@
     }
   }
 
-  let userId = localStorage.getItem("userId");
-
-  let userData, name, profilePicture, nim, prodi, interest;
-
   // get data user
   async function getUser() {
     const response = await fetch(
@@ -52,6 +51,8 @@
     nim = userData.nim;
     prodi = userData.major;
     interest = userData.interest;
+    role = userData.role;
+    academicField = userData.academicField;
     if (userData.profilePicture) {
       profilePicture = "http://103.187.223.15:8800/" + userData.profilePicture;
     } else {
@@ -118,9 +119,13 @@
             </div>
             <p class="font-bold text-xl">{name}</p>
           </a>
-          <p class="font-light text-sm">{nim}</p>
-          <p class="text-xl my-2">{prodi}</p>
-          <p>{interest}</p>
+          {#if role == "mahasiswa"}
+            <p class="font-light text-sm">{nim}</p>
+            <p class="text-xl my-2">{prodi}</p>
+            <p>{interest}</p>
+          {:else}
+            <p>{academicField}</p>
+          {/if}
         </div>
       {:else}
         <div class="flex-initial w-1/4 mr-8" />

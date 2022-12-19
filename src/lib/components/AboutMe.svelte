@@ -21,6 +21,7 @@
     facebook,
     github,
     lastPost,
+    academicField,
     skills = [],
     blocks = [],
     btnCancel,
@@ -60,6 +61,7 @@
     facebook = socmed.facebook;
     skills = userData.skill;
     blocks = userData.blockProfile;
+    academicField = userData.academicField;
     userData.gender ? (gender = userData.gender) : (gender = "male");
     interest = userData.interest;
     if (userData.dateBirth) {
@@ -122,10 +124,14 @@
       <div class="bg-white p-3 rounded-md">
         <b>Name</b>: {name} <br />
         {#if role == "mahasiswa"}
-          <b>Student ID</b>: {nim}<br />
-          <b>Major</b>: {prodi}<br />
+          <b>Student ID</b>: {nim ? nim : ""}<br />
+          <b>Major</b>: {prodi ? prodi : ""}<br />
+        {:else}
+          <b>Academic Field</b>:
+          <span class="truncate w-96">{academicField ? academicField : ""}</span
+          > <br />
         {/if}
-        <b>City</b>: {kota} <br />
+        <b>City</b>: {kota ? kota : ""} <br />
         <b>Date Of Birth</b>: {tglLahir}<br />
         <b>Gender</b>: <span class="capitalize">{gender}</span><br />
         <b>Role</b>: <span class="capitalize">{role}</span>

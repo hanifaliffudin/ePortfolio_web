@@ -45,12 +45,12 @@
                 required
               />
             </div>
-            <button
-              type="submit"
+            <a
+              href="/collection/create"
               class="p-2.5 px-6 ml-2 text-sm font-medium text-white bg-green-600 rounded-lg border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"
             >
               New
-            </button>
+            </a>
           </div>
 
           <hr />
@@ -58,7 +58,7 @@
             <div class="w-full">
               <div class="flex mb-3">
                 <div class="text-blue-500 font-bold text-xl">
-                  <a href="#/">WebCalculator</a>
+                  <a href="/collection/1">WebCalculator</a>
                 </div>
                 <div
                   class="ml-3 ring-1 ring-gray-400 my-1 text-xs font-semibold text-gray-600 items-center inline-flex rounded-full px-2"
@@ -93,7 +93,7 @@
             <div class="w-full">
               <div class="flex mb-3">
                 <div class="text-blue-500 font-bold text-xl">
-                  <a href="#/">MarkdownBlog</a>
+                  <a href="/collection/1">MarkdownBlog</a>
                 </div>
                 <div
                   class="ml-3 ring-1 ring-gray-400 my-1 text-xs font-semibold text-gray-600 items-center inline-flex rounded-full px-2"

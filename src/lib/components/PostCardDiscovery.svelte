@@ -129,9 +129,7 @@
 </script>
 
 {#if userDataPost && userData}
-  <div
-    class="md:container md:mx-auto bg-gray-100 p-6 rounded-lg post-card mb-8"
-  >
+  <div class="md:container md:mx-auto bg-gray-100 p-6">
     <div class="flex mb-4">
       <a
         href={userId == userIdPost ? "/profile" : "/profile/" + userIdPost}
@@ -151,7 +149,7 @@
               <div class="font-light text-xs">{nimUserPost}</div>
             {:else}
               <div class="font-light text-xs truncate w-96">
-                {academicFieldPost ? academicFieldPost : ""}
+                {academicFieldPost}
               </div>
             {/if}
             <div class="font-light text-xs">
@@ -187,8 +185,8 @@
       {/if}
     </div>
     <!-- <a href="post/{post._id}" class="prose prose-neutral">
-    <SvelteMarkdown source={desc} />
-  </a> -->
+      <SvelteMarkdown source={desc} />
+    </a> -->
     <div class="prose prose-neutral">
       <SvelteMarkdown source={desc} />
     </div>
