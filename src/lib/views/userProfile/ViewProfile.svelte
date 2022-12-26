@@ -124,6 +124,13 @@
                 </li>
                 <li class="mr-2">
                   <a
+                    href="/posts/{userId}"
+                    class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2"
+                    aria-current="page">Posts</a
+                  >
+                </li>
+                <li class="mr-2">
+                  <a
                     href="/articles/{userId}"
                     class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
                     >Articles</a
@@ -131,17 +138,16 @@
                 </li>
                 <li class="mr-2">
                   <a
-                    href="/collections/{userId}"
+                    href="/activities/{userId}"
                     class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
-                    >Collections</a
+                    >Activities</a
                   >
                 </li>
                 <li class="mr-2">
                   <a
-                    href="/activities/{userId}"
-                    class="
-          border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2"
-                    aria-current="page">Activities</a
+                    href="/achievements/{userId}"
+                    class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
+                    >Achievements</a
                   >
                 </li>
               </ul>
@@ -159,10 +165,10 @@
                     <b>Student ID</b>: {nim ? nim : ""}<br />
                     <b>Major</b>: {prodi ? prodi : ""}<br />
                   {:else}
-                    <b>Academic Field</b>:
-                    <span class="truncate w-96"
-                      >{academicField ? academicField : ""}</span
-                    > <br />
+                    <div class="truncate">
+                      <b>Academic Field</b>:
+                      <span>{academicField ? academicField : ""}</span>
+                    </div>
                   {/if}
                   <b>City</b>: {kota} <br />
                   <b>Date Of Birth</b>: {tglLahir ? tglLahir : ""}<br />
@@ -210,7 +216,7 @@
                 </div>
                 <div class="flex justify-center mt-2">
                   <a
-                    href="/activities/{userId}"
+                    href="/posts/{userId}"
                     class="inline-flex items-center font-medium text-gray-600 hover:underline"
                   >
                     Show All Activities
@@ -343,7 +349,10 @@
                       <div
                         class="text-gray-900 bg-white border border-gray-300 focus:outline-none  focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-3 my-1.5"
                       >
-                        {skill}
+                        <a
+                          class="no-underline hover:underline"
+                          href="/discovery?search={skill}">{skill}</a
+                        >
                       </div>
                     {/each}
                   </div>

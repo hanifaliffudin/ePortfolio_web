@@ -76,7 +76,7 @@
           <div>
             <label
               for="email"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
               >Email</label
             >
             <input
@@ -105,7 +105,7 @@
           <div>
             <label
               for="name"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
               >Name</label
             >
             <input
@@ -129,7 +129,7 @@
           <div>
             <label
               for="role"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
               >Role</label
             >
             <select
@@ -144,7 +144,7 @@
           <div>
             <label
               for="password"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
               >Password</label
             >
             <input
@@ -177,7 +177,7 @@
           <div>
             <label
               for="passwordConfirmation"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
               >Confirm password</label
             >
             <input

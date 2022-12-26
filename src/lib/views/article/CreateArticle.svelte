@@ -6,14 +6,17 @@
   let visibility,
     files,
     src,
+    tag,
+    tags = [],
     title = "";
   let userId = localStorage.getItem("userId");
 
-  // preview profile picture
+  // preview image
   function loadFile(e) {
     src = URL.createObjectURL(e.target.files[0]);
   }
 
+  // create article
   async function createArticle() {
     var dataUpdate = new FormData();
     let dataArticle = {
@@ -21,6 +24,7 @@
       title,
       desc: source,
       isPublic: visibility == "public" ? true : false,
+      tags: tags,
     };
     dataUpdate.append("coverArticle", files[0]);
     dataUpdate.append("data", JSON.stringify(dataArticle));
@@ -37,6 +41,27 @@
     }
     const data = await response.json();
   }
+
+  const addTag = () => {
+    if (tag) {
+      if (tag.indexOf(" ") >= 0) {
+        alert("The tag can't contain spaces");
+      } else if (tags.indexOf(tag) !== -1) {
+        alert(tag + " sudah ada");
+      } else {
+        tags.push(tag);
+        tags = tags;
+        tag = "";
+      }
+    } else {
+      alert("You didn't type anything.");
+    }
+  };
+
+  // remove indexed value
+  const handleRemove = (index) => {
+    tags = [...tags.slice(0, index), ...tags.slice(index + 1, tags.length)];
+  };
 </script>
 
 <section class="flex">
@@ -53,8 +78,8 @@
         <div class="sm:col-span-2">
           <label
             for="title"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Title</label
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
+            >Title*</label
           >
           <input
             bind:value={title}
@@ -67,8 +92,8 @@
         <div>
           <label
             for="cover-image"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Cover Image</label
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
+            >Cover Image*</label
           >
 
           <input
@@ -80,6 +105,11 @@
           />
         </div>
         <div class="sm:col-span-2">
+          <label
+            for="cover-image"
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
+            >Description*</label
+          >
           <textarea
             bind:value={source}
             required
@@ -98,6 +128,43 @@
           rel="noopener noreferrer"
           href="https://www.markdownguide.org/basic-syntax/">Markdown</a
         > is supported
+      </div>
+      <div class="mt-4">
+        <label
+          for="tag"
+          class="block mb-2 font-medium text-gray-900 dark:text-white"
+          >Tags</label
+        >
+        <div class="flex">
+          <input
+            bind:value={tag}
+            type="text"
+            id="tag"
+            class="bg-gray-50 mr-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+          <button
+            type="button"
+            on:click={addTag}
+            class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            >Add</button
+          >
+        </div>
+        <div class=" flex flex-wrap mt-4">
+          {#each tags as skill, i}
+            <div
+              class="inline-flex justify-between items-center text-gray-900 bg-white border border-gray-300 focus:outline-none  focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm py-2.5 mr-3 my-1.5"
+            >
+              <div class="ml-4 mr-2">{skill}</div>
+              <button
+                on:click={() => handleRemove(i)}
+                type="button"
+                class="items-center flex text-red-600 mr-3"
+              >
+                <iconify-icon icon="material-symbols:close-rounded" />
+              </button>
+            </div>
+          {/each}
+        </div>
       </div>
       <div class="flex justify-between items-center mt-4 space-x-2">
         <select

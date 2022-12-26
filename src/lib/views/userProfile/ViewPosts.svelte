@@ -2,41 +2,40 @@
   import ProfileBar from "../../components/ProfileBar.svelte";
   import { writable } from "svelte/store";
   import { onMount } from "svelte";
-  import ActivityCard from "../../components/ActivityCard.svelte";
+  import PostCard from "../../components/PostCard.svelte";
 
-  const activitiestore = writable(null);
+  const postStore = writable(null);
 
   export let userId;
-
   let userIdLocal = localStorage.getItem("userId");
 
   let all = [];
 
-  // get all user activities
-  async function getActivitiy() {
+  // get all user posts
+  async function getPost() {
     let response = await fetch(
-      "http://103.187.223.15:8800/api/activities/all/" + userId
+      "http://103.187.223.15:8800/api/posts/all/" + userId
     );
     return response.ok ? await response.json() : null;
   }
 
   onMount(async () => {
-    let activitiy = await getActivitiy();
-    if (activitiy) {
-      activitiy.forEach((element) => {
-        // filter private activitiy
+    let post = await getPost();
+    if (post) {
+      post.forEach((element) => {
+        // filter private post
         if (element.isPublic == false && element.userId != userIdLocal) {
         } else {
           all.push(element);
           all = all;
         }
-        // sorting activitiy
+        // sorting post
         all.sort(function (a, b) {
           // @ts-ignore
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
       });
-      activitiestore.update((data) => all);
+      postStore.update((data) => all);
     }
   });
 </script>
@@ -63,7 +62,7 @@
               <li class="mr-2">
                 <a
                   href="/posts/{userId}"
-                  class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2"
+                  class="border-blue-600 text-blue-600 inline-block p-4 rounded-t-lg border-b-2 "
                   aria-current="page">Posts</a
                 >
               </li>
@@ -77,7 +76,7 @@
               <li class="mr-2">
                 <a
                   href="/activities/{userId}"
-                  class="border-blue-600 text-blue-600 inline-block p-4 rounded-t-lg border-b-2 "
+                  class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
                   >Activities</a
                 >
               </li>
@@ -92,12 +91,13 @@
           </div>
 
           <!-- tabs content -->
-
-          {#if $activitiestore}
-            {#each $activitiestore as $activity}
-              <ActivityCard activity={$activity} />
-            {/each}
-          {/if}
+          <div class="md:container md:mx-auto">
+            {#if $postStore}
+              {#each $postStore as $post}
+                <PostCard post={$post} />
+              {/each}
+            {/if}
+          </div>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 <script>
   import { Router, Link, Route } from "svelte-routing";
   import Navbar from "./lib/components/Navbar.svelte";
-  import Activities from "./lib/views/profile/Activities.svelte";
+  import Posts from "./lib/views/post/Posts.svelte";
   import Discovery from "./lib/pages/Discovery.svelte";
   import Home from "./lib/pages/Home.svelte";
   import Login from "./lib/views/auth/Login.svelte";
@@ -9,10 +9,10 @@
   import Register from "./lib/views/auth/Register.svelte";
   import ResetPassword from "./lib/views/auth/ResetPassword.svelte";
   import CreatePost from "./lib/views/post/CreatePost.svelte";
-  import Collections from "./lib/pages/Collections.svelte";
+  import Activities from "./lib/views/activities/Activities.svelte";
   import EditPost from "./lib/views/post/EditPost.svelte";
   import ViewPost from "./lib/views/post/ViewPost.svelte";
-  import Articles from "./lib/views/profile/Articles.svelte";
+  import Articles from "./lib/views/article/Articles.svelte";
   import CreateArticle from "./lib/views/article/CreateArticle.svelte";
   import ViewArticle from "./lib/views/article/ViewArticle.svelte";
   import EditProfile from "./lib/views/profile/EditProfile.svelte";
@@ -24,15 +24,18 @@
   import EditBlock from "./lib/views/profile/EditBlock.svelte";
   import ViewProfile from "./lib/views/userProfile/ViewProfile.svelte";
   import ViewArticles from "./lib/views/userProfile/ViewArticles.svelte";
-  import ViewCollections from "./lib/views/userProfile/ViewCollections.svelte";
   import ViewActivities from "./lib/views/userProfile/ViewActivities.svelte";
-  import ViewCollection from "./lib/views/collection/ViewCollection.svelte";
-  import AddImage from "./lib/views/collection/AddImage.svelte";
-  import AddVideo from "./lib/views/collection/AddVideo.svelte";
-  import AddCertificate from "./lib/views/collection/AddCertificate.svelte";
-  import CreateCollection from "./lib/views/collection/CreateCollection.svelte";
+  import ViewPosts from "./lib/views/userProfile/ViewPosts.svelte";
   import AllPostResults from "./lib/views/discovery/AllPostResults.svelte";
   import AllArticleResults from "./lib/views/discovery/AllArticleResults.svelte";
+  import AddActivity from "./lib/views/activities/AddActivity.svelte";
+  import ViewActivity from "./lib/views/activities/ViewActivity.svelte";
+  import AddFile from "./lib/views/activities/AddFile.svelte";
+  import Achievements from "./lib/views/achievement/Achievements.svelte";
+  import AddAchievement from "./lib/views/achievement/AddAchievement.svelte";
+  import EditAchievement from "./lib/views/achievement/EditAchievement.svelte";
+  import EditActivity from "./lib/views/activities/EditActivity.svelte";
+  import ViewAchievements from "./lib/views/userProfile/ViewAchievements.svelte";
 
   export let url = "";
 
@@ -102,58 +105,48 @@
       <ViewArticles userId={params.id} />
     </Route>
 
-    <Route path="collections/:id" let:params>
-      <Navbar active="user" />
-      <ViewCollections userId={params.id} />
-    </Route>
-
     <Route path="activities/:id" let:params>
       <Navbar active="user" />
       <ViewActivities userId={params.id} />
     </Route>
-    <!-- End Profile User -->
 
-    <Route path="articles">
-      <Navbar active="profile" />
-      <Articles />
+    <Route path="posts/:id" let:params>
+      <Navbar active="user" />
+      <ViewPosts userId={params.id} />
     </Route>
 
+    <Route path="achievements/:id" let:params>
+      <Navbar active="user" />
+      <ViewAchievements userId={params.id} />
+    </Route>
+    <!-- End Profile User -->
+
+    <!-- activities -->
     <Route path="activities">
       <Navbar active="profile" />
       <Activities />
     </Route>
 
-    <!-- collection -->
-    <Route path="collections">
-      <Navbar active="profile" />
-      <Collections />
+    <Route path="activity/add">
+      <Navbar active="activity" />
+      <AddActivity />
     </Route>
 
-    <Route path="collection/create">
-      <Navbar active="collection" />
-      <CreateCollection />
+    <Route path="activity/:id" let:params>
+      <Navbar active="activity" />
+      <ViewActivity idActivity={params.id} />
     </Route>
 
-    <Route path="collection/:id" let:params>
-      <Navbar active="collection" />
-      <ViewCollection idCollection={params.id} />
+    <Route path="activity/add-file/:id" let:params>
+      <Navbar active="activity" />
+      <AddFile idCollection={params.id} />
     </Route>
 
-    <Route path="/collection/add-image/:id" let:params>
-      <Navbar active="collection" />
-      <AddImage idCollection={params.id} />
+    <Route path="activity/edit/:id" let:params>
+      <Navbar active="article" />
+      <EditActivity idActivity={params.id} />
     </Route>
-
-    <Route path="/collection/add-video/:id" let:params>
-      <Navbar active="collection" />
-      <AddVideo idCollection={params.id} />
-    </Route>
-
-    <Route path="/collection/add-certificate/:id" let:params>
-      <Navbar active="collection" />
-      <AddCertificate idCollection={params.id} />
-    </Route>
-    <!-- end collection -->
+    <!-- end activities -->
 
     <!-- article -->
     <Route path="article/:id" let:params>
@@ -169,6 +162,11 @@
     <Route path="article/edit/:id" let:params>
       <Navbar active="article" />
       <EditArticle idArticle={params.id} />
+    </Route>
+
+    <Route path="articles">
+      <Navbar active="profile" />
+      <Articles />
     </Route>
     <!-- end article -->
 
@@ -192,8 +190,31 @@
       <Navbar active="post" />
       <CreatePost />
     </Route>
+
+    <Route path="posts">
+      <Navbar active="profile" />
+      <Posts />
+    </Route>
     <!-- end post -->
 
+    <!-- achievement -->
+    <Route path="achievements">
+      <Navbar active="profile" />
+      <Achievements />
+    </Route>
+
+    <Route path="/achievement/add">
+      <Navbar active="profile" />
+      <AddAchievement />
+    </Route>
+
+    <Route path="achievement/edit/:id" let:params>
+      <Navbar active="profile" />
+      <EditAchievement idAchievement={params.id} />
+    </Route>
+    <!-- end achievement -->
+
+    <!-- discovery -->
     <Route path="discovery">
       <Navbar active="discovery" />
       <Discovery />
@@ -208,5 +229,6 @@
       <Navbar active="discovery" />
       <AllArticleResults searchKeyword={params.search} />
     </Route>
+    <!-- end discovery -->
   {/if}
 </Router>

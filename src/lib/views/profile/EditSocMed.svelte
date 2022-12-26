@@ -68,7 +68,7 @@
     <div class="mb-6">
       <label
         for="linkedin-icon"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        class="block mb-2 font-medium text-gray-900 dark:text-white"
         >LinkedIn</label
       >
       <div class="relative">
@@ -89,7 +89,7 @@
     <div class="mb-6">
       <label
         for="github-icon"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        class="block mb-2 font-medium text-gray-900 dark:text-white"
         >Github</label
       >
       <div class="relative">
@@ -110,7 +110,7 @@
     <div class="mb-6">
       <label
         for="instagram-icon"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        class="block mb-2 font-medium text-gray-900 dark:text-white"
         >Instagram</label
       >
       <div class="relative">
@@ -131,7 +131,7 @@
     <div class="mb-6">
       <label
         for="twitter-icon"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        class="block mb-2 font-medium text-gray-900 dark:text-white"
         >Twitter</label
       >
       <div class="relative">
@@ -152,7 +152,7 @@
     <div class="mb-6">
       <label
         for="facebook-icon"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        class="block mb-2 font-medium text-gray-900 dark:text-white"
         >Facebook</label
       >
       <div class="relative">

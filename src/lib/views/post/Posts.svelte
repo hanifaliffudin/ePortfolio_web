@@ -31,7 +31,7 @@
 
         <div class="flex-initial w-3/4">
           <!-- tabs -->
-          <ProfileTabs active={"activities"} />
+          <ProfileTabs active={"posts"} />
 
           <!-- tabs content -->
           <div class="md:container md:mx-auto">

@@ -3,6 +3,8 @@
   import { onMount } from "svelte";
   import { navigate } from "svelte-routing";
   import ArticleCard from "../components/ArticleCard.svelte";
+  import ActivityCard from "../components/ActivityCard.svelte";
+  import AchievementCard from "../components/AchievementCard.svelte";
 
   let all = [];
   let userId = localStorage.getItem("userId");
@@ -61,7 +63,7 @@
   }
 
   // get all posts
-  async function getPost() {
+  async function getPosts() {
     let response = await fetch(
       "http://103.187.223.15:8800/api/posts/timeline/all"
     );
@@ -69,19 +71,53 @@
   }
 
   // get all articles
-  async function getArticle() {
+  async function getArticles() {
     let response = await fetch(
       "http://103.187.223.15:8800/api/articles/timeline/all"
     );
     return response.ok ? await response.json() : null;
   }
 
+  // get all activities
+  async function getActivities() {
+    let response = await fetch(
+      "http://103.187.223.15:8800/api/activities/timeline/all"
+    );
+    return response.ok ? await response.json() : null;
+  }
+
+  // get all achievements
+  async function getAchievements() {
+    let response = await fetch(
+      "http://103.187.223.15:8800/api/achievements/timeline/all"
+    );
+    return response.ok ? await response.json() : null;
+  }
+
   onMount(async () => {
     checkUserAuth();
-    let post = await getPost();
-    let articles = await getArticle();
+    let post = await getPosts();
+    let articles = await getArticles();
+    let activities = await getActivities();
+    let achievements = await getAchievements();
     post.forEach((element) => {
       // filter private post
+      if (element.isPublic == false && element.userId != userId) {
+      } else {
+        all.push(element);
+        all = all;
+      }
+    });
+    activities.forEach((element) => {
+      // filter private activities
+      if (element.isPublic == false && element.userId != userId) {
+      } else {
+        all.push(element);
+        all = all;
+      }
+    });
+    achievements.forEach((element) => {
+      // filter private achievements
       if (element.isPublic == false && element.userId != userId) {
       } else {
         all.push(element);
@@ -153,8 +189,12 @@
 
         {#if all}
           {#each all as element}
-            {#if element.title}
+            {#if element.startDate}
+              <ActivityCard activity={element} />
+            {:else if element.title && !element.startDate}
               <ArticleCard article={element} />
+            {:else if element.imgAchievement}
+              <AchievementCard achievement={element} />
             {:else}
               <PostCard post={element} />
             {/if}
