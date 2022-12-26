@@ -22,7 +22,8 @@
     academicFieldUserArticle,
     commentInput,
     comments = [],
-    userDataArticle;
+    userDataArticle,
+    tags = [];
 
   let userId = localStorage.getItem("userId");
 
@@ -70,6 +71,7 @@
     desc = articleData.desc;
     title = articleData.title;
     comments = articleData.comments;
+    tags = articleData.tags;
     coverArticle = "http://103.187.223.15:8800/" + articleData.coverArticle;
     userIdArticle = articleData.userId;
     date = new Date(articleData.createdAt).toLocaleDateString("en", {
@@ -211,12 +213,12 @@
                   src={profilePictureArticle}
                   alt="Rounded avatar"
                 />
-                <div class="flex flex-col ml-4 ">
+                <div class="flex flex-col ml-4">
                   <div class="font-bold text-lg">{nameUserArticle}</div>
                   {#if roleUserArticle == "mahasiswa"}
                     <div class="font-light text-xs">{nimUserArticle}</div>
                   {:else}
-                    <div class="font-light text-xs">
+                    <div class="font-light text-xs ">
                       {academicFieldUserArticle ? academicFieldUserArticle : ""}
                     </div>
                   {/if}
@@ -226,8 +228,18 @@
             <div class="">
               <SvelteMarkdown source={desc} />
             </div>
+            <div class="flex flex-wrap">
+              {#each tags as tag}
+                <div class="mr-3">
+                  <a
+                    class="no-underline hover:underline"
+                    href="/discovery?search={tag}">#{tag}</a
+                  >
+                </div>
+              {/each}
+            </div>
             <div class="flex justify-end">
-              <div class="cursor-pointer hover:underline text-sm">
+              <div class="text-sm">
                 {#if comments.length > 0}
                   {comments.length}
                   {comments.length == 1 ? "comment" : "comments"}

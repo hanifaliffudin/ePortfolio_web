@@ -144,8 +144,8 @@
           <div class="sm:col-span-2">
             <label
               for="name"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Name</label
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
+              >Name*</label
             >
             <input
               bind:value={name}
@@ -161,8 +161,8 @@
             <div class="w-full">
               <label
                 for="nim"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >NIM</label
+                class="block mb-2 font-medium text-gray-900 dark:text-white"
+                >NIM*</label
               >
               <input
                 bind:value={nim}
@@ -177,8 +177,8 @@
             <div class="w-full">
               <label
                 for="prodi"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Major</label
+                class="block mb-2 font-medium text-gray-900 dark:text-white"
+                >Major*</label
               >
               <input
                 bind:value={prodi}
@@ -195,7 +195,7 @@
           <div class="w-full">
             <label
               for="city"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
               >City</label
             >
             <input
@@ -210,7 +210,7 @@
           <div class="w-full">
             <label
               for="tglLahir"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
               >Date of birth</label
             >
             <input
@@ -225,8 +225,8 @@
           <div class="w-full">
             <label
               for="gender"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Gender</label
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
+              >Gender*</label
             >
             <select
               bind:value={gender}
@@ -241,8 +241,8 @@
           <div class="w-full">
             <label
               for="role"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Role</label
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
+              >Role*</label
             >
             <select
               bind:value={role}
@@ -258,7 +258,7 @@
             <div class="sm:col-span-2">
               <label
                 for="interest"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="block mb-2 font-medium text-gray-900 dark:text-white"
                 >Interest</label
               >
               <textarea
@@ -273,7 +273,7 @@
             <div class="sm:col-span-2">
               <label
                 for="academic-field"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="block mb-2 font-medium text-gray-900 dark:text-white"
                 >Academic Field</label
               >
               <textarea

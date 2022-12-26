@@ -22,7 +22,7 @@
     if (!response.ok) {
       alert("You can only delete your post");
     } else {
-      navigate("/activities");
+      navigate("/posts");
     }
 
     const data = await response.json();

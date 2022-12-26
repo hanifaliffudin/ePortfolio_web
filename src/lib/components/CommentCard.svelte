@@ -10,6 +10,7 @@
     profilePicture,
     postData,
     articleData,
+    achievementData,
     comments = [],
     cardComment;
 
@@ -67,11 +68,27 @@
     }
   }
 
+  // get data achievement
+  async function getAchievement() {
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/achievements/" + comment.idAchievement
+    );
+
+    if (!response.ok) {
+      alert(response.statusText);
+    }
+    const data = await response.json();
+    achievementData = data;
+    comments = achievementData.comments;
+  }
+
   if (comment.userId == userId) {
     if (comment.type == "post") {
       getPost();
-    } else {
+    } else if (comment.type == "article") {
       getArticle();
+    } else if (comment.type == "achievement") {
+      getAchievement();
     }
   }
 
@@ -130,7 +147,7 @@
       } else {
         cardComment.classList.add("hidden");
       }
-    } else {
+    } else if (comment.type == "article") {
       const response = await fetch(
         "http://103.187.223.15:8800/api/articles/" + comment.idArticle,
         {
@@ -149,6 +166,7 @@
       } else {
         cardComment.classList.add("hidden");
       }
+    } else if (comment.type == "achievement") {
     }
   }
 </script>

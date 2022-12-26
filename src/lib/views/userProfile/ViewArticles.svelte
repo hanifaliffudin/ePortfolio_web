@@ -61,6 +61,13 @@
               </li>
               <li class="mr-2">
                 <a
+                  href="/posts/{userId}"
+                  class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2"
+                  aria-current="page">Posts</a
+                >
+              </li>
+              <li class="mr-2">
+                <a
                   href="/articles/{userId}"
                   class="border-blue-600 text-blue-600 inline-block p-4 rounded-t-lg border-b-2 "
                   >Articles</a
@@ -68,17 +75,16 @@
               </li>
               <li class="mr-2">
                 <a
-                  href="/collections/{userId}"
+                  href="/activities/{userId}"
                   class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
-                  >Collections</a
+                  >Activities</a
                 >
               </li>
               <li class="mr-2">
                 <a
-                  href="/activities/{userId}"
-                  class="
-          border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2"
-                  aria-current="page">Activities</a
+                  href="/achievements/{userId}"
+                  class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
+                  >Achievements</a
                 >
               </li>
             </ul>

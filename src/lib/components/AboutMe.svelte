@@ -179,7 +179,7 @@
       </div>
       <div class="flex justify-center mt-2">
         <a
-          href="/activities"
+          href="/posts"
           class="inline-flex items-center font-medium text-gray-600 hover:underline"
         >
           Show All Activities
@@ -309,7 +309,10 @@
             <div
               class="text-gray-900 bg-white border border-gray-300 focus:outline-none  focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-3 my-1.5"
             >
-              {skill}
+              <a
+                class="no-underline hover:underline"
+                href="/discovery?search={skill}">{skill}</a
+              >
             </div>
           {/each}
         </div>

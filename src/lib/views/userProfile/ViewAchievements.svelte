@@ -2,9 +2,9 @@
   import ProfileBar from "../../components/ProfileBar.svelte";
   import { writable } from "svelte/store";
   import { onMount } from "svelte";
-  import ActivityCard from "../../components/ActivityCard.svelte";
+  import AchievementCard from "../../components/AchievementCard.svelte";
 
-  const activitiestore = writable(null);
+  const achievementstore = writable(null);
 
   export let userId;
 
@@ -12,10 +12,10 @@
 
   let all = [];
 
-  // get all user activities
+  // get all user achievements
   async function getActivitiy() {
     let response = await fetch(
-      "http://103.187.223.15:8800/api/activities/all/" + userId
+      "http://103.187.223.15:8800/api/achievements/all/" + userId
     );
     return response.ok ? await response.json() : null;
   }
@@ -36,7 +36,7 @@
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
       });
-      activitiestore.update((data) => all);
+      achievementstore.update((data) => all);
     }
   });
 </script>
@@ -77,14 +77,14 @@
               <li class="mr-2">
                 <a
                   href="/activities/{userId}"
-                  class="border-blue-600 text-blue-600 inline-block p-4 rounded-t-lg border-b-2 "
+                  class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
                   >Activities</a
                 >
               </li>
               <li class="mr-2">
                 <a
                   href="/achievements/{userId}"
-                  class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
+                  class="border-blue-600 text-blue-600 inline-block p-4 rounded-t-lg border-b-2 "
                   >Achievements</a
                 >
               </li>
@@ -93,9 +93,9 @@
 
           <!-- tabs content -->
 
-          {#if $activitiestore}
-            {#each $activitiestore as $activity}
-              <ActivityCard activity={$activity} />
+          {#if $achievementstore}
+            {#each $achievementstore as $achievement}
+              <AchievementCard achievement={$achievement} />
             {/each}
           {/if}
         </div>

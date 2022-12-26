@@ -81,7 +81,7 @@
         <div class="sm:col-span-2">
           <label
             for="title"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
             >Title</label
           >
           <input
@@ -94,7 +94,7 @@
         <div class="sm:col-span-2">
           <label
             for="description"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
             >Description</label
           >
           <textarea

@@ -50,7 +50,7 @@
     if (!response.ok) {
       alert(response.statusText);
     } else {
-      document.location.href = "/activities";
+      document.location.href = "/posts";
       const data = await response.json();
     }
   }
