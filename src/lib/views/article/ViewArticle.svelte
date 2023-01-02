@@ -67,12 +67,11 @@
     }
     const data = await response.json();
     articleData = data;
-    console.log(articleData);
     desc = articleData.desc;
     title = articleData.title;
     comments = articleData.comments;
     tags = articleData.tags;
-    coverArticle = "http://103.187.223.15:8800/" + articleData.coverArticle;
+    coverArticle = articleData.coverArticle;
     userIdArticle = articleData.userId;
     date = new Date(articleData.createdAt).toLocaleDateString("en", {
       day: "numeric",
@@ -194,7 +193,16 @@
           </div>
           <div class="md:container md:mx-auto prose prose-neutral">
             <h1 class="text-center mb-4">{title}</h1>
-            <div class="text-sm text-gray-600">Published on {date}</div>
+            <div class="flex">
+              <div class="text-sm text-gray-600">Published on {date}</div>
+              {#if !articleData.isPublic}
+                <div
+                  class="ml-3 h-5 ring-1 ring-gray-400  text-xs font-semibold text-gray-600 items-center inline-flex rounded-full px-2"
+                >
+                  Private
+                </div>
+              {/if}
+            </div>
             <img
               class="w-full h-72 profile-picture mb-4 object-cover rounded-lg"
               src={coverArticle}

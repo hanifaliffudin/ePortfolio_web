@@ -1,12 +1,14 @@
 <script>
+  import ActivityCard from "../components/ActivityCard.svelte";
   import ArticleCardDiscovery from "../components/ArticleCardDiscovery.svelte";
   import PeopleCardDiscovery from "../components/PeopleCardDiscovery.svelte";
   import PostCardDiscovery from "../components/PostCardDiscovery.svelte";
 
-  let userId = localStorage.getItem("userId");
+  let userIdLocal = localStorage.getItem("userId");
 
   let posts = [],
     articles = [],
+    activities = [],
     searchKeyword,
     usersId = [];
 
@@ -15,12 +17,13 @@
 
   if (searchKeyword) {
     getUsers();
-    getArticle();
-    getPost();
+    getArticles();
+    getPosts();
+    getActivities();
   }
 
   // get all posts
-  async function getPost() {
+  async function getPosts() {
     let response = await fetch(
       `http://103.187.223.15:8800/api/posts/search/${searchKeyword}`
     );
@@ -30,11 +33,19 @@
     }
 
     const data = await response.json();
-    posts = data;
+    let temp = data;
+    temp.forEach((element) => {
+      // filter private post
+      if (element.isPublic == false && element.userId != userIdLocal) {
+      } else {
+        posts.push(element);
+        posts = posts;
+      }
+    });
   }
 
   // get articles
-  async function getArticle() {
+  async function getArticles() {
     let response = await fetch(
       `http://103.187.223.15:8800/api/articles/search/${searchKeyword}`
     );
@@ -45,13 +56,44 @@
     }
 
     const data = await response.json();
-    articles = data;
+    let temp = data;
+    temp.forEach((element) => {
+      // filter private article
+      if (element.isPublic == false && element.userId != userIdLocal) {
+      } else {
+        articles.push(element);
+        articles = articles;
+      }
+    });
+  }
+
+  // get activities
+  async function getActivities() {
+    let response = await fetch(
+      `http://103.187.223.15:8800/api/activities/search/${searchKeyword}`
+    );
+
+    if (!response.ok) {
+      // alert(response.status);
+      console.log(response.status);
+    }
+
+    const data = await response.json();
+    let temp = data;
+    temp.forEach((element) => {
+      // filter private activity
+      if (element.isPublic == false && element.userId != userIdLocal) {
+      } else {
+        activities.push(element);
+        activities = activities;
+      }
+    });
   }
 
   // get users
   async function getUsers() {
     const response = await fetch(
-      `http://103.187.223.15:8800/api/users/search/${userId}/${searchKeyword}`
+      `http://103.187.223.15:8800/api/users/search/${userIdLocal}/${searchKeyword}`
     );
 
     if (!response.ok) {
@@ -71,6 +113,7 @@
       </h1>
       <form action="">
         <input
+          bind:value={searchKeyword}
           type="search"
           name="search"
           class="w-full mt-8 text-center py-3 text-gray-700 bg-white border-2 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
@@ -130,12 +173,32 @@
             </div>
           {/if}
 
+          <!-- activities -->
+          {#if activities.length > 0}
+            <div class="rounded-lg bg-gray-100 mb-4">
+              <h2 class="text-3xl font-bold px-6 pt-6 mb-2">Activities</h2>
+              {#each activities as activity, i}
+                {#if i < 3}
+                  <ActivityCard {activity} />
+                  <hr class="h-1 bg-gray-300" />
+                {/if}
+              {/each}
+              <button
+                type="button"
+                on:click={() =>
+                  (window.location.href = "/all/activities/" + searchKeyword)}
+                class="py-3 px-5 w-full text-base font-medium text-center bg-gray-100 rounded-b-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-200"
+                >See all activity results</button
+              >
+            </div>
+          {/if}
+
           <!-- users -->
           {#if usersId.length > 0}
             <div class="rounded-lg bg-gray-100">
               <h2 class="text-3xl font-bold px-6 pt-6">People</h2>
               {#each usersId as userId, i}
-                {#if i < 3}
+                {#if i < 3 && userIdLocal != userId}
                   <PeopleCardDiscovery {userId} />
                   <hr class="h-1 bg-gray-300" />
                 {/if}
@@ -143,6 +206,8 @@
 
               <button
                 type="button"
+                on:click={() =>
+                  (window.location.href = "/all/peoples/" + searchKeyword)}
                 class="py-3 px-5 w-full text-base font-medium text-center bg-gray-100 rounded-b-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-200"
                 >See all people results</button
               >

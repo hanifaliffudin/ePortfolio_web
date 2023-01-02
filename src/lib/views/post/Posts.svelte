@@ -45,7 +45,7 @@
                 What's going on?
               </a>
 
-              <div class="flex mt-4 justify-between">
+              <!-- <div class="flex mt-4 justify-between">
                 <div class="flex">
                   <button type="button" class="mr-4 inline-flex items-center">
                     <iconify-icon icon="bi:image" style="font-size: 24px" />
@@ -57,7 +57,7 @@
                     />
                   </button>
                 </div>
-              </div>
+              </div> -->
             </div>
 
             {#if $postStore}

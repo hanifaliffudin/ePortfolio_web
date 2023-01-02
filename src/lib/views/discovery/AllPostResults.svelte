@@ -3,6 +3,7 @@
 
   export let searchKeyword;
   let posts = [];
+  let userIdLocal = localStorage.getItem("userId");
 
   if (searchKeyword) getPost();
 
@@ -17,7 +18,15 @@
     }
 
     const data = await response.json();
-    posts = data;
+    let temp = data;
+    temp.forEach((element) => {
+      // filter private post
+      if (element.isPublic == false && element.userId != userIdLocal) {
+      } else {
+        posts.push(element);
+        posts = posts;
+      }
+    });
   }
 </script>
 

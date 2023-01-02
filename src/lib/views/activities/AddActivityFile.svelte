@@ -1,10 +1,13 @@
 <script>
-  export let idCollection;
+  import { navigate } from "svelte-routing";
+  export let idActivity;
   import VideoPlayer from "svelte-video-player";
 
-  let files, src, extension, filename, type, maxImage;
+  let userId = localStorage.getItem("userId");
 
-  // preview image
+  let files, src, extension, filename, filesize, type, maxFile, response;
+
+  // preview file
   function loadFile(e) {
     if (e.target.files[0].size <= 2 * 1024 * 1024) {
       src = URL.createObjectURL(e.target.files[0]);
@@ -13,11 +16,13 @@
       const lastDot = name.lastIndexOf(".");
       const fileName = name.substring(0, lastDot);
       const ext = name.substring(lastDot + 1);
+      const fileSize = e.target.files[0].size;
 
       filename = fileName;
       extension = ext;
+      filesize = fileSize;
 
-      console.log(e.target.files[0].type);
+      console.log(extension);
 
       if (
         extension == "png" ||
@@ -36,12 +41,12 @@
       ) {
         type = "video";
       } else if (
-        extension == "docx" ||
-        extension == "doc" ||
-        extension == "xls" ||
-        extension == "xlsx" ||
-        extension == "ppt" ||
-        extension == "pptx" ||
+        // extension == "docx" ||
+        // extension == "doc" ||
+        // extension == "xls" ||
+        // extension == "xlsx" ||
+        // extension == "ppt" ||
+        // extension == "pptx" ||
         extension == "pdf"
       ) {
         type = "document";
@@ -49,15 +54,60 @@
         alert("Extension not supported");
         type = null;
       }
-      maxImage = false;
+      maxFile = false;
     } else {
       alert("Maximum image size is 2MB");
-      maxImage = true;
+      maxFile = true;
     }
   }
 
   // upload file
-  function uploadFile() {}
+  async function uploadFile() {
+    if (maxFile) {
+      alert("Maximum image size is 2MB");
+    } else if (!type) {
+      alert("Extension not supported");
+      src = null;
+    } else {
+      var dataUpdate = new FormData();
+      let dataFile = {
+        userId: userId,
+        idActivity,
+        filename,
+        filesize,
+        type,
+      };
+      dataUpdate.append("fileAlbum", files[0]);
+      dataUpdate.append("data", JSON.stringify(dataFile));
+
+      if (type == "image") {
+        response = await fetch("http://103.187.223.15:8800/api/albums/", {
+          method: "POST",
+          body: dataUpdate,
+        });
+      } else if (type == "video") {
+        response = await fetch("http://103.187.223.15:8800/api/albums/video", {
+          method: "POST",
+          body: dataUpdate,
+        });
+      } else if (type == "document") {
+        response = await fetch(
+          "http://103.187.223.15:8800/api/albums/document",
+          {
+            method: "POST",
+            body: dataUpdate,
+          }
+        );
+      }
+
+      if (!response.ok) {
+        alert(response.statusText);
+      } else {
+        navigate("/activity/" + idActivity);
+      }
+      const data = await response.json();
+    }
+  }
 </script>
 
 <main class="md:mx-72">
@@ -87,10 +137,12 @@
         >Upload File</label
       >
 
-      <input bind:files on:change={loadFile} type="file" />
+      <input bind:files on:change={loadFile} type="file" required />
+      <div class="text-sm mt-2 text-red-500">*Maximum file size is 2MB</div>
     </div>
     <div class="flex justify-end items-center space-x-2">
       <button
+        on:click={uploadFile}
         type="button"
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
         >Upload</button

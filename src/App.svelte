@@ -30,12 +30,17 @@
   import AllArticleResults from "./lib/views/discovery/AllArticleResults.svelte";
   import AddActivity from "./lib/views/activities/AddActivity.svelte";
   import ViewActivity from "./lib/views/activities/ViewActivity.svelte";
-  import AddFile from "./lib/views/activities/AddFile.svelte";
-  import Achievements from "./lib/views/achievement/Achievements.svelte";
-  import AddAchievement from "./lib/views/achievement/AddAchievement.svelte";
-  import EditAchievement from "./lib/views/achievement/EditAchievement.svelte";
+  import AddFile from "./lib/views/albums/AddFile.svelte";
   import EditActivity from "./lib/views/activities/EditActivity.svelte";
-  import ViewAchievements from "./lib/views/userProfile/ViewAchievements.svelte";
+  import ViewBadges from "./lib/views/userProfile/ViewBadges.svelte";
+  import Badges from "./lib/views/badge/Badges.svelte";
+  import AddBadge from "./lib/views/badge/AddBadge.svelte";
+  import EditBadge from "./lib/views/badge/EditBadge.svelte";
+  import ViewBadge from "./lib/views/badge/ViewBadge.svelte";
+  import Albums from "./lib/views/albums/Albums.svelte";
+  import AddActivityFile from "./lib/views/activities/AddActivityFile.svelte";
+  import AllPeopleResults from "./lib/views/discovery/AllPeopleResults.svelte";
+  import AllActivityResults from "./lib/views/discovery/AllActivityResults.svelte";
 
   export let url = "";
 
@@ -115,9 +120,9 @@
       <ViewPosts userId={params.id} />
     </Route>
 
-    <Route path="achievements/:id" let:params>
+    <Route path="badges/:id" let:params>
       <Navbar active="user" />
-      <ViewAchievements userId={params.id} />
+      <ViewBadges userId={params.id} />
     </Route>
     <!-- End Profile User -->
 
@@ -139,7 +144,7 @@
 
     <Route path="activity/add-file/:id" let:params>
       <Navbar active="activity" />
-      <AddFile idCollection={params.id} />
+      <AddActivityFile idActivity={params.id} />
     </Route>
 
     <Route path="activity/edit/:id" let:params>
@@ -197,22 +202,39 @@
     </Route>
     <!-- end post -->
 
-    <!-- achievement -->
-    <Route path="achievements">
+    <!-- badge -->
+    <Route path="badges">
       <Navbar active="profile" />
-      <Achievements />
+      <Badges />
     </Route>
 
-    <Route path="/achievement/add">
+    <Route path="/badge/add">
       <Navbar active="profile" />
-      <AddAchievement />
+      <AddBadge />
     </Route>
 
-    <Route path="achievement/edit/:id" let:params>
-      <Navbar active="profile" />
-      <EditAchievement idAchievement={params.id} />
+    <Route path="badge/:id" let:params>
+      <Navbar active="badge" />
+      <ViewBadge idBadge={params.id} />
     </Route>
-    <!-- end achievement -->
+
+    <Route path="badge/edit/:id" let:params>
+      <Navbar active="profile" />
+      <EditBadge idBadge={params.id} />
+    </Route>
+    <!-- end badge -->
+
+    <!-- albums -->
+    <Route path="albums">
+      <Navbar active="profile" />
+      <Albums />
+    </Route>
+
+    <Route path="add-file">
+      <Navbar active="albums" />
+      <AddFile />
+    </Route>
+    <!-- end albums -->
 
     <!-- discovery -->
     <Route path="discovery">
@@ -228,6 +250,16 @@
     <Route path="/all/articles/:search" let:params>
       <Navbar active="discovery" />
       <AllArticleResults searchKeyword={params.search} />
+    </Route>
+
+    <Route path="/all/activities/:search" let:params>
+      <Navbar active="discovery" />
+      <AllActivityResults searchKeyword={params.search} />
+    </Route>
+
+    <Route path="/all/peoples/:search" let:params>
+      <Navbar active="discovery" />
+      <AllPeopleResults searchKeyword={params.search} />
     </Route>
     <!-- end discovery -->
   {/if}

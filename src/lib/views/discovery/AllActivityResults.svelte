@@ -1,16 +1,16 @@
 <script>
-  import ArticleCard from "../../components/ArticleCard.svelte";
+  import ActivityCard from "../../components/ActivityCard.svelte";
 
   export let searchKeyword;
-  let articles = [];
+  let activities = [];
   let userIdLocal = localStorage.getItem("userId");
 
-  if (searchKeyword) getArticles();
+  if (searchKeyword) getActivities();
 
-  // get all articles
-  async function getArticles() {
+  // get all activities
+  async function getActivities() {
     let response = await fetch(
-      `http://103.187.223.15:8800/api/articles/search/${searchKeyword}`
+      `http://103.187.223.15:8800/api/activities/search/${searchKeyword}`
     );
 
     if (!response.ok) {
@@ -20,11 +20,11 @@
     const data = await response.json();
     let temp = data;
     temp.forEach((element) => {
-      // filter private article
+      // filter private activity
       if (element.isPublic == false && element.userId != userIdLocal) {
       } else {
-        articles.push(element);
-        articles = articles;
+        activities.push(element);
+        activities = activities;
       }
     });
   }
@@ -33,9 +33,9 @@
 <div class="md:container md:mx-auto my-16">
   <div class="flex justify-center">
     <div class="w-1/2">
-      {#if articles.length > 0}
-        {#each articles as article}
-          <ArticleCard {article} />
+      {#if activities.length > 0}
+        {#each activities as activity}
+          <ActivityCard {activity} />
         {/each}
       {/if}
     </div>

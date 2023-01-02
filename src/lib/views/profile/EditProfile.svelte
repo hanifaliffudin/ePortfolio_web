@@ -11,11 +11,18 @@
     tglLahir,
     gender,
     academicField,
-    interest;
+    interest,
+    maxImage;
 
   // preview profile picture
   function loadFile(e) {
-    src = URL.createObjectURL(e.target.files[0]);
+    if (e.target.files[0].size <= 2 * 1024 * 1024) {
+      src = URL.createObjectURL(e.target.files[0]);
+      maxImage = false;
+    } else {
+      window.alert("Maximum image size is 2MB");
+      maxImage = true;
+    }
   }
 
   // get userId from localStorage
@@ -64,48 +71,58 @@
 
   // update data user
   async function update() {
-    let response;
-    if (files) {
-      var dataUpdate = new FormData();
-      dataUpdate.append("userId", userId);
-      dataUpdate.append("email", userData.email);
-      dataUpdate.append("username", name);
-      dataUpdate.append("profilePicture", files[0]);
-
-      response = await fetch("http://103.187.223.15:8800/api/users/" + userId, {
-        method: "PUT",
-        body: dataUpdate,
-      });
+    if (maxImage) {
+      window.alert("Maximum image size is 2MB");
     } else {
-      response = await fetch("http://103.187.223.15:8800/api/users/" + userId, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: userId,
-          username: name,
-          email: userData.email,
-          role: role,
-          nim: nim,
-          major: prodi,
-          city: kota,
-          dateBirth: tglLahir,
-          gender: gender,
-          interest: interest,
-          academicField,
-        }),
-      });
-    }
+      let response;
+      if (files) {
+        var dataUpdate = new FormData();
+        dataUpdate.append("userId", userId);
+        dataUpdate.append("email", userData.email);
+        dataUpdate.append("username", name);
+        dataUpdate.append("profilePicture", files[0]);
 
-    if (!response.ok) {
-      alert(response.statusText);
-      console.log(response.status);
-      console.log(response.statusText);
-    }
+        response = await fetch(
+          "http://103.187.223.15:8800/api/users/" + userId,
+          {
+            method: "PUT",
+            body: dataUpdate,
+          }
+        );
+      } else {
+        response = await fetch(
+          "http://103.187.223.15:8800/api/users/" + userId,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: userId,
+              username: name,
+              email: userData.email,
+              role: role,
+              nim: nim,
+              major: prodi,
+              city: kota,
+              dateBirth: tglLahir,
+              gender: gender,
+              interest: interest,
+              academicField,
+            }),
+          }
+        );
+      }
 
-    const data = await response.json();
-    document.location.href = "/profile";
+      if (!response.ok) {
+        window.alert(response.statusText);
+        console.log(response.status);
+        console.log(response.statusText);
+      }
+
+      const data = await response.json();
+      document.location.href = "/profile";
+    }
   }
 </script>
 
@@ -140,6 +157,9 @@
               type="file"
               accept=".jpg, .jpeg, .png"
             />
+            <div class="text-sm mt-2 text-red-500">
+              *Maximum image size is 2MB
+            </div>
           </div>
           <div class="sm:col-span-2">
             <label

@@ -1,16 +1,19 @@
 <script>
   import { navigate } from "svelte-routing";
-  import SvelteMarkdown from "svelte-markdown";
 
-  let source = ``;
-  let visibility,
-    files,
-    coverArticle,
+  const today = new Date().toLocaleDateString("en-CA");
+
+  let title,
+    issuer,
+    visibility,
+    desc,
+    url,
+    earnedDate,
     src,
-    tag,
-    tags = [],
-    title = "",
-    maxImage;
+    files,
+    maxImage,
+    imgBadge;
+
   let userId = localStorage.getItem("userId");
 
   // preview image
@@ -24,90 +27,57 @@
     }
   }
 
-  // create article
-  async function createArticle() {
-    if (maxImage) {
-      alert("Maximum image size is 2MB");
-    } else {
-      const response = await fetch("http://103.187.223.15:8800/api/articles/", {
+  // create a badge
+  async function addBadge() {
+    if (!maxImage) {
+      const response = await fetch("http://103.187.223.15:8800/api/badges/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId: userId,
-          coverArticle,
           title,
-          desc: source,
-          isPublic: visibility == "public" ? true : false,
-          tags: tags,
+          imgBadge,
+          issuer,
+          desc,
+          url,
+          earnedDate,
+          // isPublic: visibility == "public" ? true : false,
         }),
       });
 
       if (!response.ok) {
         alert(response.statusText);
       } else {
-        navigate("/articles");
+        navigate("/badges");
       }
       const data = await response.json();
+    } else {
+      alert("Maximum image size is 2MB");
     }
   }
-
-  const addTag = () => {
-    if (tag) {
-      if (tag.indexOf(" ") >= 0) {
-        alert("The tag can't contain spaces");
-      } else if (tags.indexOf(tag) !== -1) {
-        alert(tag + " sudah ada");
-      } else {
-        tags.push(tag);
-        tags = tags;
-        tag = "";
-      }
-    } else {
-      alert("You didn't type anything.");
-    }
-  };
-
-  // remove indexed value
-  const handleRemove = (index) => {
-    tags = [...tags.slice(0, index), ...tags.slice(index + 1, tags.length)];
-  };
 </script>
 
-<section class="flex">
+<section class="flex justify-center">
   <div class="py-8 px-4 w-1/2 lg:py-8">
     <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-      Add a new article
+      Add a new badge
     </h2>
     <form
       action="#"
-      on:submit|preventDefault={createArticle}
+      on:submit|preventDefault={addBadge}
       enctype="multipart/form-data"
     >
       <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
         <div class="sm:col-span-2">
           <label
-            for="title"
-            class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Title*</label
-          >
-          <input
-            bind:value={title}
-            required
-            type="text"
-            id="title"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>
-        <div class="sm:col-span-2">
-          <label
             for="cover-image"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Cover Image*</label
+            >Badge Image/Icon*</label
           >
           <input
-            bind:value={coverArticle}
+            bind:value={imgBadge}
             required
             type="text"
             id="title"
@@ -125,17 +95,75 @@
         </div>
         <div class="sm:col-span-2">
           <label
-            for="cover-image"
+            for="title"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Description*</label
+            >Title*</label
+          >
+          <input
+            bind:value={title}
+            required
+            type="text"
+            id="title"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>
+        <div class="sm:col-span-2">
+          <label
+            for="issuer"
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
+            >Issuing Organization*</label
+          >
+          <input
+            bind:value={issuer}
+            required
+            type="text"
+            id="issuer"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>
+        <div class="sm:col-span-2">
+          <label
+            for="url"
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
+            >URL</label
+          >
+          <input
+            bind:value={url}
+            type="text"
+            id="url"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>
+        <div class="w-full">
+          <label
+            for="startDate"
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
+            >Earned Date*</label
+          >
+          <input
+            bind:value={earnedDate}
+            type="date"
+            name="startDate"
+            id="startDate"
+            max={today}
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Your Major"
+            required
+          />
+        </div>
+        <div class="sm:col-span-2">
+          <label
+            for="description"
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
+          >
+            Description*</label
           >
           <textarea
-            bind:value={source}
+            bind:value={desc}
             required
             id="description"
-            rows="18"
+            rows="8"
             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            placeholder="Write your thoughts here..."
           />
         </div>
       </div>
@@ -148,57 +176,21 @@
           href="https://www.markdownguide.org/basic-syntax/">Markdown</a
         > is supported
       </div>
-      <div class="mt-4">
-        <label
-          for="tag"
-          class="block mb-2 font-medium text-gray-900 dark:text-white"
-          >Tags</label
-        >
-        <div class="flex">
-          <input
-            bind:value={tag}
-            type="text"
-            id="tag"
-            class="bg-gray-50 mr-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-          <button
-            type="button"
-            on:click={addTag}
-            class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-            >Add</button
-          >
-        </div>
-        <div class=" flex flex-wrap mt-4">
-          {#each tags as skill, i}
-            <div
-              class="inline-flex justify-between items-center text-gray-900 bg-white border border-gray-300 focus:outline-none  focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm py-2.5 mr-3 my-1.5"
-            >
-              <div class="ml-4 mr-2">{skill}</div>
-              <button
-                on:click={() => handleRemove(i)}
-                type="button"
-                class="items-center flex text-red-600 mr-3"
-              >
-                <iconify-icon icon="material-symbols:close-rounded" />
-              </button>
-            </div>
-          {/each}
-        </div>
-      </div>
       <div class="flex justify-between items-center mt-4 space-x-2">
-        <select
+        <div />
+        <!-- <select
           bind:value={visibility}
           id="visibility"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block md:w-1/4 w-full p-2.5"
         >
           <option selected value="public">Public</option>
           <option value="private">Private</option>
-        </select>
+        </select> -->
         <div class="flex justify-end items-center space-x-2">
           <button
             type="submit"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-            >Publish</button
+            >Add</button
           >
           <button
             type="button"
@@ -211,22 +203,21 @@
       </div>
     </form>
   </div>
-  <div class="py-8 px-4 w-1/2 lg:py-8">
+  <!-- <div class="py-8 px-4 w-1/2 lg:py-8">
     <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
       Preview
     </h2>
     <div
       class="prose prose-neutral p-4 border-2 border-gray-100 rounded h-auto overflow-auto"
     >
-      <h1 class="text-center mb-4">{title}</h1>
-      {#if coverArticle}
+      <SvelteMarkdown source={desc} />
+      {#if src}
         <img
-          class="w-full h-72 rounded-lg profile-picture mb-4 object-cover"
-          src={coverArticle}
+          class="w-full h-auto rounded-lg profile-picture mb-4 object-cover"
+          {src}
           alt="Default avatar"
         />
       {/if}
-      <SvelteMarkdown {source} />
     </div>
-  </div>
+  </div> -->
 </section>

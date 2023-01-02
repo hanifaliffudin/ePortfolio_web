@@ -30,6 +30,21 @@
     }
     const data = await response.json();
   }
+
+  function checkDiff() {
+    if (!startDate) {
+      alert("Please select start date first");
+      endDate = null;
+    } else {
+      var t2 = new Date(endDate).getTime();
+      var t1 = new Date(startDate).getTime();
+
+      if (Math.floor((t2 - t1) / (24 * 3600 * 1000)) < 0) {
+        alert("Please select start date first");
+        endDate = null;
+      }
+    }
+  }
 </script>
 
 <main class="md:mx-72">
@@ -89,9 +104,10 @@
           <label
             for="startDate"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Start Date</label
+            >Start Date*</label
           >
           <input
+            required
             bind:value={startDate}
             type="date"
             name="startDate"
@@ -105,10 +121,13 @@
             <label
               for="endDate"
               class="block mb-2 font-medium text-gray-900 dark:text-white"
-              >End Date</label
+              >End Date*</label
             >
             <input
+              required
+              on:change={checkDiff}
               bind:value={endDate}
+              min={startDate}
               type="date"
               name="endDate"
               id="endDate"
@@ -122,9 +141,10 @@
           <label
             for="description"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Description</label
+            >Description*</label
           >
           <textarea
+            required
             bind:value={desc}
             id="description"
             rows="8"

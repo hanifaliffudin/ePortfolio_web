@@ -2,7 +2,6 @@
   import SvelteMarkdown from "svelte-markdown";
   import CommentCard from "./CommentCard.svelte";
   import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
-  import { navigate } from "svelte-routing";
 
   export let achievement;
 

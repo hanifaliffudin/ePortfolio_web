@@ -52,7 +52,7 @@
     >
       <img
         class="object-cover h-72 w-full rounded"
-        src="http://103.187.223.15:8800/{article.coverArticle}"
+        src={article.coverArticle}
         alt=""
       />
       <div class="font-bold">
