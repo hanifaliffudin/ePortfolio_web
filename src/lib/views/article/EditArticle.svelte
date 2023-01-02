@@ -6,68 +6,56 @@
   let source = ``;
   let visibility,
     files,
+    coverArticle,
     src,
     title,
     articleData,
     tag,
-    tags = [];
+    tags = [],
+    maxImage;
 
   let userId = localStorage.getItem("userId");
 
   // preview image
   function loadFile(e) {
-    src = URL.createObjectURL(e.target.files[0]);
+    if (e.target.files[0].size <= 2 * 1024 * 1024) {
+      src = URL.createObjectURL(e.target.files[0]);
+      maxImage = false;
+    } else {
+      alert("Maximum image size is 2MB");
+      maxImage = true;
+    }
   }
 
   // update data article
   async function update() {
     let response;
-    if (files) {
-      var dataUpdate = new FormData();
-      let dataArticle = {
-        userId: userId,
-        title,
-        desc: source,
-        tags,
-        isPublic: visibility == "public" ? true : false,
-      };
-      dataUpdate.append("coverArticle", files[0]);
-      dataUpdate.append("data", JSON.stringify(dataArticle));
 
-      response = await fetch(
-        "http://103.187.223.15:8800/api/articles/" + idArticle,
-        {
-          method: "PUT",
-          body: dataUpdate,
-        }
-      );
-    } else {
-      response = await fetch(
-        "http://103.187.223.15:8800/api/articles/" + idArticle,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: userId,
-            title,
-            desc: source,
-            tags,
-            isPublic: visibility == "public" ? true : false,
-          }),
-        }
-      );
-    }
+    response = await fetch(
+      "http://103.187.223.15:8800/api/articles/" + idArticle,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userId,
+          title,
+          desc: source,
+          tags,
+          isPublic: visibility == "public" ? true : false,
+        }),
+      }
+    );
 
     if (!response.ok) {
-      //   alert(response.statusText);
+      window.alert(response.statusText);
       console.log(response.status);
       console.log(response.statusText);
     }
 
     const data = await response.json();
-    navigate("/articles");
+    navigate("/article/" + idArticle);
   }
 
   // get data article
@@ -84,7 +72,7 @@
     source = articleData.desc;
     title = articleData.title;
     tags = articleData.tags;
-    src = "http://103.187.223.15:8800/" + articleData.coverArticle;
+    coverArticle = articleData.coverArticle;
     articleData.isPublic ? (visibility = "public") : (visibility = "private");
   }
 
@@ -137,19 +125,28 @@
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
-          <div>
+          <div class="sm:col-span-2">
             <label
               for="cover-image"
               class="block mb-2 font-medium text-gray-900 dark:text-white"
               >Cover Image</label
             >
-
             <input
-              bind:files
-              on:change={loadFile}
-              type="file"
-              accept=".jpg, .jpeg, .png"
+              bind:value={coverArticle}
+              required
+              type="text"
+              id="title"
+              placeholder="Ex: https://www.url.com/path/filename.png"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
+            <div class="text-sm mt-2">
+              * You can insert image address from <a
+                class="text-blue-600"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="/albums">Albums</a
+              >
+            </div>
           </div>
           <div class="sm:col-span-2">
             <textarea
@@ -241,10 +238,10 @@
         class="prose prose-neutral p-4 border-2 border-gray-100 rounded h-auto overflow-auto"
       >
         <h1 class="text-center mb-4">{title}</h1>
-        {#if src}
+        {#if coverArticle}
           <img
             class="w-full h-72 rounded-lg profile-picture mb-4 object-cover"
-            {src}
+            src={coverArticle}
             alt="Default avatar"
           />
         {/if}

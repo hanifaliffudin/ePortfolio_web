@@ -1,6 +1,6 @@
 <div>
   <a
-    href="profile"
+    href="/profile"
     class="block text-center p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100"
   >
     <div class="flex justify-center">

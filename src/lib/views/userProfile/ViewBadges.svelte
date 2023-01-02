@@ -2,9 +2,9 @@
   import ProfileBar from "../../components/ProfileBar.svelte";
   import { writable } from "svelte/store";
   import { onMount } from "svelte";
-  import AchievementCard from "../../components/AchievementCard.svelte";
+  import BadgeCard from "../../components/BadgeCard.svelte";
 
-  const achievementstore = writable(null);
+  const badgestore = writable(null);
 
   export let userId;
 
@@ -12,16 +12,16 @@
 
   let all = [];
 
-  // get all user achievements
-  async function getActivitiy() {
+  // get all user badges
+  async function getBadges() {
     let response = await fetch(
-      "http://103.187.223.15:8800/api/achievements/all/" + userId
+      "http://103.187.223.15:8800/api/badges/all/" + userId
     );
     return response.ok ? await response.json() : null;
   }
 
   onMount(async () => {
-    let activitiy = await getActivitiy();
+    let activitiy = await getBadges();
     if (activitiy) {
       activitiy.forEach((element) => {
         // filter private activitiy
@@ -36,7 +36,7 @@
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
       });
-      achievementstore.update((data) => all);
+      badgestore.update((data) => all);
     }
   });
 </script>
@@ -83,21 +83,22 @@
               </li>
               <li class="mr-2">
                 <a
-                  href="/achievements/{userId}"
+                  href="/badges/{userId}"
                   class="border-blue-600 text-blue-600 inline-block p-4 rounded-t-lg border-b-2 "
-                  >Achievements</a
+                  >Badges</a
                 >
               </li>
             </ul>
           </div>
 
           <!-- tabs content -->
-
-          {#if $achievementstore}
-            {#each $achievementstore as $achievement}
-              <AchievementCard achievement={$achievement} />
-            {/each}
-          {/if}
+          <div class="grid grid-cols-3 gap-2">
+            {#if $badgestore}
+              {#each $badgestore as $badge}
+                <BadgeCard badge={$badge} />
+              {/each}
+            {/if}
+          </div>
         </div>
       </div>
     </div>

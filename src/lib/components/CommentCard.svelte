@@ -10,7 +10,7 @@
     profilePicture,
     postData,
     articleData,
-    achievementData,
+    badgeData,
     comments = [],
     cardComment;
 
@@ -68,18 +68,18 @@
     }
   }
 
-  // get data achievement
-  async function getAchievement() {
+  // get data badge
+  async function getBadge() {
     const response = await fetch(
-      "http://103.187.223.15:8800/api/achievements/" + comment.idAchievement
+      "http://103.187.223.15:8800/api/badges/" + comment.idBadge
     );
 
     if (!response.ok) {
       alert(response.statusText);
     }
     const data = await response.json();
-    achievementData = data;
-    comments = achievementData.comments;
+    badgeData = data;
+    comments = badgeData.comments;
   }
 
   if (comment.userId == userId) {
@@ -87,8 +87,8 @@
       getPost();
     } else if (comment.type == "article") {
       getArticle();
-    } else if (comment.type == "achievement") {
-      getAchievement();
+    } else if (comment.type == "badge") {
+      getBadge();
     }
   }
 
@@ -166,7 +166,7 @@
       } else {
         cardComment.classList.add("hidden");
       }
-    } else if (comment.type == "achievement") {
+    } else if (comment.type == "badge") {
     }
   }
 </script>

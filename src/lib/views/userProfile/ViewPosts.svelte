@@ -82,9 +82,9 @@
               </li>
               <li class="mr-2">
                 <a
-                  href="/achievements/{userId}"
+                  href="/badges/{userId}"
                   class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
-                  >Achievements</a
+                  >Badges</a
                 >
               </li>
             </ul>

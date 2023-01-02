@@ -1,14 +1,16 @@
 <script>
-  import { start } from "@popperjs/core";
   import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
+  import { writable } from "svelte/store";
 
+  const filesStore = writable(null);
   export let activity;
 
   let userId = localStorage.getItem("userId");
 
-  let userIdActivity, desc, date, title, type, startDate, endDate;
+  let userIdActivity, desc, date, title, type, startDate, endDate, filesData;
 
   if (activity) {
+    getFiles();
     title = activity.title;
     desc = activity.desc;
     type = activity.type;
@@ -25,8 +27,38 @@
     }
   }
 
-  // delete achievement
+  // get files
+  async function getFiles() {
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/activities/files/" + activity._id
+    );
+
+    if (!response.ok) {
+      alert(response.statusText);
+    }
+    const data = await response.json();
+    filesData = data;
+    if (filesData) {
+      filesStore.update((data) => filesData);
+    }
+  }
+
+  // delete activity
   async function deleteActivity() {
+    if (filesData.length > 0) {
+      filesData.forEach(async (file) => {
+        const response = await fetch(
+          "http://103.187.223.15:8800/api/albums/" + file._id,
+          {
+            method: "DELETE",
+            headers: { "Content-type": "application/json; charset=UTF-8" },
+            body: JSON.stringify({
+              userId: userId,
+            }),
+          }
+        );
+      });
+    }
     const response = await fetch(
       "http://103.187.223.15:8800/api/activities/" + activity._id,
       {
@@ -39,7 +71,7 @@
     );
 
     if (!response.ok) {
-      alert("You can only delete your achievement");
+      alert("You can only delete your activity");
     } else {
       document.location.href = "/activities";
     }
@@ -70,18 +102,18 @@
               </div>
             {/if}
           </div>
-          <div class="font-light text-sm">
+          <div class="text-sm">
             {type == "academic" ? "Academic" : "Non Academic"}
           </div>
           {#if endDate}
-            <div class="font-light text-sm">
+            <div class="text-sm">
               {startDate.toLocaleDateString("id")} - {endDate.toLocaleDateString(
                 "id"
               )}
             </div>
           {:else}
-            <div class="font-light text-sm">
-              {startDate.toLocaleDateString("id")}
+            <div class="text-sm">
+              {startDate.toLocaleDateString("id")} - Present
             </div>
           {/if}
         </div>
@@ -89,7 +121,7 @@
 
       <div class="flex-auto" />
       {#if userId == userIdActivity}
-        <Button btnClass="p-0 h-3"
+        <Button btnClass="p-0 h-3 mr-3"
           ><iconify-icon icon="fluent:more-horizontal-32-filled" /></Button
         >
         <Dropdown class="w-auto">

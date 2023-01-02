@@ -22,12 +22,12 @@
     twitter,
     facebook,
     github,
-    lastPost,
+    lastActivity,
     academicField,
     skills = [],
     blocks = [],
-    dateLastPost,
-    descLastPost;
+    dateLastActivity,
+    descLastActivity;
 
   // get data user
   async function getUser() {
@@ -79,9 +79,9 @@
   getUser();
 
   // get last post
-  async function getLastPost() {
+  async function getLastActivity() {
     const response = await fetch(
-      "http://103.187.223.15:8800/api/posts/last/" + userId,
+      "http://103.187.223.15:8800/api/activities/last/" + userId,
       {
         method: "GET",
       }
@@ -92,14 +92,17 @@
     }
 
     const data = await response.json();
-    lastPost = data;
-    if (lastPost) {
-      dateLastPost = new Date(lastPost.createdAt);
-      descLastPost = lastPost.desc;
+    lastActivity = data;
+    if (lastActivity) {
+      if (lastActivity.endDate) {
+        dateLastActivity = new Date(lastActivity.endDate);
+      } else {
+        dateLastActivity = new Date(lastActivity.startDate);
+      }
     }
   }
 
-  getLastPost();
+  getLastActivity();
 </script>
 
 {#if userData}
@@ -145,9 +148,9 @@
                 </li>
                 <li class="mr-2">
                   <a
-                    href="/achievements/{userId}"
+                    href="/badges/{userId}"
                     class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
-                    >Achievements</a
+                    >Badges</a
                   >
                 </li>
               </ul>
@@ -194,29 +197,35 @@
                   <h2 class="font-bold text-xl">Newest Activity</h2>
                 </div>
                 <div class="bg-white p-3 rounded-md">
-                  {#if lastPost}
-                    <div class="font-light text-xs mb-3">
-                      {dateLastPost
-                        ? dateLastPost.toLocaleDateString("en", {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric",
-                          })
-                        : ""}
-                    </div>
-                    <div>
-                      <SvelteMarkdown source={descLastPost} />
-                    </div>
+                  {#if lastActivity && lastActivity.endDate}
+                    <a href="/activity/{lastActivity._id}">
+                      <div class="font-light text-xs mb-3">
+                        {dateLastActivity
+                          ? dateLastActivity.toLocaleDateString("en", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })
+                          : ""}
+                      </div>
+                      <div
+                        class="font-bold text-blue-600 text-xl hover:underline leading-tight"
+                      >
+                        {lastActivity.title}
+                      </div>
+                    </a>
                   {:else}
-                    <div class="font-bold">You haven't posted lately</div>
+                    <div class="font-bold">
+                      {name} doesn't have any completed activities yet
+                    </div>
                     <div class="text-sm">
-                      Recent posts you share will be displayed here
+                      Recent completed activity {name} share will be displayed here
                     </div>
                   {/if}
                 </div>
                 <div class="flex justify-center mt-2">
                   <a
-                    href="/posts/{userId}"
+                    href="/activities/{userId}"
                     class="inline-flex items-center font-medium text-gray-600 hover:underline"
                   >
                     Show All Activities

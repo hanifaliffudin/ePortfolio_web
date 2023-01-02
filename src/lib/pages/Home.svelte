@@ -4,7 +4,6 @@
   import { navigate } from "svelte-routing";
   import ArticleCard from "../components/ArticleCard.svelte";
   import ActivityCard from "../components/ActivityCard.svelte";
-  import AchievementCard from "../components/AchievementCard.svelte";
 
   let all = [];
   let userId = localStorage.getItem("userId");
@@ -78,28 +77,10 @@
     return response.ok ? await response.json() : null;
   }
 
-  // get all activities
-  async function getActivities() {
-    let response = await fetch(
-      "http://103.187.223.15:8800/api/activities/timeline/all"
-    );
-    return response.ok ? await response.json() : null;
-  }
-
-  // get all achievements
-  async function getAchievements() {
-    let response = await fetch(
-      "http://103.187.223.15:8800/api/achievements/timeline/all"
-    );
-    return response.ok ? await response.json() : null;
-  }
-
   onMount(async () => {
     checkUserAuth();
     let post = await getPosts();
     let articles = await getArticles();
-    let activities = await getActivities();
-    let achievements = await getAchievements();
     post.forEach((element) => {
       // filter private post
       if (element.isPublic == false && element.userId != userId) {
@@ -108,22 +89,7 @@
         all = all;
       }
     });
-    activities.forEach((element) => {
-      // filter private activities
-      if (element.isPublic == false && element.userId != userId) {
-      } else {
-        all.push(element);
-        all = all;
-      }
-    });
-    achievements.forEach((element) => {
-      // filter private achievements
-      if (element.isPublic == false && element.userId != userId) {
-      } else {
-        all.push(element);
-        all = all;
-      }
-    });
+
     articles.forEach((element) => {
       // filter private article
       if (element.isPublic == false && element.userId != userId) {
@@ -175,7 +141,7 @@
           >
             What's going on?
           </a>
-          <div class="flex mt-4 justify-between">
+          <!-- <div class="flex mt-4 justify-between">
             <div class="flex">
               <button type="button" class="mr-4">
                 <iconify-icon icon="bi:image" style="font-size: 24px" />
@@ -184,7 +150,7 @@
                 <iconify-icon icon="bxs:video-plus" style="font-size: 24px" />
               </button>
             </div>
-          </div>
+          </div> -->
         </div>
 
         {#if all}
@@ -193,8 +159,8 @@
               <ActivityCard activity={element} />
             {:else if element.title && !element.startDate}
               <ArticleCard article={element} />
-            {:else if element.imgAchievement}
-              <AchievementCard achievement={element} />
+            {:else if element.imgBadge}
+              <!-- <BadgeCard badge={element} /> -->
             {:else}
               <PostCard post={element} />
             {/if}

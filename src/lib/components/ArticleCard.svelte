@@ -1,12 +1,15 @@
 <script>
+  import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
+
   export let article;
 
-  let userId = article.userId;
+  let userId = localStorage.getItem("userId");
 
-  let userData, name, date;
+  let userData, name, date, userIdArticle;
   const today = new Date();
 
   if (article) {
+    userIdArticle = article.userId;
     if (article.createdAt != article.updatedAt) {
       date = new Date(article.createdAt);
     } else {
@@ -17,7 +20,7 @@
   // get data user
   async function getUser() {
     const response = await fetch(
-      "http://103.187.223.15:8800/api/users/" + userId
+      "http://103.187.223.15:8800/api/users/" + userIdArticle
     );
 
     if (!response.ok) {
@@ -32,6 +35,28 @@
   }
 
   getUser();
+
+  // delete article
+  async function deleteArticle() {
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/articles/" + article._id,
+      {
+        method: "DELETE",
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+        body: JSON.stringify({
+          userId: userId,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      alert("You can only delete your article");
+    } else {
+      window.location.reload();
+    }
+
+    // const data = await response.json();
+  }
 </script>
 
 {#if userData}
@@ -45,6 +70,18 @@
           Private
         </div>
       {/if}
+      <div class="flex-auto" />
+      {#if userId == userIdArticle}
+        <Button btnClass="p-0 h-3"
+          ><iconify-icon icon="fluent:more-horizontal-32-filled" /></Button
+        >
+        <Dropdown class="w-auto">
+          <DropdownItem
+            ><a href="/article/edit/{article._id}">Edit</a></DropdownItem
+          >
+          <DropdownItem on:click={deleteArticle}>Delete</DropdownItem>
+        </Dropdown>
+      {/if}
     </div>
     <a
       href="/article/{article._id}"
@@ -52,7 +89,7 @@
     >
       <img
         class="object-cover h-72 w-full rounded"
-        src="http://103.187.223.15:8800/{article.coverArticle}"
+        src={article.coverArticle}
         alt=""
       />
       <div class="font-bold">

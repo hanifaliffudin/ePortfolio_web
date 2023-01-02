@@ -8,7 +8,7 @@
   <ul class="flex flex-wrap -mb-px">
     <li class="mr-2">
       <a
-        href="profile"
+        href="/profile"
         class="{active == 'aboutme'
           ? 'border-blue-600 text-blue-600'
           : 'border-transparent hover:text-gray-600 hover:border-gray-300'} inline-block p-4 rounded-t-lg border-b-2 "
@@ -17,7 +17,7 @@
     </li>
     <li class="mr-2">
       <a
-        href="posts"
+        href="/posts"
         class="{active == 'posts'
           ? 'border-blue-600 text-blue-600'
           : 'border-transparent hover:text-gray-600 hover:border-gray-300'} inline-block p-4 rounded-t-lg border-b-2"
@@ -26,7 +26,7 @@
     </li>
     <li class="mr-2">
       <a
-        href="articles"
+        href="/articles"
         class="{active == 'articles'
           ? 'border-blue-600 text-blue-600'
           : 'border-transparent hover:text-gray-600 hover:border-gray-300'} inline-block p-4 rounded-t-lg border-b-2 "
@@ -35,7 +35,7 @@
     </li>
     <li class="mr-2">
       <a
-        href="activities"
+        href="/activities"
         class="{active == 'activities'
           ? 'border-blue-600 text-blue-600'
           : 'border-transparent hover:text-gray-600 hover:border-gray-300'} inline-block p-4 rounded-t-lg border-b-2"
@@ -44,11 +44,20 @@
     </li>
     <li class="mr-2">
       <a
-        href="achievements"
-        class="{active == 'achievements'
+        href="/badges"
+        class="{active == 'badges'
           ? 'border-blue-600 text-blue-600'
           : 'border-transparent hover:text-gray-600 hover:border-gray-300'} inline-block p-4 rounded-t-lg border-b-2"
-        >Achievements</a
+        >Badges</a
+      >
+    </li>
+    <li class="mr-2">
+      <a
+        href="/albums"
+        class="{active == 'albums'
+          ? 'border-blue-600 text-blue-600'
+          : 'border-transparent hover:text-gray-600 hover:border-gray-300'} inline-block p-4 rounded-t-lg border-b-2"
+        >Albums</a
       >
     </li>
   </ul>

@@ -38,7 +38,7 @@
     );
 
     if (!response.ok) {
-      //   alert(response.statusText);
+      window.alert(response.statusText);
       console.log(response.status);
       console.log(response.statusText);
     }
@@ -69,6 +69,22 @@
   }
 
   getActivity();
+
+  function checkDiff() {
+    console.log(startDate);
+    if (!startDate) {
+      alert("Please select start date first");
+      endDate = null;
+    } else {
+      var t2 = new Date(endDate).getTime();
+      var t1 = new Date(startDate).getTime();
+
+      if (Math.floor((t2 - t1) / (24 * 3600 * 1000)) < 0) {
+        alert("Please select start date first");
+        endDate = null;
+      }
+    }
+  }
 </script>
 
 <main class="md:mx-72">
@@ -128,9 +144,10 @@
           <label
             for="startDate"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Start Date</label
+            >Start Date*</label
           >
           <input
+            required
             bind:value={startDate}
             type="date"
             name="startDate"
@@ -144,10 +161,13 @@
             <label
               for="endDate"
               class="block mb-2 font-medium text-gray-900 dark:text-white"
-              >End Date</label
+              >End Date*</label
             >
             <input
+              required
+              on:change={checkDiff}
               bind:value={endDate}
+              min={startDate}
               type="date"
               name="endDate"
               id="endDate"
@@ -160,9 +180,10 @@
           <label
             for="description"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Description</label
+            >Description*</label
           >
           <textarea
+            required
             bind:value={desc}
             id="description"
             rows="8"
@@ -193,7 +214,7 @@
             type="submit"
             class="text-white mr-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Save
+            Update
           </button>
           <button
             type="button"
