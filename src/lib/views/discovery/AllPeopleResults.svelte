@@ -27,7 +27,7 @@
     <div class="w-1/2">
       {#if usersId.length > 0}
         <div class="rounded-lg bg-gray-100">
-          <h2 class="text-3xl font-bold px-6 pt-6">People</h2>
+          <div class="pt-1" />
           {#each usersId as userId, i}
             {#if userIdLocal != userId}
               <PeopleCardDiscovery {userId} />

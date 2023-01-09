@@ -1,17 +1,12 @@
 <script>
   import { navigate } from "svelte-routing";
+  import mermaid from "mermaid";
 
   export let idPost;
 
-  let postData, date, time;
-  let desc, visibility;
+  let postData;
+  let desc, visibility, mermaidInput, mermaidOutput;
   let userId = localStorage.getItem("userId");
-
-  const today = new Date().toLocaleDateString("en", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
 
   // get data post
   async function getPost() {
@@ -25,6 +20,9 @@
     const data = await response.json();
     postData = data;
     desc = postData.desc;
+    if (postData.mermaidDiagram) {
+      mermaidInput = postData.mermaidDiagram;
+    }
     postData.isPublic ? (visibility = "public") : (visibility = "private");
   }
 
@@ -42,6 +40,7 @@
         body: JSON.stringify({
           userId: userId,
           desc,
+          mermaidDiagram: mermaidInput,
           isPublic: visibility == "public" ? true : false,
         }),
       }
@@ -73,6 +72,37 @@
               class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               placeholder="Write your thoughts here..."
             />
+            <div class="mt-1 text-sm">
+              *
+              <a
+                class="text-blue-600"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.markdownguide.org/basic-syntax/">Markdown</a
+              > is supported
+            </div>
+          </div>
+          <div class="sm:col-span-2">
+            <label
+              for="diagram"
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
+              >Diagram</label
+            >
+            <textarea
+              bind:value={mermaidInput}
+              id="diagram"
+              rows="8"
+              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            />
+            <div class="mt-1 text-sm">
+              * Use
+              <a
+                class="text-blue-600"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://mermaid.js.org/syntax/flowchart.html">Mermaid</a
+              > to create a diagram
+            </div>
           </div>
         </div>
         <div class="flex justify-between items-center mt-4 space-x-2">

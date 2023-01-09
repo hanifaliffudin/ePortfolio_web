@@ -62,10 +62,12 @@
 {#if userData}
   <div class="md:container md:mx-auto bg-gray-100 p-6 rounded-lg mb-8">
     <div class="mb-4 flex">
-      <div class=""><span class="font-bold">{name}</span> posted this</div>
+      <div class="line-clamp-1">
+        <span class="font-bold">{name}</span> posted this
+      </div>
       {#if !article.isPublic}
         <div
-          class="ml-3 ring-1 ring-gray-400 my-1 text-xs font-semibold text-gray-600 items-center inline-flex rounded-full px-2"
+          class="mx-3 ring-1 ring-gray-400 my-1 text-xs font-semibold text-gray-600 items-center inline-flex rounded-full px-2"
         >
           Private
         </div>
@@ -88,7 +90,7 @@
       class="prose prose-neutral hover:underline"
     >
       <img
-        class="object-cover h-72 w-full rounded"
+        class="object-cover h-80 w-full rounded"
         src={article.coverArticle}
         alt=""
       />

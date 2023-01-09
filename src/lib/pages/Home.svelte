@@ -8,7 +8,7 @@
   let all = [];
   let userId = localStorage.getItem("userId");
 
-  let userData, name, profilePicture, nim, prodi, interest, role, academicField;
+  let userData, name, profilePicture, nim, major, interest, role, academicField;
 
   // get jwt from localstorage
   let jwt = localStorage.getItem("jwt");
@@ -50,7 +50,7 @@
     userData = data;
     name = userData.username;
     nim = userData.nim;
-    prodi = userData.major;
+    major = userData.major;
     interest = userData.interest;
     role = userData.role;
     academicField = userData.academicField;
@@ -122,8 +122,8 @@
             <p class="font-bold text-xl">{name}</p>
           </a>
           {#if role == "mahasiswa"}
-            <p class="font-light text-sm">{nim ? nim : ""}</p>
-            <p class="text-xl my-2">{prodi ? prodi : ""}</p>
+            <p class="font-light text-sm truncate">{nim ? nim : ""}</p>
+            <p class="text-xl my-2">{major ? major : ""}</p>
             <p>{interest ? interest : ""}</p>
           {:else}
             <p>{academicField ? academicField : ""}</p>

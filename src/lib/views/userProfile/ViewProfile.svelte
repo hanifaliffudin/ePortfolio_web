@@ -10,9 +10,10 @@
     role,
     profilePicture,
     nim,
-    prodi,
-    kota,
-    tglLahir,
+    major,
+    organization,
+    city,
+    dateBirth,
     gender,
     interest,
     about,
@@ -45,8 +46,9 @@
     name = userData.username;
     role = userData.role;
     nim = userData.nim;
-    prodi = userData.major;
-    kota = userData.city;
+    major = userData.major;
+    organization = userData.organization;
+    city = userData.city;
     about = userData.about;
     socmed = userData.socialMedia;
     ig = socmed.instagram;
@@ -61,13 +63,13 @@
     userData.gender ? (gender = userData.gender) : (gender = "male");
     interest = userData.interest;
     if (userData.dateBirth) {
-      tglLahir = new Date(userData.dateBirth).toLocaleDateString("en", {
+      dateBirth = new Date(userData.dateBirth).toLocaleDateString("en", {
         day: "numeric",
         month: "long",
         year: "numeric",
       });
     } else {
-      tglLahir = null;
+      dateBirth = null;
     }
     if (userData.profilePicture) {
       profilePicture = "http://103.187.223.15:8800/" + userData.profilePicture;
@@ -166,15 +168,16 @@
                   <b>Name</b>: {name} <br />
                   {#if role == "mahasiswa"}
                     <b>Student ID</b>: {nim ? nim : ""}<br />
-                    <b>Major</b>: {prodi ? prodi : ""}<br />
+                    <b>Major</b>: {major ? major : ""}<br />
                   {:else}
-                    <div class="truncate">
+                    <div class="">
                       <b>Academic Field</b>:
                       <span>{academicField ? academicField : ""}</span>
                     </div>
                   {/if}
-                  <b>City</b>: {kota} <br />
-                  <b>Date Of Birth</b>: {tglLahir ? tglLahir : ""}<br />
+                  <b>Organization</b>: {organization ? organization : ""} <br />
+                  <b>City</b>: {city} <br />
+                  <b>Date Of Birth</b>: {dateBirth ? dateBirth : ""}<br />
                   <b>Gender</b>: <span class="capitalize">{gender}</span><br />
                   <b>Role</b>:
                   <span class="capitalize">{role ? role : ""}</span>

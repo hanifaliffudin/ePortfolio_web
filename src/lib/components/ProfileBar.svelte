@@ -5,7 +5,7 @@
   export let userId;
   let userIdLocal = localStorage.getItem("userId");
 
-  let userData, name, profilePicture, nim, prodi, interest, role, academicField;
+  let userData, name, profilePicture, nim, major, interest, role, academicField;
 
   // get data user
   async function getUser() {
@@ -22,7 +22,7 @@
     userData = data;
     name = userData.username;
     nim = userData.nim;
-    prodi = userData.major;
+    major = userData.major;
     interest = userData.interest;
     role = userData.role;
     academicField = userData.academicField;
@@ -57,8 +57,8 @@
     {/if}
     <p class="font-bold text-2xl">{name}</p>
     {#if role == "mahasiswa"}
-      <p class="font-light text-sm">{nim ? nim : ""}</p>
-      <p class="text-xl my-2">{prodi ? prodi : ""}</p>
+      <p class="font-light text-sm truncate">{nim ? nim : ""}</p>
+      <p class="text-xl my-2">{major ? major : ""}</p>
       <p>{interest ? interest : ""}</p>
     {:else}
       <p>{academicField ? academicField : ""}</p>

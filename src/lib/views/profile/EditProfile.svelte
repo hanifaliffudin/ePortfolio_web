@@ -6,9 +6,10 @@
     name,
     role,
     nim,
-    prodi,
-    kota,
-    tglLahir,
+    major,
+    organization,
+    city,
+    dateBirth,
     gender,
     academicField,
     interest,
@@ -47,13 +48,14 @@
     name = userData.username;
     role = userData.role;
     nim = userData.nim;
-    prodi = userData.major;
-    kota = userData.city;
+    major = userData.major;
+    organization = userData.organization;
+    city = userData.city;
     academicField = userData.academicField;
     if (userData.dateBirth) {
-      tglLahir = new Date(userData.dateBirth).toLocaleDateString("en-CA");
+      dateBirth = new Date(userData.dateBirth).toLocaleDateString("en-CA");
     } else {
-      tglLahir = null;
+      dateBirth = null;
       alert.classList.remove("hidden");
     }
 
@@ -80,6 +82,15 @@
         dataUpdate.append("userId", userId);
         dataUpdate.append("email", userData.email);
         dataUpdate.append("username", name);
+        dataUpdate.append("role", role);
+        dataUpdate.append("nim", nim);
+        dataUpdate.append("major", major);
+        dataUpdate.append("organization", organization);
+        dataUpdate.append("city", city);
+        dataUpdate.append("dateBirth", dateBirth);
+        dataUpdate.append("gender", gender);
+        dataUpdate.append("interest", interest);
+        dataUpdate.append("academicField", academicField);
         dataUpdate.append("profilePicture", files[0]);
 
         response = await fetch(
@@ -99,13 +110,14 @@
             },
             body: JSON.stringify({
               userId: userId,
-              username: name,
               email: userData.email,
+              username: name,
               role: role,
               nim: nim,
-              major: prodi,
-              city: kota,
-              dateBirth: tglLahir,
+              major: major,
+              organization,
+              city: city,
+              dateBirth: dateBirth,
               gender: gender,
               interest: interest,
               academicField,
@@ -147,7 +159,7 @@
         <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
           <div>
             <img
-              class="w-36 h-36 rounded-full profile-picture mb-4 object-cover ring-2 ring-gray-200 p-1"
+              class="w-36 h-36 rounded-full mb-4 object-cover ring-2 ring-gray-200 p-1"
               {src}
               alt="Default avatar"
             />
@@ -196,22 +208,36 @@
             </div>
             <div class="w-full">
               <label
-                for="prodi"
+                for="major"
                 class="block mb-2 font-medium text-gray-900 dark:text-white"
                 >Major*</label
               >
               <input
-                bind:value={prodi}
+                bind:value={major}
                 type="text"
-                name="prodi"
-                id="prodi"
+                name="major"
+                id="major"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Your Major"
                 required
               />
             </div>
           {/if}
-
+          <div class="w-full">
+            <label
+              for="organization"
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
+              >Organization*</label
+            >
+            <input
+              bind:value={organization}
+              type="text"
+              name="organization"
+              id="organization"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required
+            />
+          </div>
           <div class="w-full">
             <label
               for="city"
@@ -219,7 +245,7 @@
               >City</label
             >
             <input
-              bind:value={kota}
+              bind:value={city}
               type="text"
               name="city"
               id="city"
@@ -229,15 +255,15 @@
           </div>
           <div class="w-full">
             <label
-              for="tglLahir"
+              for="dateBirth"
               class="block mb-2 font-medium text-gray-900 dark:text-white"
               >Date of birth</label
             >
             <input
-              bind:value={tglLahir}
+              bind:value={dateBirth}
               type="date"
-              name="tglLahir"
-              id="tglLahir"
+              name="dateBirth"
+              id="dateBirth"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Your Major"
             />
@@ -313,7 +339,7 @@
           >
             Update
           </button>
-          {#if tglLahir}
+          {#if dateBirth}
             <button
               type="button"
               on:click={() => history.back()}

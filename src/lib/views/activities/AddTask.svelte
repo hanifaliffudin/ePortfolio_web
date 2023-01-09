@@ -1,74 +1,105 @@
 <script>
-  import { navigate } from "svelte-routing";
+  export let idActivity;
+
+  const today = new Date().toLocaleDateString("en-CA");
 
   let userId = localStorage.getItem("userId");
 
-  let image,
-    desc,
-    visibility,
-    startDate,
-    endDate,
+  let desc,
+    date,
     title,
-    type,
-    ongoing,
+    image,
+    activityData,
+    startDateActivity,
+    endDateActivity,
+    tasks = [],
     mermaidInput;
 
-  // create a post
-  async function addActivity() {
-    const response = await fetch("http://103.187.223.15:8800/api/activities/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId,
-        image,
-        title,
-        type,
-        startDate,
-        endDate,
-        desc,
-        mermaidDiagram: mermaidInput,
-        isPublic: visibility == "public" ? true : false,
-      }),
-    });
+  // get data activity
+  async function getActivity() {
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/activities/" + idActivity
+    );
+
+    if (!response.ok) {
+      alert(response.statusText);
+    }
+    const data = await response.json();
+    activityData = data;
+    startDateActivity = new Date(activityData.startDate).toLocaleDateString(
+      "en-CA"
+    );
+    if (activityData.endDate) {
+      endDateActivity = new Date(activityData.endDate).toLocaleDateString(
+        "en-CA"
+      );
+    }
+    tasks = activityData.tasks;
+  }
+
+  getActivity();
+
+  // add task
+  async function addTask() {
+    let newtask = {
+      title,
+      image,
+      date,
+      desc,
+      mermaidDiagram: mermaidInput,
+    };
+
+    tasks.splice(0, 0, newtask);
+
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/activities/" + idActivity,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userId,
+          tasks,
+        }),
+      }
+    );
 
     if (!response.ok) {
       alert(response.statusText);
     } else {
-      navigate("/activities");
-    }
-    const data = await response.json();
-  }
-
-  function checkDiff() {
-    if (!startDate) {
-      alert("Please select start date first");
-      endDate = null;
-    } else {
-      var t2 = new Date(endDate).getTime();
-      var t1 = new Date(startDate).getTime();
-
-      if (Math.floor((t2 - t1) / (24 * 3600 * 1000)) < 0) {
-        alert("Please select start date first");
-        endDate = null;
-      }
+      const data = await response.json();
+      window.location.href = "/activity/" + idActivity;
     }
   }
 </script>
 
 <main class="md:mx-72">
   <div class="md:container md:mx-auto my-16">
-    <form on:submit|preventDefault={addActivity}>
+    <form on:submit|preventDefault={addTask}>
       <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
         <h2 class="text-xl font-bold text-gray-900 dark:text-white">
-          Edit activity
+          Add Task
         </h2>
+        <div class="sm:col-span-2">
+          <label
+            for="title"
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
+            >Title*</label
+          >
+          <input
+            bind:value={title}
+            type="title"
+            id="title"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            required
+          />
+        </div>
         <div class="sm:col-span-2">
           <label
             for="image"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Activity Image/Icon*</label
+            >Image*</label
           >
           <input
             bind:value={image}
@@ -87,88 +118,38 @@
             >
           </div>
         </div>
-        <div class="sm:col-span-2">
-          <label
-            for="title"
-            class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Title*</label
-          >
-          <input
-            bind:value={title}
-            type="title"
-            id="title"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required
-          />
-        </div>
-        <div class="sm:col-span-2">
-          <label
-            for="tipe"
-            class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Type*</label
-          >
-          <select
-            bind:value={type}
-            id="tipe"
-            required
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
-            <option value="academic">Academic</option>
-            <option value="non-academic">Non-Academic</option>
-          </select>
-        </div>
-        <div class="sm:col-span-2">
-          <div class="flex items-center">
-            <input
-              bind:checked={ongoing}
-              id="ongoing"
-              type="checkbox"
-              value=""
-              class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              for="ongoing"
-              class="ml-2 font-medium text-gray-900 dark:text-gray-300"
-              >Activity is ongoing</label
-            >
-          </div>
-        </div>
         <div class="w-full">
           <label
-            for="startDate"
+            for="date"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Start Date*</label
+            >Date*</label
           >
-          <input
-            required
-            bind:value={startDate}
-            type="date"
-            name="startDate"
-            id="startDate"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Your Major"
-          />
-        </div>
-        {#if !ongoing}
-          <div class="w-full">
-            <label
-              for="endDate"
-              class="block mb-2 font-medium text-gray-900 dark:text-white"
-              >End Date*</label
-            >
+          {#if endDateActivity}
             <input
               required
-              on:change={checkDiff}
-              bind:value={endDate}
-              min={startDate}
+              bind:value={date}
+              max={endDateActivity}
+              min={startDateActivity}
               type="date"
-              name="endDate"
-              id="endDate"
+              name="date"
+              id="date"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Your Major"
             />
-          </div>
-        {/if}
+          {:else}
+            <input
+              required
+              bind:value={date}
+              max={today}
+              min={startDateActivity}
+              type="date"
+              name="date"
+              id="date"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Your Major"
+            />
+          {/if}
+        </div>
 
         <div class="sm:col-span-2">
           <label
@@ -217,20 +198,13 @@
         </div>
       </div>
       <div class="flex items-center justify-between">
-        <select
-          bind:value={visibility}
-          id="visibility"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block md:w-1/4 w-full p-2.5"
-        >
-          <option selected value="public">Public</option>
-          <option value="private">Private</option>
-        </select>
+        <div />
         <div>
           <button
             type="submit"
             class="text-white mr-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Save
+            Add
           </button>
           <button
             type="button"

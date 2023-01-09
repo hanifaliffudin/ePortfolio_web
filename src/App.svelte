@@ -41,6 +41,10 @@
   import AddActivityFile from "./lib/views/activities/AddActivityFile.svelte";
   import AllPeopleResults from "./lib/views/discovery/AllPeopleResults.svelte";
   import AllActivityResults from "./lib/views/discovery/AllActivityResults.svelte";
+  import Mermaid from "./lib/pages/mermaid.svelte";
+  import AddTask from "./lib/views/activities/AddTask.svelte";
+  import ViewTask from "./lib/views/activities/ViewTask.svelte";
+  import EditTask from "./lib/views/activities/EditTask.svelte";
 
   export let url = "";
 
@@ -142,15 +146,26 @@
       <ViewActivity idActivity={params.id} />
     </Route>
 
-    <Route path="activity/add-file/:id" let:params>
-      <Navbar active="activity" />
-      <AddActivityFile idActivity={params.id} />
-    </Route>
-
     <Route path="activity/edit/:id" let:params>
       <Navbar active="article" />
       <EditActivity idActivity={params.id} />
     </Route>
+
+    <Route path="activity/add-task/:id" let:params>
+      <Navbar active="activity" />
+      <AddTask idActivity={params.id} />
+    </Route>
+
+    <Route path="activity/:idActivity/task/:idTask" let:params>
+      <Navbar active="activity" />
+      <ViewTask idTask={params.idTask} idActivity={params.idActivity} />
+    </Route>
+
+    <Route path="activity/:idActivity/edit-task/:idTask" let:params>
+      <Navbar active="activity" />
+      <EditTask idTask={params.idTask} idActivity={params.idActivity} />
+    </Route>
+
     <!-- end activities -->
 
     <!-- article -->
@@ -262,5 +277,10 @@
       <AllPeopleResults searchKeyword={params.search} />
     </Route>
     <!-- end discovery -->
+
+    <Route path="mermaid">
+      <Navbar active="discovery" />
+      <Mermaid />
+    </Route>
   {/if}
 </Router>
