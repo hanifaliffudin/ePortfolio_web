@@ -16,6 +16,8 @@
     userIdPost = post.userId,
     userDataPost,
     nameUserPost,
+    majorUserPost,
+    organizationUserPost,
     profilePicturePost,
     roleUserPost,
     nimUserPost,
@@ -79,6 +81,8 @@
     userDataPost = data;
     nameUserPost = userDataPost.username;
     nimUserPost = userDataPost.nim;
+    majorUserPost = userDataPost.major;
+    organizationUserPost = userDataPost.organization;
     roleUserPost = userDataPost.role;
     academicFieldPost = userDataPost.academicField;
     if (userDataPost.profilePicture) {
@@ -146,10 +150,16 @@
               {nameUserPost}
             </div>
             {#if roleUserPost == "mahasiswa"}
-              <div class="font-light text-xs">{nimUserPost}</div>
+              <div class="font-light text-xs">
+                {majorUserPost ? majorUserPost : ""}
+                {organizationUserPost ? "| " + organizationUserPost : ""}
+              </div>
             {:else}
               <div class="font-light text-xs truncate w-96">
                 {academicFieldPost ? academicFieldPost : ""}
+              </div>
+              <div class="font-light text-xs">
+                {organizationUserPost ? organizationUserPost : ""}
               </div>
             {/if}
             <div class="font-light text-xs">

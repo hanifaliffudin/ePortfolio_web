@@ -7,11 +7,20 @@
 
   let userId = localStorage.getItem("userId");
 
-  let userIdActivity, desc, date, title, type, startDate, endDate, filesData;
+  let userIdActivity,
+    image,
+    desc,
+    date,
+    title,
+    type,
+    startDate,
+    endDate,
+    filesData;
 
   if (activity) {
     getFiles();
     title = activity.title;
+    image = activity.image;
     desc = activity.desc;
     type = activity.type;
     userIdActivity = activity.userId;
@@ -45,20 +54,6 @@
 
   // delete activity
   async function deleteActivity() {
-    if (filesData.length > 0) {
-      filesData.forEach(async (file) => {
-        const response = await fetch(
-          "http://103.187.223.15:8800/api/albums/" + file._id,
-          {
-            method: "DELETE",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body: JSON.stringify({
-              userId: userId,
-            }),
-          }
-        );
-      });
-    }
     const response = await fetch(
       "http://103.187.223.15:8800/api/activities/" + activity._id,
       {
@@ -75,16 +70,19 @@
     } else {
       document.location.href = "/activities";
     }
-
-    // const data = await response.json();
   }
 </script>
 
 <hr />
-<div class="flex my-4">
+<div class="flex my-4 px-6">
   <div class="w-full">
     <div class="flex">
-      <div class="ml-4 ">
+      <img
+        class="h-16 w-16 object-cover  rounded-full self-center"
+        src={image}
+        alt=""
+      />
+      <div class="ml-4 self-center">
         <div>
           <div class="flex">
             <a href="/activity/{activity._id}">
@@ -121,7 +119,7 @@
 
       <div class="flex-auto" />
       {#if userId == userIdActivity}
-        <Button btnClass="p-0 h-3 mr-3"
+        <Button btnClass="p-0 h-3"
           ><iconify-icon icon="fluent:more-horizontal-32-filled" /></Button
         >
         <Dropdown class="w-auto">

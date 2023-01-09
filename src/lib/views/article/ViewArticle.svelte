@@ -3,11 +3,14 @@
   import { navigate } from "svelte-routing";
   import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
   import CommentCard from "../../components/CommentCard.svelte";
+  import mermaid from "mermaid";
 
   export let idArticle;
 
   let articleData,
     desc,
+    mermaidDiagram,
+    mermaidOutput,
     date,
     time,
     userIdArticle,
@@ -18,6 +21,8 @@
     nameUserArticle,
     profilePictureArticle,
     nimUserArticle,
+    majorUserArticle,
+    organizationUserArticle,
     roleUserArticle,
     academicFieldUserArticle,
     commentInput,
@@ -32,6 +37,12 @@
     month: "long",
     year: "numeric",
   });
+
+  function renderMermaid() {
+    mermaid.render("theGraph", mermaidDiagram, function (svgCode) {
+      mermaidOutput = svgCode;
+    });
+  }
 
   // get data user
   async function getUser() {
@@ -68,6 +79,10 @@
     const data = await response.json();
     articleData = data;
     desc = articleData.desc;
+    if (articleData.mermaidDiagram) {
+      mermaidDiagram = articleData.mermaidDiagram;
+      renderMermaid();
+    }
     title = articleData.title;
     comments = articleData.comments;
     tags = articleData.tags;
@@ -102,6 +117,8 @@
     userDataArticle = data;
     nameUserArticle = userDataArticle.username;
     nimUserArticle = userDataArticle.nim;
+    majorUserArticle = userDataArticle.major;
+    organizationUserArticle = userDataArticle.organization;
     roleUserArticle = userDataArticle.role;
     academicFieldUserArticle = userDataArticle.academicField;
     if (userDataArticle.profilePicture) {
@@ -191,10 +208,10 @@
               </Dropdown>
             {/if}
           </div>
-          <div class="md:container md:mx-auto prose prose-neutral">
-            <h1 class="text-center mb-4">{title}</h1>
+          <div class="md:container md:mx-auto">
+            <h1 class="text-center mb-4 font-extrabold text-4xl">{title}</h1>
             <div class="flex">
-              <div class="text-sm text-gray-600">Published on {date}</div>
+              <div class="text-sm text-gray-600 mb-4">Published on {date}</div>
               {#if !articleData.isPublic}
                 <div
                   class="ml-3 h-5 ring-1 ring-gray-400  text-xs font-semibold text-gray-600 items-center inline-flex rounded-full px-2"
@@ -204,7 +221,7 @@
               {/if}
             </div>
             <img
-              class="w-full h-72 profile-picture mb-4 object-cover rounded-lg"
+              class="w-full h-96 mb-4 object-cover rounded-lg"
               src={coverArticle}
               alt="Default avatar"
             />
@@ -222,25 +239,36 @@
                   alt="Rounded avatar"
                 />
                 <div class="flex flex-col ml-4">
-                  <div class="font-bold text-lg">{nameUserArticle}</div>
+                  <div class="font-bold text-lg line-clamp-1">
+                    {nameUserArticle}
+                  </div>
                   {#if roleUserArticle == "mahasiswa"}
-                    <div class="font-light text-xs">{nimUserArticle}</div>
+                    <!-- <div class="font-light text-xs">{nimUserArticle}</div> -->
+                    <div class="font-light text-xs">
+                      {majorUserArticle ? majorUserArticle : ""}
+                    </div>
                   {:else}
                     <div class="font-light text-xs ">
                       {academicFieldUserArticle ? academicFieldUserArticle : ""}
                     </div>
                   {/if}
+                  <div class="font-light text-xs">
+                    {organizationUserArticle ? organizationUserArticle : ""}
+                  </div>
                 </div>
               </a>
             </div>
-            <div class="">
+            <div class="prose prose-neutral">
               <SvelteMarkdown source={desc} />
             </div>
+            {#if mermaidDiagram}
+              <div contenteditable="false" bind:innerHTML={mermaidOutput} />
+            {/if}
             <div class="flex flex-wrap">
               {#each tags as tag}
                 <div class="mr-3">
                   <a
-                    class="no-underline hover:underline"
+                    class="no-underline hover:underline text-gray-600 font-light hover:text-black hover:font-normal"
                     href="/discovery?search={tag}">#{tag}</a
                   >
                 </div>

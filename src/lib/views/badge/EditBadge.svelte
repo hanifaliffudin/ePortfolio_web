@@ -8,63 +8,43 @@
 
   let title,
     issuer,
-    visibility,
     desc,
-    src,
-    files,
     imgBadge,
     url,
     badgeData,
     earnedDate,
-    maxImage;
+    skill,
+    skills = [];
   let userId = localStorage.getItem("userId");
-
-  // preview image
-  function loadFile(e) {
-    if (e.target.files[0].size <= 2 * 1024 * 1024) {
-      src = URL.createObjectURL(e.target.files[0]);
-      maxImage = false;
-    } else {
-      alert("Maximum image size is 2MB");
-      maxImage = true;
-    }
-  }
 
   // update data badge
   async function updateBadge() {
-    if (!maxImage) {
-      let response;
-      response = await fetch(
-        "http://103.187.223.15:8800/api/badges/" + idBadge,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: userId,
-            title,
-            imgBadge,
-            issuer,
-            desc,
-            url,
-            earnedDate,
-            // isPublic: visibility == "public" ? true : false,
-          }),
-        }
-      );
+    let response;
+    response = await fetch("http://103.187.223.15:8800/api/badges/" + idBadge, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+        title,
+        imgBadge,
+        issuer,
+        desc,
+        url,
+        earnedDate,
+        skills,
+      }),
+    });
 
-      if (!response.ok) {
-        window.alert(response.statusText);
-        console.log(response.status);
-        console.log(response.statusText);
-      }
-
-      const data = await response.json();
-      navigate("/badge/" + idBadge);
-    } else {
-      alert("Maximum image size is 2MB");
+    if (!response.ok) {
+      window.alert(response.statusText);
+      console.log(response.status);
+      console.log(response.statusText);
     }
+
+    const data = await response.json();
+    navigate("/badge/" + idBadge);
   }
 
   // get data badge
@@ -82,17 +62,43 @@
     title = badgeData.title;
     issuer = badgeData.issuer;
     url = badgeData.url;
+    skills = badgeData.skills;
+
     if (badgeData.earnedDate) {
       earnedDate = new Date(badgeData.earnedDate).toLocaleDateString("en-CA");
     }
     imgBadge = badgeData.imgBadge;
-    // badgeData.isPublic ? (visibility = "public") : (visibility = "private");
   }
 
   getBadge();
+
+  const addSkill = () => {
+    if (skill) {
+      // if (skill.indexOf(" ") >= 0) {
+      //   alert("The skill can't contain spaces");
+      // } else
+      if (skills.indexOf(skill) !== -1) {
+        alert(skill + " sudah ada");
+      } else {
+        skills.push(skill);
+        skills = skills;
+        skill = "";
+      }
+    } else {
+      alert("You didn't type anything.");
+    }
+  };
+
+  // remove indexed value
+  const handleRemove = (index) => {
+    skills = [
+      ...skills.slice(0, index),
+      ...skills.slice(index + 1, skills.length),
+    ];
+  };
 </script>
 
-<section class="flex">
+<section class="flex justify-center">
   <div class="py-8 px-4 w-1/2 lg:py-8">
     <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
       Edit badge
@@ -105,7 +111,7 @@
       <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
         <div class="sm:col-span-2">
           <label
-            for="cover-image"
+            for="image"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
             >Badge Image/Icon*</label
           >
@@ -113,7 +119,7 @@
             bind:value={imgBadge}
             required
             type="text"
-            id="title"
+            id="image"
             placeholder="Ex: https://www.url.com/path/filename.png"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
@@ -209,15 +215,44 @@
           href="https://www.markdownguide.org/basic-syntax/">Markdown</a
         > is supported
       </div>
-      <div class="flex justify-between items-center mt-4 space-x-2">
-        <!-- <select
-          bind:value={visibility}
-          id="visibility"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block md:w-1/4 w-full p-2.5"
+      <div class="mt-4">
+        <label
+          for="skills"
+          class="block mb-2 font-medium text-gray-900 dark:text-white"
+          >Skills</label
         >
-          <option selected value="public">Public</option>
-          <option value="private">Private</option>
-        </select> -->
+        <div class="flex">
+          <input
+            bind:value={skill}
+            type="text"
+            id="skills"
+            class="bg-gray-50 mr-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+          <button
+            type="button"
+            on:click={addSkill}
+            class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            >Add</button
+          >
+        </div>
+        <div class=" flex flex-wrap mt-4">
+          {#each skills as skill, i}
+            <div
+              class="inline-flex justify-between items-center text-gray-900 bg-white border border-gray-300 focus:outline-none  focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm py-2.5 mr-3 my-1.5"
+            >
+              <div class="ml-4 mr-2">{skill}</div>
+              <button
+                on:click={() => handleRemove(i)}
+                type="button"
+                class="items-center flex text-red-600 mr-3"
+              >
+                <iconify-icon icon="material-symbols:close-rounded" />
+              </button>
+            </div>
+          {/each}
+        </div>
+      </div>
+      <div class="flex justify-between items-center mt-4 space-x-2">
         <div />
         <div class="flex justify-end items-center space-x-2">
           <button
@@ -235,34 +270,5 @@
         </div>
       </div>
     </form>
-  </div>
-  <div class="py-8 px-4 w-1/2 lg:py-8">
-    <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-      Preview
-    </h2>
-    <div
-      class="prose prose-neutral p-4 border-2 border-gray-100 rounded h-auto overflow-auto"
-    >
-      <div class="flex">
-        <div class="flex-initial w-1/2">
-          <img
-            class="w-full h-72 profile-picture object-cover rounded-lg m-0"
-            src={imgBadge}
-            alt="Default avatar"
-          />
-        </div>
-        <div class="ml-4 flex-initial w-1/2">
-          <h1 class="mb-4">{title}</h1>
-          <div class="mb-4">Issued by {issuer}</div>
-          <div class="mb-4">
-            <SvelteMarkdown source={desc} />
-          </div>
-          {#if url}
-            <div><a href={url}>Learn more</a></div>
-          {/if}
-          <div class="">Issued Date: {earnedDate}</div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>

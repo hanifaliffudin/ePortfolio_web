@@ -1,6 +1,7 @@
 <script>
   import ActivityCard from "../components/ActivityCard.svelte";
   import ArticleCardDiscovery from "../components/ArticleCardDiscovery.svelte";
+  import DiscoveryCard from "../components/DiscoveryCard.svelte";
   import PeopleCardDiscovery from "../components/PeopleCardDiscovery.svelte";
   import PostCardDiscovery from "../components/PostCardDiscovery.svelte";
 
@@ -10,9 +11,13 @@
     articles = [],
     activities = [],
     searchKeyword,
-    usersId = [];
+    usersId = [],
+    allUsersId = [];
 
   const urlParams = new URLSearchParams(window.location.search);
+  if (!urlParams.get("search")) {
+    getAllUsers();
+  }
   searchKeyword = urlParams.get("search");
 
   if (searchKeyword) {
@@ -102,6 +107,20 @@
 
     const data = await response.json();
     usersId = data;
+  }
+
+  // get all users
+  async function getAllUsers() {
+    const response = await fetch(
+      `http://103.187.223.15:8800/api/users/all/${userIdLocal}`
+    );
+
+    if (!response.ok) {
+      console.log(response.status);
+    }
+
+    const data = await response.json();
+    allUsersId = data;
   }
 </script>
 
@@ -215,10 +234,15 @@
           {/if}
         </div>
       </div>
-
-      <!-- <div class="grid grid-cols-3 gap-8">
-        <DiscoveryCard />
-      </div> -->
+      {#if !urlParams.get("search") && allUsersId.length > 0}
+        <div class="grid grid-cols-3 gap-8">
+          {#each allUsersId as userId, i}
+            {#if userIdLocal != userId}
+              <DiscoveryCard {userId} />
+            {/if}
+          {/each}
+        </div>
+      {/if}
     </div>
   </section>
 </main>

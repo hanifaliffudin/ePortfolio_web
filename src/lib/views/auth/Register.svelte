@@ -15,7 +15,7 @@
 
   const requiredMessage = "This field is required";
 
-  let username, emailUser, password, role;
+  let username, emailUser, password, role, organization;
 
   // register
   async function register() {
@@ -31,6 +31,7 @@
           username,
           password,
           role,
+          organization,
         }),
       }
     );
@@ -118,7 +119,7 @@
               placeholder="Your Name"
               required
             />
-            <HintGroup for="username">
+            <HintGroup for="name">
               <Hint on="required"
                 ><div class="text-sm mt-2 text-red-600">
                   {requiredMessage}
@@ -140,6 +141,30 @@
               <option value="mahasiswa">Mahasiswa</option>
               <option value="dosen">Dosen</option>
             </select>
+          </div>
+          <div>
+            <label
+              for="organization"
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
+              >Organization</label
+            >
+            <input
+              bind:value={organization}
+              use:validators={[required]}
+              type="text"
+              name="organization"
+              id="organization"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder=""
+              required
+            />
+            <HintGroup for="organization">
+              <Hint on="required"
+                ><div class="text-sm mt-2 text-red-600">
+                  {requiredMessage}
+                </div></Hint
+              >
+            </HintGroup>
           </div>
           <div>
             <label

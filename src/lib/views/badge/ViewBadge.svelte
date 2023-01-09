@@ -6,7 +6,16 @@
 
   export let idBadge;
 
-  let badgeData, desc, date, time, userIdBadge, title, imgBadge, issuer, url;
+  let badgeData,
+    desc,
+    date,
+    time,
+    userIdBadge,
+    title,
+    imgBadge,
+    issuer,
+    url,
+    skills = [];
 
   let userId = localStorage.getItem("userId");
 
@@ -44,10 +53,10 @@
     }
     const data = await response.json();
     badgeData = data;
-    console.log(badgeData);
     desc = badgeData.desc;
     title = badgeData.title;
     issuer = badgeData.issuer;
+    skills = badgeData.skills;
     url = badgeData.url;
     imgBadge = badgeData.imgBadge;
     userIdBadge = badgeData.userId;
@@ -110,21 +119,38 @@
           <div class="flex">
             <div class="flex-initial w-2/5">
               <img
-                class="w-full h-auto profile-picture object-cover rounded-lg m-0"
+                class="w-full h-auto object-cover rounded-lg m-0"
                 src={imgBadge}
                 alt="Default avatar"
               />
             </div>
-            <div class="ml-4 flex-initial w-3/5">
+            <div class="ml-8 flex-initial w-3/5">
               <h1 class="mb-4 font-bold text-2xl">{title}</h1>
               <div class="mb-4">Issued by {issuer}</div>
               <div class="mb-4 prose prose-neutral">
                 <SvelteMarkdown source={desc} />
               </div>
               {#if url}
-                <div><a href={url} class="underline">Learn more</a></div>
+                <div class="mb-4">
+                  <a href={url} class="underline">Learn more</a>
+                </div>
               {/if}
-              <div class="">Issued Date: {date}</div>
+              <div class="mb-4">Issued Date: {date}</div>
+              {#if skills}
+                <div class="font-bold mb-2">Skills</div>
+                <div class="flex flex-wrap">
+                  {#each skills as skill, i (skill)}
+                    <div
+                      class="text-gray-900 bg-white border border-gray-300 focus:outline-none  focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-3 my-1.5"
+                    >
+                      <a
+                        class="no-underline hover:underline"
+                        href="/discovery?search={skill}">{skill}</a
+                      >
+                    </div>
+                  {/each}
+                </div>
+              {/if}
             </div>
           </div>
         </div>

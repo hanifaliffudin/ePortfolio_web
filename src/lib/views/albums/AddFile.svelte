@@ -8,7 +8,7 @@
 
   // preview file
   function loadFile(e) {
-    if (e.target.files[0].size <= 2 * 1024 * 1024) {
+    if (e.target.files[0].size <= 10 * 1024 * 1024) {
       src = URL.createObjectURL(e.target.files[0]);
 
       const name = e.target.files[0].name;
@@ -55,7 +55,7 @@
       }
       maxFile = false;
     } else {
-      alert("Maximum image size is 2MB");
+      alert("Maximum image size is 10MB");
       maxFile = true;
     }
   }
@@ -63,7 +63,7 @@
   // upload file
   async function uploadFile() {
     if (maxFile) {
-      alert("Maximum image size is 2MB");
+      alert("Maximum image size is 10MB");
     } else if (!type) {
       alert("Extension not supported");
       src = null;
@@ -106,7 +106,7 @@
     <div>
       {#if type == "image"}
         <img
-          class="w-auto h-auto rounded-lg profile-picture mb-4 object-cover"
+          class="w-auto h-auto rounded-lg mb-4 object-cover"
           {src}
           alt="Default avatar"
         />
@@ -128,7 +128,7 @@
       >
 
       <input bind:files on:change={loadFile} type="file" required />
-      <div class="text-sm mt-2 text-red-500">*Maximum file size is 2MB</div>
+      <div class="text-sm mt-2 text-red-500">*Maximum file size is 10MB</div>
     </div>
     <div class="flex justify-end items-center space-x-2">
       <button

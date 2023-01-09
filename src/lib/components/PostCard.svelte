@@ -2,6 +2,7 @@
   import SvelteMarkdown from "svelte-markdown";
   import CommentCard from "./CommentCard.svelte";
   import DropdownPost from "./DropdownPost.svelte";
+  import mermaid from "mermaid";
 
   export let post;
 
@@ -10,12 +11,16 @@
   let userData,
     profilePicture,
     desc,
+    mermaidDiagram,
+    mermaidOutput,
     date,
     commentInput,
     comments = [],
     userIdPost = post.userId,
     userDataPost,
     nameUserPost,
+    majorUserPost,
+    organizationUserPost,
     profilePicturePost,
     roleUserPost,
     nimUserPost,
@@ -53,6 +58,10 @@
 
   if (post) {
     desc = post.desc;
+    if (post.mermaidDiagram) {
+      mermaidDiagram = post.mermaidDiagram;
+      renderMermaid();
+    }
     comments = post.comments;
     comments.sort(function (a, b) {
       // @ts-ignore
@@ -63,6 +72,12 @@
     } else {
       date = new Date(post.createdAt);
     }
+  }
+
+  function renderMermaid() {
+    mermaid.render("theGraph", mermaidDiagram, function (svgCode) {
+      mermaidOutput = svgCode;
+    });
   }
 
   // get data user post
@@ -79,6 +94,8 @@
     userDataPost = data;
     nameUserPost = userDataPost.username;
     nimUserPost = userDataPost.nim;
+    majorUserPost = userDataPost.major;
+    organizationUserPost = userDataPost.organization;
     roleUserPost = userDataPost.role;
     academicFieldPost = userDataPost.academicField;
     if (userDataPost.profilePicture) {
@@ -148,10 +165,16 @@
               {nameUserPost}
             </div>
             {#if roleUserPost == "mahasiswa"}
-              <div class="font-light text-xs">{nimUserPost}</div>
+              <div class="font-light text-xs">
+                {majorUserPost ? majorUserPost : ""}
+                {organizationUserPost ? "| " + organizationUserPost : ""}
+              </div>
             {:else}
               <div class="font-light text-xs truncate w-96">
                 {academicFieldPost ? academicFieldPost : ""}
+              </div>
+              <div class="font-light text-xs">
+                {organizationUserPost ? organizationUserPost : ""}
               </div>
             {/if}
             <div class="font-light text-xs">
@@ -176,7 +199,7 @@
       </a>
       {#if !post.isPublic}
         <div
-          class="ml-3 mt-1 h-5 ring-1 ring-gray-400  text-xs font-semibold text-gray-600 items-center inline-flex rounded-full px-2"
+          class="mx-3 mt-1 h-5 ring-1 ring-gray-400  text-xs font-semibold text-gray-600 items-center inline-flex rounded-full px-2"
         >
           Private
         </div>
@@ -186,12 +209,13 @@
         <DropdownPost idPost={post._id} />
       {/if}
     </div>
-    <!-- <a href="post/{post._id}" class="prose prose-neutral">
-    <SvelteMarkdown source={desc} />
-  </a> -->
+
     <div class="prose prose-neutral">
       <SvelteMarkdown source={desc} />
     </div>
+    {#if mermaidDiagram}
+      <div contenteditable="false" bind:innerHTML={mermaidOutput} />
+    {/if}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="flex justify-end mb-2" on:click={toggleVissible}>
       <div class="cursor-pointer hover:underline text-sm">

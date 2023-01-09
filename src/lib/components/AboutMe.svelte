@@ -8,9 +8,10 @@
     name,
     role,
     nim,
-    prodi,
-    kota,
-    tglLahir,
+    major,
+    organization,
+    city,
+    dateBirth,
     gender,
     interest,
     about,
@@ -51,8 +52,9 @@
     name = userData.username;
     role = userData.role;
     nim = userData.nim;
-    prodi = userData.major;
-    kota = userData.city;
+    major = userData.major;
+    organization = userData.organization;
+    city = userData.city;
     about = userData.about;
     socmed = userData.socialMedia;
     ig = socmed.instagram;
@@ -66,13 +68,13 @@
     userData.gender ? (gender = userData.gender) : (gender = "male");
     interest = userData.interest;
     if (userData.dateBirth) {
-      tglLahir = new Date(userData.dateBirth).toLocaleDateString("en", {
+      dateBirth = new Date(userData.dateBirth).toLocaleDateString("en", {
         day: "numeric",
         month: "long",
         year: "numeric",
       });
     } else {
-      tglLahir = null;
+      dateBirth = null;
       alert.classList.remove("hidden");
       btnCancel.classList.add("hidden");
     }
@@ -125,17 +127,18 @@
           <iconify-icon icon="ci:edit" />
         </a>
       </div>
-      <div class="bg-white p-3 rounded-md truncate">
+      <div class="bg-white p-3 rounded-md">
         <b>Name</b>: {name} <br />
         {#if role == "mahasiswa"}
           <b>Student ID</b>: {nim ? nim : ""}<br />
-          <b>Major</b>: {prodi ? prodi : ""}<br />
+          <b>Major</b>: {major ? major : ""}<br />
         {:else}
           <b>Academic Field</b>:
           {academicField ? academicField : ""} <br />
         {/if}
-        <b>City</b>: {kota ? kota : ""} <br />
-        <b>Date Of Birth</b>: {tglLahir}<br />
+        <b>Organization</b>: {organization ? organization : ""} <br />
+        <b>City</b>: {city ? city : ""} <br />
+        <b>Date Of Birth</b>: {dateBirth}<br />
         <b>Gender</b>: <span class="capitalize">{gender}</span><br />
         <b>Role</b>: <span class="capitalize">{role}</span>
       </div>

@@ -1,5 +1,6 @@
 <script>
   import { navigate } from "svelte-routing";
+  import mermaid from "mermaid";
 
   export let idActivity;
 
@@ -10,9 +11,12 @@
     startDate,
     endDate,
     title,
+    image,
     type,
     activityData,
-    ongoing = true;
+    ongoing = true,
+    mermaidInput,
+    mermaidOutput;
 
   // update data activity
   async function update() {
@@ -28,10 +32,12 @@
         body: JSON.stringify({
           userId: userId,
           title,
+          image,
           type,
           startDate,
           endDate: ongoing ? null : endDate,
           desc: desc,
+          mermaidDiagram: mermaidInput,
           isPublic: visibility == "public" ? true : false,
         }),
       }
@@ -44,7 +50,7 @@
     }
 
     const data = await response.json();
-    navigate("/activities");
+    navigate("/activity/" + idActivity);
   }
 
   // get data activity
@@ -59,7 +65,11 @@
     const data = await response.json();
     activityData = data;
     desc = activityData.desc;
+    if (activityData.mermaidDiagram) {
+      mermaidInput = activityData.mermaidDiagram;
+    }
     title = activityData.title;
+    image = activityData.image;
     startDate = new Date(activityData.startDate).toLocaleDateString("en-CA");
     if (activityData.endDate) {
       endDate = new Date(activityData.endDate).toLocaleDateString("en-CA");
@@ -71,7 +81,6 @@
   getActivity();
 
   function checkDiff() {
-    console.log(startDate);
     if (!startDate) {
       alert("Please select start date first");
       endDate = null;
@@ -94,6 +103,29 @@
         <h2 class="text-xl font-bold text-gray-900 dark:text-white">
           Edit activity
         </h2>
+        <div class="sm:col-span-2">
+          <label
+            for="image"
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
+            >Activity Image/Icon*</label
+          >
+          <input
+            bind:value={image}
+            required
+            type="text"
+            id="image"
+            placeholder="Ex: https://www.url.com/path/filename.png"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+          <div class="text-sm mt-2">
+            * You can insert image address from <a
+              class="text-blue-600"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="/albums">Albums</a
+            >
+          </div>
+        </div>
         <div class="sm:col-span-2">
           <label
             for="title"
@@ -197,6 +229,28 @@
               rel="noopener noreferrer"
               href="https://www.markdownguide.org/basic-syntax/">Markdown</a
             > is supported
+          </div>
+        </div>
+        <div class="sm:col-span-2">
+          <label
+            for="diagram"
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
+            >Diagram</label
+          >
+          <textarea
+            bind:value={mermaidInput}
+            id="diagram"
+            rows="8"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          />
+          <div class="mt-1 text-sm">
+            * Use
+            <a
+              class="text-blue-600"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://mermaid.js.org/syntax/flowchart.html">Mermaid</a
+            > to create a diagram
           </div>
         </div>
       </div>

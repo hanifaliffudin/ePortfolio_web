@@ -1,31 +1,20 @@
 <script>
   import { navigate } from "svelte-routing";
   import SvelteMarkdown from "svelte-markdown";
+  import mermaid from "mermaid";
 
   export let idArticle;
   let source = ``;
   let visibility,
-    files,
     coverArticle,
-    src,
     title,
     articleData,
     tag,
     tags = [],
-    maxImage;
+    mermaidInput,
+    mermaidOutput;
 
   let userId = localStorage.getItem("userId");
-
-  // preview image
-  function loadFile(e) {
-    if (e.target.files[0].size <= 2 * 1024 * 1024) {
-      src = URL.createObjectURL(e.target.files[0]);
-      maxImage = false;
-    } else {
-      alert("Maximum image size is 2MB");
-      maxImage = true;
-    }
-  }
 
   // update data article
   async function update() {
@@ -43,6 +32,8 @@
           title,
           desc: source,
           tags,
+          coverArticle,
+          mermaidDiagram: mermaidInput,
           isPublic: visibility == "public" ? true : false,
         }),
       }
@@ -72,6 +63,10 @@
     source = articleData.desc;
     title = articleData.title;
     tags = articleData.tags;
+    if (articleData.mermaidDiagram) {
+      mermaidInput = articleData.mermaidDiagram;
+      renderMermaid();
+    }
     coverArticle = articleData.coverArticle;
     articleData.isPublic ? (visibility = "public") : (visibility = "private");
   }
@@ -80,9 +75,7 @@
 
   const addTag = () => {
     if (tag) {
-      if (tag.indexOf(" ") >= 0) {
-        alert("The tag can't contain spaces");
-      } else if (tags.indexOf(tag) !== -1) {
+      if (tags.indexOf(tag) !== -1) {
         alert(tag + " sudah ada");
       } else {
         tags.push(tag);
@@ -98,6 +91,12 @@
   const handleRemove = (index) => {
     tags = [...tags.slice(0, index), ...tags.slice(index + 1, tags.length)];
   };
+
+  function renderMermaid() {
+    mermaid.render("theGraph", mermaidInput, function (svgCode) {
+      mermaidOutput = svgCode;
+    });
+  }
 </script>
 
 {#if articleData}
@@ -135,7 +134,7 @@
               bind:value={coverArticle}
               required
               type="text"
-              id="title"
+              id="cover-image"
               placeholder="Ex: https://www.url.com/path/filename.png"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
@@ -152,21 +151,45 @@
             <textarea
               bind:value={source}
               id="description"
-              rows="18"
+              rows="10"
               class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               placeholder="Write your thoughts here..."
             />
+            <div class="mt-1 text-sm">
+              *
+              <a
+                class="text-blue-600"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.markdownguide.org/basic-syntax/">Markdown</a
+              > is supported
+            </div>
+          </div>
+          <div class="sm:col-span-2">
+            <label
+              for="diagram"
+              class="block mb-2 font-medium text-gray-900 dark:text-white"
+              >Diagram</label
+            >
+            <textarea
+              on:keyup={renderMermaid}
+              bind:value={mermaidInput}
+              id="diagram"
+              rows="8"
+              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            />
+            <div class="mt-1 text-sm">
+              * Use
+              <a
+                class="text-blue-600"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://mermaid.js.org/syntax/flowchart.html">Mermaid</a
+              > to create a diagram
+            </div>
           </div>
         </div>
-        <div class="mt-1 text-sm">
-          *
-          <a
-            class="text-blue-600"
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.markdownguide.org/basic-syntax/">Markdown</a
-          > is supported
-        </div>
+
         <div class="mt-4">
           <label
             for="tag"
@@ -240,12 +263,13 @@
         <h1 class="text-center mb-4">{title}</h1>
         {#if coverArticle}
           <img
-            class="w-full h-72 rounded-lg profile-picture mb-4 object-cover"
+            class="w-full h-96 rounded-lg mb-4 object-cover"
             src={coverArticle}
             alt="Default avatar"
           />
         {/if}
         <SvelteMarkdown {source} />
+        <div contenteditable="false" bind:innerHTML={mermaidOutput} />
       </div>
     </div>
   </section>

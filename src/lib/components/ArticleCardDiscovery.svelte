@@ -51,7 +51,7 @@
       class="prose prose-neutral hover:underline"
     >
       <img
-        class="object-cover h-72 w-full rounded"
+        class="object-cover h-80 w-full rounded"
         src={article.coverArticle}
         alt=""
       />

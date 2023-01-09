@@ -15,10 +15,10 @@
         alt="Rounded avatar"
       />
     </div>
-    <h5 class="text-xl font-bold tracking-tight text-gray-900">
+    <h5 class="text-xl font-bold tracking-tight text-gray-900 truncate">
       {badge.title}
     </h5>
-    <p class="font-light dark:text-gray-400 mb-4">
+    <p class="font-light dark:text-gray-400 mb-4 truncate">
       {badge.issuer}
     </p>
     <p>
