@@ -126,7 +126,7 @@
             <div class="ml-8 flex-initial w-3/5">
               <h1 class="mb-4 font-bold text-2xl">{title}</h1>
               <div class="mb-4">Issued by {issuer}</div>
-              <div class="mb-4 prose prose-neutral">
+              <div class="mb-4 prose prose-neutral text-sm max-w-none">
                 <SvelteMarkdown source={desc} />
               </div>
               {#if url}

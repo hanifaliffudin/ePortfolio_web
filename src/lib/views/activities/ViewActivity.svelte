@@ -46,7 +46,7 @@
   // delete activity
   async function deleteActivity() {
     const response = await fetch(
-      "http://103.187.223.15:8800/api/activities/" + idActivity,
+      "http://127.0.0.1:8800/api/activities/" + idActivity,
       {
         method: "DELETE",
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -123,7 +123,7 @@
       </div>
 
       <div>
-        <div class="prose prose-neutral">
+        <div class="prose prose-neutral text-sm max-w-none">
           <SvelteMarkdown source={desc} />
         </div>
 

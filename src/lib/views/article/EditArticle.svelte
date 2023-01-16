@@ -262,7 +262,7 @@
         Preview
       </h2>
       <div
-        class="prose prose-neutral p-4 border-2 border-gray-100 rounded h-auto overflow-auto"
+        class="prose prose-neutral text-sm max-w-none p-4 border-2 border-gray-100 rounded h-auto overflow-auto"
       >
         <h1 class="text-center mb-4">{title}</h1>
         {#if coverArticle}

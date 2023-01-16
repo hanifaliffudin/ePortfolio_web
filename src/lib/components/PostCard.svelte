@@ -220,7 +220,7 @@
       {/if}
     </div>
 
-    <div class="prose prose-neutral text-sm">
+    <div class="prose prose-neutral text-sm max-w-none">
       {#if shortDesc && !readMore}
         <SvelteMarkdown source={shortDesc} />
         <button

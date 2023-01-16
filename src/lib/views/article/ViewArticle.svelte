@@ -266,7 +266,7 @@
                 </div>
               </a>
             </div>
-            <div class="prose prose-neutral text-sm">
+            <div class="prose prose-neutral text-sm max-w-none">
               <SvelteMarkdown source={desc} />
             </div>
             {#if mermaidDiagram}

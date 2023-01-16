@@ -51,7 +51,7 @@
           year: "numeric",
         });
         images = element.images;
-        if (images.length > 1) {
+        if (images && images.length > 1) {
           options = {
             arrows: true,
             rewind: true,
@@ -115,7 +115,7 @@
                 <iconify-icon icon="material-symbols:arrow-back-rounded" />
               </button>
             </div>
-            {#if userId}
+            {#if userId == activityData.userId}
               <div>
                 <Button btnClass="p-0 h-3"
                   ><iconify-icon
@@ -136,27 +136,27 @@
           </div>
           <div class="md:container md:mx-auto ">
             <h1 class="mb-4 text-4xl font-extrabold">{task.title}</h1>
-            <div class="flex">
-              <div class="text-sm text-gray-600">{date}</div>
-            </div>
-            <div class="prose prose-neutral">
+            <div class="text-sm text-gray-600 mb-4">{date}</div>
+            <div class="prose prose-neutral text-sm max-w-none">
               <SvelteMarkdown source={task.desc} />
             </div>
-            <div class="mt-4">
-              <Splide
-                {options}
-                on:mounted={(e) => console.log(e.detail.splide.length)}
-                on:move={(e) => console.log("move to", e.detail.index)}
-                aria-labelledby="basic-example-heading"
-                class="custom-class"
-              >
-                {#each images as image}
-                  <SplideSlide>
-                    <img class="rounded-lg" alt={image} src={image} />
-                  </SplideSlide>
-                {/each}
-              </Splide>
-            </div>
+            {#if images}
+              <div class="mt-4">
+                <Splide
+                  {options}
+                  on:mounted={(e) => console.log(e.detail.splide.length)}
+                  on:move={(e) => console.log("move to", e.detail.index)}
+                  aria-labelledby="basic-example-heading"
+                  class="custom-class"
+                >
+                  {#each images as image}
+                    <SplideSlide>
+                      <img class="rounded-lg" alt={image} src={image} />
+                    </SplideSlide>
+                  {/each}
+                </Splide>
+              </div>
+            {/if}
           </div>
         </div>
       </div>
