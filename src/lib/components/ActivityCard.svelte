@@ -77,12 +77,14 @@
 <div class="flex my-4 px-6">
   <div class="w-full">
     <div class="flex">
-      <img
-        class="h-16 w-16 object-cover  rounded-full self-center"
-        src={image}
-        alt=""
-      />
-      <div class="ml-4 self-center">
+      {#if image}
+        <img
+          class="h-16 w-16 object-cover mr-4 rounded-full self-center"
+          src={image}
+          alt=""
+        />
+      {/if}
+      <div class=" self-center">
         <div>
           <div class="flex">
             <a href="/activity/{activity._id}">

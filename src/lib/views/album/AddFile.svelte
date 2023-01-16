@@ -79,12 +79,12 @@
       dataUpdate.append("data", JSON.stringify(dataFile));
 
       if (type == "image") {
-        response = await fetch("http://103.187.223.15:8800/api/albums/", {
+        response = await fetch("http://103.187.223.15:8800/api/album/", {
           method: "POST",
           body: dataUpdate,
         });
       } else {
-        response = await fetch("http://103.187.223.15:8800/api/albums/video", {
+        response = await fetch("http://103.187.223.15:8800/api/album/video", {
           method: "POST",
           body: dataUpdate,
         });
@@ -93,7 +93,7 @@
       if (!response.ok) {
         alert(response.statusText);
       } else {
-        navigate("/albums");
+        navigate("/album");
       }
       const data = await response.json();
     }

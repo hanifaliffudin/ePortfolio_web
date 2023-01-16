@@ -8,12 +8,12 @@
   let desc,
     date,
     title,
-    image,
     activityData,
     startDateActivity,
     endDateActivity,
     tasks = [],
-    mermaidInput;
+    image,
+    images = [];
 
   // get data activity
   async function getActivity() {
@@ -43,10 +43,9 @@
   async function addTask() {
     let newtask = {
       title,
-      image,
       date,
       desc,
-      mermaidDiagram: mermaidInput,
+      images,
     };
 
     tasks.splice(0, 0, newtask);
@@ -72,6 +71,28 @@
       window.location.href = "/activity/" + idActivity;
     }
   }
+
+  const addImage = () => {
+    if (image) {
+      if (images.indexOf(image) !== -1) {
+        alert(image + " sudah ada");
+      } else {
+        images.push(image);
+        images = images;
+        image = "";
+      }
+    } else {
+      alert("You didn't type anything.");
+    }
+  };
+
+  // remove indexed value
+  const handleRemove = (index) => {
+    images = [
+      ...images.slice(0, index),
+      ...images.slice(index + 1, images.length),
+    ];
+  };
 </script>
 
 <main class="md:mx-72">
@@ -94,29 +115,6 @@
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
           />
-        </div>
-        <div class="sm:col-span-2">
-          <label
-            for="image"
-            class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Image*</label
-          >
-          <input
-            bind:value={image}
-            required
-            type="text"
-            id="image"
-            placeholder="Ex: https://www.url.com/path/filename.png"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-          <div class="text-sm mt-2">
-            * You can insert image address from <a
-              class="text-blue-600"
-              target="_blank"
-              rel="noopener noreferrer"
-              href="/albums">Albums</a
-            >
-          </div>
         </div>
         <div class="w-full">
           <label
@@ -155,10 +153,9 @@
           <label
             for="description"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Description*</label
+            >Description</label
           >
           <textarea
-            required
             bind:value={desc}
             id="description"
             rows="8"
@@ -174,26 +171,54 @@
             > is supported
           </div>
         </div>
+
         <div class="sm:col-span-2">
           <label
-            for="diagram"
+            for="tag"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Diagram</label
+            >{images.length > 1 ? "Images" : "Image"}</label
           >
-          <textarea
-            bind:value={mermaidInput}
-            id="diagram"
-            rows="8"
-            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          />
-          <div class="mt-1 text-sm">
-            * Use
-            <a
+          <div class="flex">
+            <input
+              bind:value={image}
+              type="text"
+              id="tag"
+              placeholder="Ex: https://www.url.com/path/filename.png"
+              class="bg-gray-50 mr-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+            <button
+              type="button"
+              on:click={addImage}
+              class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+              >Add</button
+            >
+          </div>
+          <div class="text-sm mt-2">
+            * You can insert image address from <a
               class="text-blue-600"
               target="_blank"
               rel="noopener noreferrer"
-              href="https://mermaid.js.org/syntax/flowchart.html">Mermaid</a
-            > to create a diagram
+              href="/album">Album</a
+            >
+          </div>
+          <div class=" flex flex-wrap mt-4 gap-2">
+            {#each images as image, i}
+              <div class="relative group/item opacity-75 hover:opacity-100">
+                <img
+                  src={image}
+                  alt="image"
+                  class="inset-0 h-36 w-full object-cover object-center rounded border cursor-pointer"
+                />
+                <button
+                  type="button"
+                  on:click={() => handleRemove(i)}
+                  class="group/edit invisible group-hover/item:visible absolute top-2 right-2 bg-white p-1 rounded-lg flex items-center"
+                  ><iconify-icon
+                    icon="material-symbols:close-rounded"
+                  /></button
+                >
+              </div>
+            {/each}
           </div>
         </div>
       </div>

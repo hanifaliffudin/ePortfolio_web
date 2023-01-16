@@ -53,7 +53,6 @@
     if (!response.ok) {
       localStorage.clear();
       document.location.href = "/login";
-      console.log(response.statusText);
     }
 
     const data = await response.json();
@@ -193,19 +192,26 @@
     <div class="md:container md:mx-auto my-16">
       <div class="flex justify-center">
         <div class="flex-initial w-3/4">
-          <div class="flex justify-end mb-3">
+          <div class="flex justify-between mb-3 items-center">
+            <div>
+              <button on:click={() => history.back()}>
+                <iconify-icon icon="material-symbols:arrow-back-rounded" />
+              </button>
+            </div>
             {#if userIdArticle == userId}
-              <Button btnClass="p-0 h-3"
-                ><iconify-icon
-                  icon="fluent:more-horizontal-32-filled"
-                /></Button
-              >
-              <Dropdown class="w-auto">
-                <DropdownItem
-                  ><a href="/article/edit/{idArticle}">Edit</a></DropdownItem
+              <div>
+                <Button btnClass="p-0 h-3"
+                  ><iconify-icon
+                    icon="fluent:more-horizontal-32-filled"
+                  /></Button
                 >
-                <DropdownItem on:click={deleteArticle}>Delete</DropdownItem>
-              </Dropdown>
+                <Dropdown class="w-auto">
+                  <DropdownItem
+                    ><a href="/article/edit/{idArticle}">Edit</a></DropdownItem
+                  >
+                  <DropdownItem on:click={deleteArticle}>Delete</DropdownItem>
+                </Dropdown>
+              </div>
             {/if}
           </div>
           <div class="md:container md:mx-auto">
@@ -220,11 +226,13 @@
                 </div>
               {/if}
             </div>
-            <img
-              class="w-full h-96 mb-4 object-cover rounded-lg"
-              src={coverArticle}
-              alt="Default avatar"
-            />
+            {#if coverArticle}
+              <img
+                class="w-full h-96 mb-4 object-cover rounded-lg"
+                src={coverArticle}
+                alt="Default avatar"
+              />
+            {/if}
 
             <div class="flex mb-4 items-center border-t border-b p-2">
               <a
@@ -258,7 +266,7 @@
                 </div>
               </a>
             </div>
-            <div class="prose prose-neutral">
+            <div class="prose prose-neutral text-sm max-w-none">
               <SvelteMarkdown source={desc} />
             </div>
             {#if mermaidDiagram}

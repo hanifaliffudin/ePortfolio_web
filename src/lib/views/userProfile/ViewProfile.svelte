@@ -27,8 +27,7 @@
     academicField,
     skills = [],
     blocks = [],
-    dateLastActivity,
-    descLastActivity;
+    dateLastActivity;
 
   // get data user
   async function getUser() {
@@ -59,7 +58,6 @@
     skills = userData.skill;
     blocks = userData.blockProfile;
     academicField = userData.academicField;
-    console.log(blocks);
     userData.gender ? (gender = userData.gender) : (gender = "male");
     interest = userData.interest;
     if (userData.dateBirth) {

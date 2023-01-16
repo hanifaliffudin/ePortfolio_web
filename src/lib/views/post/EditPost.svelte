@@ -50,6 +50,7 @@
       alert(response.statusText);
     } else {
       document.location.href = "/posts";
+      history.back();
       const data = await response.json();
     }
   }

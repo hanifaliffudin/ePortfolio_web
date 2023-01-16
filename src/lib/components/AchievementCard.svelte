@@ -37,7 +37,6 @@
     if (!response.ok) {
       localStorage.clear();
       document.location.href = "/login";
-      console.log(response.statusText);
     }
 
     const data = await response.json();
@@ -219,7 +218,7 @@
         </Dropdown>
       {/if}
     </div>
-    <div class="prose prose-neutral">
+    <div class="prose prose-neutral text-sm max-w-none">
       <SvelteMarkdown source={desc} />
     </div>
     <img

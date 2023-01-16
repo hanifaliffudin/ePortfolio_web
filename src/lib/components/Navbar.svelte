@@ -23,7 +23,7 @@
     }
 
     const data = await response.json();
-    if (!data.dateBirth) {
+    if (!data.gender) {
       home.classList.add("hidden");
       discovery.classList.add("hidden");
       profile.classList.add("hidden");

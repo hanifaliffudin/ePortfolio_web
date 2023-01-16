@@ -94,11 +94,10 @@
           <label
             for="cover-image"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Cover Image*</label
+            >Cover Image</label
           >
           <input
             bind:value={coverArticle}
-            required
             type="text"
             id="cover-image"
             placeholder="Ex: https://www.url.com/path/filename.png"
@@ -109,7 +108,7 @@
               class="text-blue-600"
               target="_blank"
               rel="noopener noreferrer"
-              href="/albums">Albums</a
+              href="/album">Album</a
             >
           </div>
         </div>
@@ -230,7 +229,7 @@
       Preview
     </h2>
     <div
-      class="prose prose-neutral p-4 border-2 border-gray-100 rounded h-auto overflow-auto"
+      class="prose prose-neutral text-sm max-w-none p-4 border-2 border-gray-100 rounded h-auto overflow-auto"
     >
       <h1 class="text-center mb-4">{title}</h1>
       {#if coverArticle}

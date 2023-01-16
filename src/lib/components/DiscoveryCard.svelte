@@ -14,7 +14,7 @@
     academicField;
 
   // get data user
-  async function getUser() {
+  async function getUserDiscovery() {
     const response = await fetch(
       "http://103.187.223.15:8800/api/users/" + userId
     );
@@ -39,7 +39,7 @@
     }
   }
 
-  getUser();
+  getUserDiscovery();
 </script>
 
 {#if userData}

@@ -110,7 +110,7 @@
       Preview
     </h2>
     <div
-      class="prose prose-neutral p-4 border-2 border-gray-100 rounded h-96 overflow-auto"
+      class="prose prose-neutral text-sm max-w-none p-4 border-2 border-gray-100 rounded h-96 overflow-auto"
     >
       <SvelteMarkdown {source} />
       <div contenteditable="false" bind:innerHTML={mermaidOutput} />

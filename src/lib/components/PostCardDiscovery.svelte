@@ -2,6 +2,7 @@
   import SvelteMarkdown from "svelte-markdown";
   import CommentCard from "./CommentCard.svelte";
   import DropdownPost from "./DropdownPost.svelte";
+  import mermaid from "mermaid";
 
   export let post;
 
@@ -10,6 +11,9 @@
   let userData,
     profilePicture,
     desc,
+    shortDesc,
+    mermaidDiagram,
+    mermaidOutput,
     date,
     commentInput,
     comments = [],
@@ -22,10 +26,15 @@
     roleUserPost,
     nimUserPost,
     commentVisible = false,
-    academicFieldPost;
+    academicFieldPost,
+    readMore;
 
   function toggleVissible() {
     commentVisible = !commentVisible;
+  }
+
+  function toggleReadMore() {
+    readMore = !readMore;
   }
 
   const today = new Date();
@@ -39,7 +48,6 @@
     if (!response.ok) {
       localStorage.clear();
       document.location.href = "/login";
-      console.log(response.statusText);
     }
 
     const data = await response.json();
@@ -55,6 +63,14 @@
 
   if (post) {
     desc = post.desc;
+    if (desc.length > 400) {
+      readMore = false;
+      shortDesc = desc.substring(0, 400);
+    }
+    if (post.mermaidDiagram) {
+      mermaidDiagram = post.mermaidDiagram;
+      renderMermaid();
+    }
     comments = post.comments;
     comments.sort(function (a, b) {
       // @ts-ignore
@@ -65,6 +81,12 @@
     } else {
       date = new Date(post.createdAt);
     }
+  }
+
+  function renderMermaid() {
+    mermaid.render("theGraph", mermaidDiagram, function (svgCode) {
+      mermaidOutput = svgCode;
+    });
   }
 
   // get data user post
@@ -194,11 +216,20 @@
         <DropdownPost idPost={post._id} />
       {/if}
     </div>
-    <!-- <a href="post/{post._id}" class="prose prose-neutral">
-      <SvelteMarkdown source={desc} />
-    </a> -->
-    <div class="prose prose-neutral">
-      <SvelteMarkdown source={desc} />
+    <div class="prose prose-neutral text-sm max-w-none">
+      {#if shortDesc && !readMore}
+        <SvelteMarkdown source={shortDesc} />
+        <button
+          on:click={toggleReadMore}
+          class="text-sm text-blue-500 font-bold hover:underline "
+          >Read More</button
+        >
+      {:else}
+        <SvelteMarkdown source={desc} />
+        {#if mermaidDiagram}
+          <div contenteditable="false" bind:innerHTML={mermaidOutput} />
+        {/if}
+      {/if}
     </div>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="flex justify-end mb-2" on:click={toggleVissible}>

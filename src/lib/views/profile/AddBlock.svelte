@@ -126,7 +126,9 @@
       <div class="flex justify-between align-middle mb-2">
         <h2 class="font-bold text-xl">{title}</h2>
       </div>
-      <div class="bg-white p-3 rounded-md prose prose-neutral">
+      <div
+        class="bg-white p-3 rounded-md prose prose-neutral text-sm max-w-none"
+      >
         <SvelteMarkdown source={desc} />
       </div>
     </div>

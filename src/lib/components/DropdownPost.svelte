@@ -20,12 +20,11 @@
     );
 
     if (!response.ok) {
-      alert("You can only delete your post");
+      const data = await response.json();
+      alert(data);
     } else {
-      navigate("/posts");
+      window.location.reload();
     }
-
-    const data = await response.json();
   }
 </script>
 

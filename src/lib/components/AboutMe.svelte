@@ -138,7 +138,7 @@
         {/if}
         <b>Organization</b>: {organization ? organization : ""} <br />
         <b>City</b>: {city ? city : ""} <br />
-        <b>Date Of Birth</b>: {dateBirth}<br />
+        <b>Date Of Birth</b>: {dateBirth ? dateBirth : ""}<br />
         <b>Gender</b>: <span class="capitalize">{gender}</span><br />
         <b>Role</b>: <span class="capitalize">{role}</span>
       </div>

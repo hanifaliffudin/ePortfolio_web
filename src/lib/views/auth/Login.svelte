@@ -1,8 +1,14 @@
 <script>
-  let email, password;
+  let email,
+    password,
+    wrongpass = false,
+    notfound = false;
 
   // login
   async function login() {
+    wrongpass = false;
+    notfound = false;
+
     const response = await fetch("http://103.187.223.15:8800/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -14,7 +20,13 @@
     });
 
     if (!response.ok) {
-      alert(response.statusText);
+      const data = await response.json();
+      if (data == "Wrong password") {
+        wrongpass = true;
+        console.log(wrongpass);
+      } else if (data == "User not found") {
+        notfound = true;
+      }
     } else {
       const data = await response.json();
       localStorage.setItem("jwt", data.jwt);
@@ -64,6 +76,9 @@
               placeholder="name@company.com"
               required
             />
+            {#if notfound}
+              <div class="text-sm text-red-500 mt-1">User Not Found</div>
+            {/if}
           </div>
           <div>
             <label
@@ -80,6 +95,9 @@
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
             />
+            {#if wrongpass}
+              <div class="text-sm text-red-500 mt-1">Wrong Password</div>
+            {/if}
           </div>
           <div class="flex items-center justify-end">
             <a

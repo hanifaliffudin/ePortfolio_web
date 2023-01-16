@@ -1,25 +1,33 @@
 <script>
   import SvelteMarkdown from "svelte-markdown";
   import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
-  import mermaid from "mermaid";
+  import { Splide, SplideSlide } from "@splidejs/svelte-splide";
+  import "@splidejs/svelte-splide/css";
 
   export let idTask, idActivity;
+
+  let options = {
+    arrows: false,
+    rewind: true,
+    perPage: 1,
+    gap: "1rem",
+    heightRatio: 0.6,
+    cover: true,
+    breakpoints: {
+      1000: {
+        perPage: 1,
+      },
+    },
+  };
 
   let activityData,
     tasks = [],
     task,
     date,
-    mermaidDiagram,
-    mermaidOutput,
-    indexTask;
+    indexTask,
+    images = [];
 
   let userId = localStorage.getItem("userId");
-
-  function renderMermaid() {
-    mermaid.render("theGraph", mermaidDiagram, function (svgCode) {
-      mermaidOutput = svgCode;
-    });
-  }
 
   // get data activity
   async function getActivity() {
@@ -37,15 +45,27 @@
       if (element._id == idTask) {
         indexTask = i;
         task = element;
-        if (element.mermaidDiagram) {
-          mermaidDiagram = element.mermaidDiagram;
-          renderMermaid();
-        }
         date = new Date(element.date).toLocaleDateString("en", {
           day: "numeric",
           month: "long",
           year: "numeric",
         });
+        images = element.images;
+        if (images && images.length > 1) {
+          options = {
+            arrows: true,
+            rewind: true,
+            perPage: 1,
+            gap: "1rem",
+            heightRatio: 0.6,
+            cover: true,
+            breakpoints: {
+              1000: {
+                perPage: 1,
+              },
+            },
+          };
+        }
       }
     });
   }
@@ -89,39 +109,53 @@
     <div class="md:container md:mx-auto my-16">
       <div class="flex justify-center">
         <div class="flex-initial w-3/4">
-          <div class="flex justify-end mb-3">
-            {#if userId}
-              <Button btnClass="p-0 h-3"
-                ><iconify-icon
-                  icon="fluent:more-horizontal-32-filled"
-                /></Button
-              >
-              <Dropdown class="w-auto">
-                <DropdownItem
-                  ><a
-                    href={`/activity/${activityData._id}/edit-task/${task._id}`}
-                    >Edit</a
-                  ></DropdownItem
+          <div class="flex justify-between mb-3 items-center">
+            <div>
+              <button on:click={() => history.back()}>
+                <iconify-icon icon="material-symbols:arrow-back-rounded" />
+              </button>
+            </div>
+            {#if userId == activityData.userId}
+              <div>
+                <Button btnClass="p-0 h-3"
+                  ><iconify-icon
+                    icon="fluent:more-horizontal-32-filled"
+                  /></Button
                 >
-                <DropdownItem on:click={deleteTask}>Delete</DropdownItem>
-              </Dropdown>
+                <Dropdown class="w-auto">
+                  <DropdownItem
+                    ><a
+                      href={`/activity/${activityData._id}/edit-task/${task._id}`}
+                      >Edit</a
+                    ></DropdownItem
+                  >
+                  <DropdownItem on:click={deleteTask}>Delete</DropdownItem>
+                </Dropdown>
+              </div>
             {/if}
           </div>
-          <div class="md:container md:mx-auto prose prose-neutral">
-            <h1 class="text-center mb-4">{task.title}</h1>
-            <div class="flex">
-              <div class="text-sm text-gray-600">{date}</div>
-            </div>
-            <img
-              class="w-full h-96 mb-4 object-cover rounded-lg"
-              src={task.image}
-              alt="Default avatar"
-            />
-            <div class="">
+          <div class="md:container md:mx-auto ">
+            <h1 class="mb-4 text-4xl font-extrabold">{task.title}</h1>
+            <div class="text-sm text-gray-600 mb-4">{date}</div>
+            <div class="prose prose-neutral text-sm max-w-none">
               <SvelteMarkdown source={task.desc} />
             </div>
-            {#if mermaidDiagram}
-              <div contenteditable="false" bind:innerHTML={mermaidOutput} />
+            {#if images}
+              <div class="mt-4">
+                <Splide
+                  {options}
+                  on:mounted={(e) => console.log(e.detail.splide.length)}
+                  on:move={(e) => console.log("move to", e.detail.index)}
+                  aria-labelledby="basic-example-heading"
+                  class="custom-class"
+                >
+                  {#each images as image}
+                    <SplideSlide>
+                      <img class="rounded-lg" alt={image} src={image} />
+                    </SplideSlide>
+                  {/each}
+                </Splide>
+              </div>
             {/if}
           </div>
         </div>

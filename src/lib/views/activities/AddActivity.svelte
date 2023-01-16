@@ -3,15 +3,7 @@
 
   let userId = localStorage.getItem("userId");
 
-  let image,
-    desc,
-    visibility,
-    startDate,
-    endDate,
-    title,
-    type,
-    ongoing,
-    mermaidInput;
+  let image, desc, visibility, startDate, endDate, title, type, ongoing;
 
   // create a post
   async function addActivity() {
@@ -28,7 +20,6 @@
         startDate,
         endDate,
         desc,
-        mermaidDiagram: mermaidInput,
         isPublic: visibility == "public" ? true : false,
       }),
     });
@@ -68,11 +59,10 @@
           <label
             for="image"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Activity Image/Icon*</label
+            >Activity Image/Icon</label
           >
           <input
             bind:value={image}
-            required
             type="text"
             id="image"
             placeholder="Ex: https://www.url.com/path/filename.png"
@@ -83,7 +73,7 @@
               class="text-blue-600"
               target="_blank"
               rel="noopener noreferrer"
-              href="/albums">Albums</a
+              href="/album">Album</a
             >
           </div>
         </div>
@@ -191,28 +181,6 @@
               rel="noopener noreferrer"
               href="https://www.markdownguide.org/basic-syntax/">Markdown</a
             > is supported
-          </div>
-        </div>
-        <div class="sm:col-span-2">
-          <label
-            for="diagram"
-            class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Diagram</label
-          >
-          <textarea
-            bind:value={mermaidInput}
-            id="diagram"
-            rows="8"
-            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          />
-          <div class="mt-1 text-sm">
-            * Use
-            <a
-              class="text-blue-600"
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://mermaid.js.org/syntax/flowchart.html">Mermaid</a
-            > to create a diagram
           </div>
         </div>
       </div>
