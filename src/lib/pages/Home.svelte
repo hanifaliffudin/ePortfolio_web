@@ -64,7 +64,7 @@
   // get all posts
   async function getPosts() {
     let response = await fetch(
-      "http://103.187.223.15:8800/api/posts/timeline/all"
+      "http://103.187.223.15:8800/api/posts/timeline/all/" + userId
     );
     return response.ok ? await response.json() : null;
   }
@@ -72,7 +72,7 @@
   // get all articles
   async function getArticles() {
     let response = await fetch(
-      "http://103.187.223.15:8800/api/articles/timeline/all"
+      "http://103.187.223.15:8800/api/articles/timeline/all/" + userId
     );
     return response.ok ? await response.json() : null;
   }
@@ -81,28 +81,32 @@
     checkUserAuth();
     let post = await getPosts();
     let articles = await getArticles();
-    post.forEach((element) => {
-      // filter private post
-      if (element.isPublic == false && element.userId != userId) {
-      } else {
-        all.push(element);
-        all = all;
-      }
-    });
-
-    articles.forEach((element) => {
-      // filter private article
-      if (element.isPublic == false && element.userId != userId) {
-      } else {
-        all.push(element);
-        all = all;
-      }
-      // sorting all posts and articles
-      all.sort(function (a, b) {
-        // @ts-ignore
-        return new Date(b.createdAt) - new Date(a.createdAt);
+    if (post) {
+      post.forEach((element) => {
+        // filter private post
+        if (element.isPublic == false && element.userId != userId) {
+        } else {
+          all.push(element);
+          all = all;
+        }
       });
-    });
+    }
+
+    if (articles) {
+      articles.forEach((element) => {
+        // filter private article
+        if (element.isPublic == false && element.userId != userId) {
+        } else {
+          all.push(element);
+          all = all;
+        }
+        // sorting all posts and articles
+        all.sort(function (a, b) {
+          // @ts-ignore
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+      });
+    }
   });
 </script>
 
