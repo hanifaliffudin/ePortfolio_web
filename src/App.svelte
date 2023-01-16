@@ -30,15 +30,14 @@
   import AllArticleResults from "./lib/views/discovery/AllArticleResults.svelte";
   import AddActivity from "./lib/views/activities/AddActivity.svelte";
   import ViewActivity from "./lib/views/activities/ViewActivity.svelte";
-  import AddFile from "./lib/views/albums/AddFile.svelte";
+  import AddFile from "./lib/views/album/AddFile.svelte";
   import EditActivity from "./lib/views/activities/EditActivity.svelte";
   import ViewBadges from "./lib/views/userProfile/ViewBadges.svelte";
   import Badges from "./lib/views/badge/Badges.svelte";
   import AddBadge from "./lib/views/badge/AddBadge.svelte";
   import EditBadge from "./lib/views/badge/EditBadge.svelte";
   import ViewBadge from "./lib/views/badge/ViewBadge.svelte";
-  import Albums from "./lib/views/albums/Albums.svelte";
-  import AddActivityFile from "./lib/views/activities/AddActivityFile.svelte";
+  import Album from "./lib/views/album/Album.svelte";
   import AllPeopleResults from "./lib/views/discovery/AllPeopleResults.svelte";
   import AllActivityResults from "./lib/views/discovery/AllActivityResults.svelte";
   import Mermaid from "./lib/pages/mermaid.svelte";
@@ -239,17 +238,17 @@
     </Route>
     <!-- end badge -->
 
-    <!-- albums -->
-    <Route path="albums">
+    <!-- album -->
+    <Route path="album">
       <Navbar active="profile" />
-      <Albums />
+      <Album />
     </Route>
 
     <Route path="add-file">
-      <Navbar active="albums" />
+      <Navbar active="album" />
       <AddFile />
     </Route>
-    <!-- end albums -->
+    <!-- end album -->
 
     <!-- discovery -->
     <Route path="discovery">

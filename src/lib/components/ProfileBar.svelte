@@ -5,7 +5,16 @@
   export let userId;
   let userIdLocal = localStorage.getItem("userId");
 
-  let userData, name, profilePicture, nim, major, interest, role, academicField;
+  let userData,
+    name,
+    profilePicture,
+    nim,
+    major,
+    interest,
+    role,
+    academicField,
+    followers = [],
+    followed;
 
   // get data user
   async function getUser() {
@@ -26,6 +35,10 @@
     interest = userData.interest;
     role = userData.role;
     academicField = userData.academicField;
+    followers = userData.followers;
+    if (followers && followers.includes(userIdLocal)) {
+      followed = true;
+    }
     if (userData.profilePicture) {
       profilePicture = "http://103.187.223.15:8800/" + userData.profilePicture;
     } else {
@@ -34,6 +47,54 @@
   }
 
   getUser();
+
+  // follow user
+  async function follow() {
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/users/follow/" + userId,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userIdFollowing: userIdLocal,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      console.log(response.status);
+      console.log(response.statusText);
+    } else {
+      const data = await response.json();
+      followed = true;
+    }
+  }
+
+  async function unfollow() {
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/users/unfollow/" + userId,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userIdFollowing: userIdLocal,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      console.log(response.status);
+      console.log(response.statusText);
+    } else {
+      const data = await response.json();
+      console.log(data);
+      followed = false;
+    }
+  }
 </script>
 
 {#if userData}
@@ -62,6 +123,23 @@
       <p>{interest ? interest : ""}</p>
     {:else}
       <p>{academicField ? academicField : ""}</p>
+    {/if}
+    {#if userIdLocal != userId}
+      {#if !followed}
+        <button
+          type="button"
+          on:click={follow}
+          class="text-white w-full mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+          >Follow</button
+        >
+      {:else}
+        <button
+          type="button"
+          on:click={unfollow}
+          class="focus:outline-none w-full mt-4 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+          >Unfollow</button
+        >
+      {/if}
     {/if}
   </div>
 {:else}

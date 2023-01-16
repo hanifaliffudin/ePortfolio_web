@@ -12,21 +12,20 @@
   let sizeUsed = 0;
 
   // get all files album user
-  async function getAlbums() {
+  async function getAlbum() {
     let response = await fetch(
-      "http://103.187.223.15:8800/api/albums/all/" + userId
+      "http://103.187.223.15:8800/api/album/all/" + userId
     );
     return response.ok ? await response.json() : null;
   }
 
   onMount(async () => {
-    let album = await getAlbums();
+    let album = await getAlbum();
     if (album) {
       albumStore.update((data) => album);
       album.forEach((file) => {
         sizeUsed += file.filesize;
       });
-      console.log(sizeUsed);
     }
   });
 </script>
@@ -39,7 +38,7 @@
 
         <div class="flex-initial w-3/4">
           <!-- tabs -->
-          <ProfileTabs active={"albums"} />
+          <ProfileTabs active={"album"} />
 
           <!-- tabs content -->
           {#if sizeUsed / 1000000000 < 2}

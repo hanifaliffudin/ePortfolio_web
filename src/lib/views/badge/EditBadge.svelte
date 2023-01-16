@@ -128,7 +128,7 @@
               class="text-blue-600"
               target="_blank"
               rel="noopener noreferrer"
-              href="/albums">Albums</a
+              href="/album">Album</a
             >
           </div>
         </div>

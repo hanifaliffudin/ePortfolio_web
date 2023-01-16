@@ -15,10 +15,16 @@
 
   const requiredMessage = "This field is required";
 
-  let username, emailUser, password, role, organization;
+  let username,
+    emailUser,
+    password,
+    role,
+    organization,
+    registered = false;
 
   // register
   async function register() {
+    registered = false;
     const response = await fetch(
       "http://103.187.223.15:8800/api/auth/register",
       {
@@ -37,11 +43,15 @@
     );
 
     if (!response.ok) {
-      alert(response.statusText);
+      // alert(response.statusText);
+      const data = await response.json();
+      console.log(data);
+      if (data == "Email already registered") {
+        registered = true;
+      }
     } else {
       navigate("/login");
     }
-    const data = await response.json();
   }
 </script>
 
@@ -90,6 +100,11 @@
               placeholder="name@company.com"
               required
             />
+            {#if registered}
+              <div class="text-sm text-red-500 mt-1">
+                Email is already registered
+              </div>
+            {/if}
             <HintGroup for="email">
               <Hint on="required"
                 ><div class="text-sm mt-2 text-red-600">

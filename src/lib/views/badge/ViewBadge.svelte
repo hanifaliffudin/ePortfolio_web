@@ -34,7 +34,6 @@
     if (!response.ok) {
       localStorage.clear();
       document.location.href = "/login";
-      console.log(response.statusText);
     }
 
     const data = await response.json();

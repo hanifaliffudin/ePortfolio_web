@@ -53,11 +53,11 @@
     </li>
     <li class="mr-2">
       <a
-        href="/albums"
-        class="{active == 'albums'
+        href="/album"
+        class="{active == 'album'
           ? 'border-blue-600 text-blue-600'
           : 'border-transparent hover:text-gray-600 hover:border-gray-300'} inline-block p-4 rounded-t-lg border-b-2"
-        >Albums</a
+        >Album</a
       >
     </li>
   </ul>

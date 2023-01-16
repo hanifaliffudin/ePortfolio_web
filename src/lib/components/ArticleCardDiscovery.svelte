@@ -15,14 +15,12 @@
   }
 
   // get data user
-  async function getUser() {
+  async function getUserArticle() {
     const response = await fetch(
       "http://103.187.223.15:8800/api/users/" + userId
     );
 
     if (!response.ok) {
-      // navigate("/login");
-      // localStorage.clear();
       console.log(response.statusText);
     }
 
@@ -31,7 +29,7 @@
     name = userData.username;
   }
 
-  getUser();
+  getUserArticle();
 </script>
 
 {#if userData}

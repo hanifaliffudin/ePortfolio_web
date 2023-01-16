@@ -11,6 +11,7 @@
   let userData,
     profilePicture,
     desc,
+    shortDesc,
     mermaidDiagram,
     mermaidOutput,
     date,
@@ -25,7 +26,8 @@
     roleUserPost,
     nimUserPost,
     commentVisible = false,
-    academicFieldPost;
+    academicFieldPost,
+    readMore;
 
   function toggleVissible() {
     commentVisible = !commentVisible;
@@ -42,7 +44,6 @@
     if (!response.ok) {
       localStorage.clear();
       document.location.href = "/login";
-      console.log(response.statusText);
     }
 
     const data = await response.json();
@@ -58,6 +59,11 @@
 
   if (post) {
     desc = post.desc;
+    if (desc.length > 400) {
+      readMore = false;
+      shortDesc = desc.substring(0, 400);
+    }
+
     if (post.mermaidDiagram) {
       mermaidDiagram = post.mermaidDiagram;
       renderMermaid();
@@ -143,6 +149,10 @@
       commentInput = "";
     }
   }
+
+  function toggleReadMore() {
+    readMore = !readMore;
+  }
 </script>
 
 {#if userDataPost && userData}
@@ -210,12 +220,22 @@
       {/if}
     </div>
 
-    <div class="prose prose-neutral">
-      <SvelteMarkdown source={desc} />
+    <div class="prose prose-neutral text-sm">
+      {#if shortDesc && !readMore}
+        <SvelteMarkdown source={shortDesc} />
+        <button
+          on:click={toggleReadMore}
+          class="text-sm text-blue-500 font-bold hover:underline "
+          >Read More</button
+        >
+      {:else}
+        <SvelteMarkdown source={desc} />
+        {#if mermaidDiagram}
+          <div contenteditable="false" bind:innerHTML={mermaidOutput} />
+        {/if}
+      {/if}
     </div>
-    {#if mermaidDiagram}
-      <div contenteditable="false" bind:innerHTML={mermaidOutput} />
-    {/if}
+
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="flex justify-end mb-2" on:click={toggleVissible}>
       <div class="cursor-pointer hover:underline text-sm">

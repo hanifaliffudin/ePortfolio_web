@@ -1,5 +1,6 @@
 <script>
   import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
+  import SvelteMarkdown from "svelte-markdown";
 
   export let article;
 
@@ -18,14 +19,12 @@
   }
 
   // get data user
-  async function getUser() {
+  async function getUserArticle() {
     const response = await fetch(
       "http://103.187.223.15:8800/api/users/" + userIdArticle
     );
 
     if (!response.ok) {
-      // navigate("/login");
-      // localStorage.clear();
       console.log(response.statusText);
     }
 
@@ -34,7 +33,7 @@
     name = userData.username;
   }
 
-  getUser();
+  getUserArticle();
 
   // delete article
   async function deleteArticle() {
@@ -61,7 +60,7 @@
 
 {#if userData}
   <div class="md:container md:mx-auto bg-gray-100 p-6 rounded-lg mb-8">
-    <div class="mb-4 flex">
+    <div class="flex">
       <div class="line-clamp-1">
         <span class="font-bold">{name}</span> posted this
       </div>
@@ -85,37 +84,39 @@
         </Dropdown>
       {/if}
     </div>
-    <a
-      href="/article/{article._id}"
-      class="prose prose-neutral hover:underline"
-    >
-      <img
-        class="object-cover h-80 w-full rounded"
-        src={article.coverArticle}
-        alt=""
-      />
-      <div class="font-bold">
+    <div class="text-sm">
+      <!-- if updated -->
+      <!-- {article.createdAt != article.updatedAt ? "Last updated on " : ""} -->
+      <!-- time -->
+      {date.toLocaleTimeString("id", {
+        hour: "numeric",
+        minute: "2-digit",
+      })}
+      <!-- date -->
+      {date.toLocaleDateString("en") == today.toLocaleDateString("en")
+        ? "Today"
+        : date.toLocaleDateString("en", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          })}
+    </div>
+    <a href="/article/{article._id}" class="prose prose-neutral">
+      {#if article.coverArticle}
+        <img
+          class="object-cover h-80 w-full rounded my-4"
+          src={article.coverArticle}
+          alt=""
+        />
+      {/if}
+
+      <div class="font-extrabold text-3xl text-center mb-2">
         {article.title}
       </div>
-      <div class="text-sm">{name} on ePortfolio</div>
-
-      <div class="text-sm font-bold">
-        <!-- if updated -->
-        <!-- {article.createdAt != article.updatedAt ? "Last updated on " : ""} -->
-        <!-- time -->
-        {date.toLocaleTimeString("id", {
-          hour: "numeric",
-          minute: "2-digit",
-        })}
-        <!-- date -->
-        {date.toLocaleDateString("en") == today.toLocaleDateString("en")
-          ? "Today"
-          : date.toLocaleDateString("en", {
-              day: "numeric",
-              month: "short",
-              year: "numeric",
-            })}
+      <div class="prose prose-neutral line-clamp-6 text-sm">
+        <SvelteMarkdown source={article.desc} />
       </div>
+      <!-- <div class="text-sm">{name} on ePortfolio</div> -->
     </a>
   </div>
 {/if}

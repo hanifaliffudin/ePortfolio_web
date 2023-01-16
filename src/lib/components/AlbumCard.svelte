@@ -16,7 +16,7 @@
   // delete file
   async function deleteFile() {
     const response = await fetch(
-      "http://103.187.223.15:8800/api/albums/" + album._id,
+      "http://103.187.223.15:8800/api/album/" + album._id,
       {
         method: "DELETE",
         headers: { "Content-type": "application/json; charset=UTF-8" },
