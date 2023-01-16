@@ -46,7 +46,7 @@
   // delete activity
   async function deleteActivity() {
     const response = await fetch(
-      "http://127.0.0.1:8800/api/activities/" + idActivity,
+      "http://103.187.223.15:8800/api/activities/" + idActivity,
       {
         method: "DELETE",
         headers: { "Content-type": "application/json; charset=UTF-8" },
