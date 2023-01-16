@@ -12,7 +12,7 @@
     dateBirth,
     gender,
     academicField,
-    interest,
+    interest = "",
     maxImage;
 
   // preview profile picture
@@ -61,7 +61,7 @@
 
     userData.gender ? (gender = userData.gender) : (gender = "");
     userData.role ? (role = userData.role) : (role = "");
-    interest = userData.interest;
+    interest = userData.interest ? userData.interest : " ";
     if (userData.profilePicture) {
       src = "http://103.187.223.15:8800/" + userData.profilePicture;
     } else {
@@ -127,13 +127,11 @@
       }
 
       if (!response.ok) {
-        window.alert(response.statusText);
-        console.log(response.status);
-        console.log(response.statusText);
+        const data = await response.json();
+        console.log(data);
+      } else {
+        window.location.href = "/profile";
       }
-
-      const data = await response.json();
-      document.location.href = "/profile";
     }
   }
 </script>
@@ -257,12 +255,13 @@
             <label
               for="dateBirth"
               class="block mb-2 font-medium text-gray-900 dark:text-white"
-              >Date of birth</label
+              >Date of birth*</label
             >
             <input
               bind:value={dateBirth}
               type="date"
               name="dateBirth"
+              required
               id="dateBirth"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Your Major"
@@ -339,7 +338,7 @@
           >
             Update
           </button>
-          {#if dateBirth}
+          {#if gender}
             <button
               type="button"
               on:click={() => history.back()}
