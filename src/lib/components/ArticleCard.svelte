@@ -101,7 +101,7 @@
             year: "numeric",
           })}
     </div>
-    <a href="/article/{article._id}" class="prose prose-neutral">
+    <a href="/article/{article._id}" class="">
       {#if article.coverArticle}
         <img
           class="object-cover h-80 w-full rounded my-4"
@@ -110,10 +110,10 @@
         />
       {/if}
 
-      <div class="font-extrabold text-3xl text-center mb-2">
+      <div class="font-extrabold text-3xl mb-2">
         {article.title}
       </div>
-      <div class="prose prose-neutral line-clamp-6 text-sm">
+      <div class="prose prose-neutral line-clamp-6 text-sm max-w-none">
         <SvelteMarkdown source={article.desc} />
       </div>
       <!-- <div class="text-sm">{name} on ePortfolio</div> -->

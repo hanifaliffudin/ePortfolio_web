@@ -148,6 +148,13 @@
                 </li>
                 <li class="mr-2">
                   <a
+                    href="/projects/{userId}"
+                    class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
+                    >Projects</a
+                  >
+                </li>
+                <li class="mr-2">
+                  <a
                     href="/badges/{userId}"
                     class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
                     >Badges</a
@@ -174,9 +181,10 @@
                     </div>
                   {/if}
                   <b>Organization</b>: {organization ? organization : ""} <br />
-                  <b>City</b>: {city} <br />
+                  <b>City</b>: {city ? city : ""} <br />
                   <b>Date Of Birth</b>: {dateBirth ? dateBirth : ""}<br />
-                  <b>Gender</b>: <span class="capitalize">{gender}</span><br />
+                  <b>Gender</b>:
+                  <span class="capitalize">{gender ? gender : ""}</span><br />
                   <b>Role</b>:
                   <span class="capitalize">{role ? role : ""}</span>
                 </div>
@@ -198,7 +206,7 @@
                   <h2 class="font-bold text-xl">Newest Activity</h2>
                 </div>
                 <div class="bg-white p-3 rounded-md">
-                  {#if lastActivity && lastActivity.endDate}
+                  {#if lastActivity}
                     <a href="/activity/{lastActivity._id}">
                       <div class="font-light text-xs mb-3">
                         {dateLastActivity
@@ -209,9 +217,7 @@
                             })
                           : ""}
                       </div>
-                      <div
-                        class="font-bold text-blue-600 text-xl hover:underline leading-tight"
-                      >
+                      <div class="font-bold text-xl leading-tight">
                         {lastActivity.title}
                       </div>
                     </a>
@@ -252,7 +258,7 @@
                   <h2 class="font-bold text-xl">Social Media</h2>
                 </div>
                 <div class="bg-white p-3 rounded-md">
-                  <div class="flex">
+                  <div class="flex flex-wrap">
                     {#if linkedin}
                       <a
                         href={linkedin}

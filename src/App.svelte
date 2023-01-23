@@ -9,7 +9,7 @@
   import Register from "./lib/views/auth/Register.svelte";
   import ResetPassword from "./lib/views/auth/ResetPassword.svelte";
   import CreatePost from "./lib/views/post/CreatePost.svelte";
-  import Activities from "./lib/views/activities/Activities.svelte";
+  import Activities from "./lib/views/activity/Activities.svelte";
   import EditPost from "./lib/views/post/EditPost.svelte";
   import ViewPost from "./lib/views/post/ViewPost.svelte";
   import Articles from "./lib/views/article/Articles.svelte";
@@ -28,10 +28,10 @@
   import ViewPosts from "./lib/views/userProfile/ViewPosts.svelte";
   import AllPostResults from "./lib/views/discovery/AllPostResults.svelte";
   import AllArticleResults from "./lib/views/discovery/AllArticleResults.svelte";
-  import AddActivity from "./lib/views/activities/AddActivity.svelte";
-  import ViewActivity from "./lib/views/activities/ViewActivity.svelte";
+  import AddActivity from "./lib/views/activity/AddActivity.svelte";
+  import ViewActivity from "./lib/views/activity/ViewActivity.svelte";
   import AddFile from "./lib/views/album/AddFile.svelte";
-  import EditActivity from "./lib/views/activities/EditActivity.svelte";
+  import EditActivity from "./lib/views/activity/EditActivity.svelte";
   import ViewBadges from "./lib/views/userProfile/ViewBadges.svelte";
   import Badges from "./lib/views/badge/Badges.svelte";
   import AddBadge from "./lib/views/badge/AddBadge.svelte";
@@ -40,10 +40,20 @@
   import Album from "./lib/views/album/Album.svelte";
   import AllPeopleResults from "./lib/views/discovery/AllPeopleResults.svelte";
   import AllActivityResults from "./lib/views/discovery/AllActivityResults.svelte";
-  import Mermaid from "./lib/pages/mermaid.svelte";
-  import AddTask from "./lib/views/activities/AddTask.svelte";
-  import ViewTask from "./lib/views/activities/ViewTask.svelte";
-  import EditTask from "./lib/views/activities/EditTask.svelte";
+  import AddTask from "./lib/views/activity/AddTask.svelte";
+  import ViewTask from "./lib/views/activity/ViewTask.svelte";
+  import EditTask from "./lib/views/activity/EditTask.svelte";
+  import Projects from "./lib/views/project/Projects.svelte";
+  import CreateProject from "./lib/views/project/CreateProject.svelte";
+  import ViewProject from "./lib/views/project/ViewProject.svelte";
+  import EditProject from "./lib/views/project/EditProject.svelte";
+  import AddRoadmap from "./lib/views/project/AddRoadmap.svelte";
+  import ViewRoadmap from "./lib/views/project/ViewRoadmap.svelte";
+  import EditRoadmap from "./lib/views/project/EditRoadmap.svelte";
+  import AddTaskRoadmap from "./lib/views/project/AddTaskRoadmap.svelte";
+  import ViewTaskRoadmap from "./lib/views/project/ViewTaskRoadmap.svelte";
+  import EditTaskRoadmap from "./lib/views/project/EditTaskRoadmap.svelte";
+  import ViewProjects from "./lib/views/userProfile/ViewProjects.svelte";
 
   export let url = "";
 
@@ -116,6 +126,11 @@
     <Route path="activities/:id" let:params>
       <Navbar active="user" />
       <ViewActivities userId={params.id} />
+    </Route>
+
+    <Route path="projects/:id" let:params>
+      <Navbar active="user" />
+      <ViewProjects userId={params.id} />
     </Route>
 
     <Route path="posts/:id" let:params>
@@ -277,9 +292,73 @@
     </Route>
     <!-- end discovery -->
 
-    <Route path="mermaid">
-      <Navbar active="discovery" />
-      <Mermaid />
+    <!-- project -->
+    <Route path="projects">
+      <Navbar active="profile" />
+      <Projects />
     </Route>
+
+    <Route path="/project/create">
+      <Navbar active="profile" />
+      <CreateProject />
+    </Route>
+
+    <Route path="/project/:id" let:params>
+      <Navbar active="project" />
+      <ViewProject idProject={params.id} />
+    </Route>
+
+    <Route path="/project/edit/:id" let:params>
+      <Navbar active="project" />
+      <EditProject idProject={params.id} />
+    </Route>
+
+    <Route path="/project/add-roadmap/:id" let:params>
+      <Navbar active="project" />
+      <AddRoadmap idProject={params.id} />
+    </Route>
+
+    <Route path="/project/:idProject/roadmap/:idRoadmap" let:params>
+      <Navbar active="project" />
+      <ViewRoadmap idProject={params.idProject} idRoadmap={params.idRoadmap} />
+    </Route>
+
+    <Route path="/project/:idProject/roadmap/:idRoadmap/edit" let:params>
+      <Navbar active="project" />
+      <EditRoadmap idProject={params.idProject} idRoadmap={params.idRoadmap} />
+    </Route>
+
+    <Route path="/project/:idProject/roadmap/:idRoadmap/add-task" let:params>
+      <Navbar active="project" />
+      <AddTaskRoadmap
+        idProject={params.idProject}
+        idRoadmap={params.idRoadmap}
+      />
+    </Route>
+
+    <Route
+      path="/project/:idProject/roadmap/:idRoadmap/task/:idTask"
+      let:params
+    >
+      <Navbar active="project" />
+      <ViewTaskRoadmap
+        idTask={params.idTask}
+        idProject={params.idProject}
+        idRoadmap={params.idRoadmap}
+      />
+    </Route>
+
+    <Route
+      path="/project/:idProject/roadmap/:idRoadmap/edit-task/:idTask"
+      let:params
+    >
+      <Navbar active="project" />
+      <EditTaskRoadmap
+        idTask={params.idTask}
+        idProject={params.idProject}
+        idRoadmap={params.idRoadmap}
+      />
+    </Route>
+    <!-- end project -->
   {/if}
 </Router>

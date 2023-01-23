@@ -14,6 +14,7 @@
     role,
     academicField,
     followers = [],
+    following = [],
     followed;
 
   // get data user
@@ -36,6 +37,7 @@
     role = userData.role;
     academicField = userData.academicField;
     followers = userData.followers;
+    following = userData.following;
     if (followers && followers.includes(userIdLocal)) {
       followed = true;
     }
@@ -124,6 +126,19 @@
     {:else}
       <p>{academicField ? academicField : ""}</p>
     {/if}
+    <div class="flex gap-3 my-2">
+      {#if followers}
+        <div><span class="font-bold">{followers.length}</span> Followers</div>
+      {:else}
+        <div><span class="font-bold">0</span> Followers</div>
+      {/if}
+      {#if following}
+        <div><span class="font-bold">{following.length}</span> Following</div>
+      {:else}
+        <div><span class="font-bold">0</span> Following</div>
+      {/if}
+    </div>
+
     {#if userIdLocal != userId}
       {#if !followed}
         <button

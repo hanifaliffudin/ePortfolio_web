@@ -55,7 +55,7 @@
       }
       maxFile = false;
     } else {
-      alert("Maximum image size is 10MB");
+      alert("Maximum file size is 10MB");
       maxFile = true;
     }
   }
@@ -63,7 +63,7 @@
   // upload file
   async function uploadFile() {
     if (maxFile) {
-      alert("Maximum image size is 10MB");
+      alert("Maximum file size is 10MB");
     } else if (!type) {
       alert("Extension not supported");
       src = null;
@@ -102,6 +102,16 @@
 
 <main class="md:mx-72">
   <div class="md:container md:mx-auto my-16">
+    <div>
+      <label
+        for="file"
+        class="block mb-2 font-medium text-gray-900 dark:text-white"
+        >Upload File</label
+      >
+
+      <input bind:files on:change={loadFile} type="file" required />
+      <div class="text-sm mt-2 text-red-500">*Maximum file size is 10MB</div>
+    </div>
     <!-- image -->
     <div>
       {#if type == "image"}
@@ -120,16 +130,6 @@
       {/if}
     </div>
 
-    <div>
-      <label
-        for="file"
-        class="block mb-2 font-medium text-gray-900 dark:text-white"
-        >Upload File</label
-      >
-
-      <input bind:files on:change={loadFile} type="file" required />
-      <div class="text-sm mt-2 text-red-500">*Maximum file size is 10MB</div>
-    </div>
     <div class="flex justify-end items-center space-x-2">
       <button
         on:click={uploadFile}

@@ -65,6 +65,9 @@
 
 {#if userData}
   <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
+    <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+      Edit Social Media
+    </h2>
     <div class="mb-6">
       <label
         for="linkedin-icon"

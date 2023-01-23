@@ -30,7 +30,7 @@
   });
 </script>
 
-<main class="md:mx-72">
+<main class="md:mx-64">
   <section>
     <div class="md:container md:mx-auto my-16">
       <div class="flex">

@@ -56,10 +56,14 @@
       dateBirth = new Date(userData.dateBirth).toLocaleDateString("en-CA");
     } else {
       dateBirth = null;
-      alert.classList.remove("hidden");
     }
 
-    userData.gender ? (gender = userData.gender) : (gender = "");
+    if (userData.gender) {
+      gender = userData.gender;
+    } else {
+      alert.classList.remove("hidden");
+      gender = "";
+    }
     userData.role ? (role = userData.role) : (role = "");
     interest = userData.interest ? userData.interest : " ";
     if (userData.profilePicture) {

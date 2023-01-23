@@ -1,41 +1,43 @@
 <script>
-  import ProfileBar from "../../components/ProfileBar.svelte";
   import { writable } from "svelte/store";
   import { onMount } from "svelte";
-  import PostCard from "../../components/PostCard.svelte";
-
-  const postStore = writable(null);
+  import ProfileBar from "../../components/ProfileBar.svelte";
+  import ProfileTabs from "../../components/ProfileTabs.svelte";
+  import ProjectCard from "../../components/ProjectCard.svelte";
 
   export let userId;
+
   let userIdLocal = localStorage.getItem("userId");
+
+  const projectsStore = writable(null);
 
   let all = [];
 
-  // get all user posts
-  async function getPost() {
+  // get all user projects
+  async function getprojects() {
     let response = await fetch(
-      "http://103.187.223.15:8800/api/posts/all/" + userId
+      "http://103.187.223.15:8800/api/projects/all/" + userId
     );
     return response.ok ? await response.json() : null;
   }
 
   onMount(async () => {
-    let post = await getPost();
-    if (post) {
-      post.forEach((element) => {
-        // filter private post
+    let projects = await getprojects();
+    if (projects) {
+      projects.forEach((element) => {
+        // filter private activitiy
         if (element.isPublic == false && element.userId != userIdLocal) {
         } else {
           all.push(element);
           all = all;
         }
-        // sorting post
+        // sorting activitiy
         all.sort(function (a, b) {
           // @ts-ignore
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
       });
-      postStore.update((data) => all);
+      projectsStore.update((data) => all);
     }
   });
 </script>
@@ -62,7 +64,7 @@
               <li class="mr-2">
                 <a
                   href="/posts/{userId}"
-                  class="border-blue-600 text-blue-600 inline-block p-4 rounded-t-lg border-b-2 "
+                  class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2"
                   aria-current="page">Posts</a
                 >
               </li>
@@ -83,7 +85,7 @@
               <li class="mr-2">
                 <a
                   href="/projects/{userId}"
-                  class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
+                  class="border-blue-600 text-blue-600 inline-block p-4 rounded-t-lg border-b-2 "
                   >Projects</a
                 >
               </li>
@@ -98,13 +100,12 @@
           </div>
 
           <!-- tabs content -->
-          <div class="md:container md:mx-auto">
-            {#if $postStore}
-              {#each $postStore as $post}
-                <PostCard post={$post} />
-              {/each}
-            {/if}
-          </div>
+
+          {#if $projectsStore}
+            {#each $projectsStore as $project}
+              <ProjectCard project={$project} />
+            {/each}
+          {/if}
         </div>
       </div>
     </div>
