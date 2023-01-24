@@ -1,34 +1,34 @@
 <script>
   import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
 
-  export let activity;
+  export let project;
 
   let userId = localStorage.getItem("userId");
 
-  let userIdActivity, image, desc, date, title, type, startDate, endDate;
+  let userIdProject, image, desc, date, title, type, startDate, endDate;
 
-  if (activity) {
-    title = activity.title;
-    image = activity.image;
-    desc = activity.desc;
-    type = activity.type;
-    userIdActivity = activity.userId;
-    startDate = new Date(activity.startDate);
-    if (activity.endDate) {
-      endDate = new Date(activity.endDate);
+  if (project) {
+    title = project.title;
+    image = project.image;
+    desc = project.desc;
+    type = project.type;
+    userIdProject = project.userId;
+    startDate = new Date(project.startDate);
+    if (project.endDate) {
+      endDate = new Date(project.endDate);
     }
 
-    if (activity.createdAt != activity.updatedAt) {
-      date = new Date(activity.createdAt);
+    if (project.createdAt != project.updatedAt) {
+      date = new Date(project.createdAt);
     } else {
-      date = new Date(activity.createdAt);
+      date = new Date(project.createdAt);
     }
   }
 
-  // delete activity
-  async function deleteActivity() {
+  // delete project
+  async function deleteProject() {
     const response = await fetch(
-      "http://103.187.223.15:8800/api/activities/" + activity._id,
+      "http://103.187.223.15:8800/api/projects/" + project._id,
       {
         method: "DELETE",
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -39,9 +39,9 @@
     );
 
     if (!response.ok) {
-      alert("You can only delete your activity");
+      alert("You can only delete your project");
     } else {
-      document.location.href = "/activities";
+      document.location.href = "/projects";
     }
   }
 </script>
@@ -60,14 +60,14 @@
       <div class=" self-center">
         <div>
           <div class="flex">
-            <a href="/activity/{activity._id}">
+            <a href="/project/{project._id}">
               <div
                 class="font-bold text-blue-600 text-xl hover:underline leading-tight"
               >
                 {title}
               </div></a
             >
-            {#if !activity.isPublic}
+            {#if !project.isPublic}
               <div
                 class="ml-3 mt-1 h-5 ring-1 ring-gray-400  text-xs font-semibold text-gray-600 items-center inline-flex rounded-full px-2"
               >
@@ -93,15 +93,15 @@
       </div>
 
       <div class="flex-auto" />
-      {#if userId == userIdActivity}
+      {#if userId == userIdProject}
         <Button btnClass="p-0 h-3"
           ><iconify-icon icon="fluent:more-horizontal-32-filled" /></Button
         >
         <Dropdown class="w-auto">
           <DropdownItem
-            ><a href="/activity/edit/{activity._id}">Edit</a></DropdownItem
+            ><a href="/project/edit/{project._id}">Edit</a></DropdownItem
           >
-          <DropdownItem on:click={deleteActivity}>Delete</DropdownItem>
+          <DropdownItem on:click={deleteProject}>Delete</DropdownItem>
         </Dropdown>
       {/if}
     </div>

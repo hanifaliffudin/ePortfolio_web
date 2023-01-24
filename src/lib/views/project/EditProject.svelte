@@ -1,36 +1,77 @@
 <script>
   import { navigate } from "svelte-routing";
 
+  export let idProject;
+
   let userId = localStorage.getItem("userId");
 
-  let image, desc, visibility, startDate, endDate, title, type, ongoing;
+  let desc,
+    visibility,
+    startDate,
+    endDate,
+    title,
+    image,
+    type,
+    projectData,
+    ongoing = true;
 
-  // create a post
-  async function addActivity() {
-    const response = await fetch("http://103.187.223.15:8800/api/activities/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId,
-        image,
-        title,
-        type,
-        startDate,
-        endDate,
-        desc,
-        isPublic: visibility == "public" ? true : false,
-      }),
-    });
+  // update data project
+  async function update() {
+    let response;
+
+    response = await fetch(
+      "http://103.187.223.15:8800/api/projects/" + idProject,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userId,
+          title,
+          image,
+          type,
+          startDate,
+          endDate: ongoing ? null : endDate,
+          desc: desc,
+          isPublic: visibility == "public" ? true : false,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      window.alert(response.statusText);
+      console.log(response.status);
+      console.log(response.statusText);
+    }
+
+    const data = await response.json();
+    navigate("/project/" + idProject);
+  }
+
+  // get data project
+  async function getProject() {
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/projects/" + idProject
+    );
 
     if (!response.ok) {
       alert(response.statusText);
-    } else {
-      navigate("/activities");
     }
     const data = await response.json();
+    projectData = data;
+    desc = projectData.desc;
+    title = projectData.title;
+    image = projectData.image;
+    startDate = new Date(projectData.startDate).toLocaleDateString("en-CA");
+    if (projectData.endDate) {
+      endDate = new Date(projectData.endDate).toLocaleDateString("en-CA");
+      ongoing = false;
+    }
+    projectData.isPublic ? (visibility = "public") : (visibility = "private");
   }
+
+  getProject();
 
   function checkDiff() {
     if (!startDate) {
@@ -41,7 +82,7 @@
       var t1 = new Date(startDate).getTime();
 
       if (Math.floor((t2 - t1) / (24 * 3600 * 1000)) < 0) {
-        alert("Please select start date first");
+        alert("End date should be greater than start date");
         endDate = null;
       }
     }
@@ -50,16 +91,16 @@
 
 <main class="md:mx-72">
   <div class="md:container md:mx-auto my-16">
-    <form on:submit|preventDefault={addActivity}>
+    <form on:submit|preventDefault={update}>
       <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
         <h2 class="text-xl font-bold text-gray-900 dark:text-white">
-          Edit activity
+          Edit project
         </h2>
         <div class="sm:col-span-2">
           <label
             for="image"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
-            >Activity Image/Icon</label
+            >Project Image/Icon</label
           >
           <input
             bind:value={image}
@@ -119,7 +160,7 @@
             <label
               for="ongoing"
               class="ml-2 font-medium text-gray-900 dark:text-gray-300"
-              >Activity is ongoing</label
+              >Project is ongoing</label
             >
           </div>
         </div>
@@ -159,7 +200,6 @@
             />
           </div>
         {/if}
-
         <div class="sm:col-span-2">
           <label
             for="description"
@@ -198,7 +238,7 @@
             type="submit"
             class="text-white mr-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Save
+            Update
           </button>
           <button
             type="button"

@@ -1,7 +1,7 @@
 <script>
-  import { navigate } from "svelte-routing";
+  export let idActivity;
 
-  export let idTask, idActivity;
+  const today = new Date().toLocaleDateString("en-CA");
 
   let userId = localStorage.getItem("userId");
 
@@ -12,9 +12,8 @@
     startDateActivity,
     endDateActivity,
     tasks = [],
-    task,
-    indexTask,
-    image,
+    imgurl,
+    caption,
     images = [];
 
   // get data activity
@@ -37,26 +36,20 @@
       );
     }
     tasks = activityData.tasks;
-    tasks.forEach((element, i) => {
-      if (element._id == idTask) {
-        indexTask = i;
-        task = element;
-        date = new Date(element.date).toLocaleDateString("en-CA");
-        title = element.title;
-        desc = element.desc;
-        images = element.images;
-      }
-    });
   }
 
   getActivity();
 
-  // update task
-  async function updateTask() {
-    tasks[indexTask].title = title;
-    tasks[indexTask].date = date;
-    tasks[indexTask].desc = desc;
-    tasks[indexTask].images = images;
+  // add task
+  async function addTask() {
+    let newtask = {
+      title,
+      date,
+      desc,
+      images,
+    };
+
+    tasks.splice(0, 0, newtask);
 
     const response = await fetch(
       "http://103.187.223.15:8800/api/activities/" + idActivity,
@@ -76,18 +69,20 @@
       alert(response.statusText);
     } else {
       const data = await response.json();
-      window.location.href = `/activity/${activityData._id}/task/${task._id}`;
+      window.location.href = "/activity/" + idActivity;
     }
   }
 
   const addImage = () => {
-    if (image) {
-      if (images.indexOf(image) !== -1) {
-        alert(image + " sudah ada");
+    if (imgurl) {
+      if (images.indexOf(imgurl) !== -1) {
+        alert(imgurl + " sudah ada");
       } else {
-        images.push(image);
+        let imagesLength = images.length;
+        images.push({ id: imagesLength, name: caption ? caption : "", imgurl });
         images = images;
-        image = "";
+        imgurl = "";
+        caption = "";
       }
     } else {
       alert("You didn't type anything.");
@@ -105,10 +100,10 @@
 
 <main class="md:mx-72">
   <div class="md:container md:mx-auto my-16">
-    <form on:submit|preventDefault={updateTask}>
+    <form on:submit|preventDefault={addTask}>
       <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
         <h2 class="text-xl font-bold text-gray-900 dark:text-white">
-          Edit Task
+          Add Task
         </h2>
         <div class="sm:col-span-2">
           <label
@@ -134,8 +129,8 @@
             <input
               required
               bind:value={date}
-              min={startDateActivity}
               max={endDateActivity}
+              min={startDateActivity}
               type="date"
               name="date"
               id="date"
@@ -146,6 +141,7 @@
             <input
               required
               bind:value={date}
+              max={today}
               min={startDateActivity}
               type="date"
               name="date"
@@ -178,19 +174,27 @@
             > is supported
           </div>
         </div>
+
         <div class="sm:col-span-2">
           <label
-            for="tag"
+            for="image-url"
             class="block mb-2 font-medium text-gray-900 dark:text-white"
             >{images.length > 1 ? "Images" : "Image"}</label
           >
-          <div class="flex">
+          <div class="">
             <input
-              bind:value={image}
+              bind:value={imgurl}
               type="text"
-              id="tag"
-              placeholder="Ex: https://www.url.com/path/filename.png"
-              class="bg-gray-50 mr-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              id="image-url"
+              placeholder="URL: https://www.url.com/path/filename.png"
+              class="bg-gray-50 mr-4 mb-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+            <input
+              bind:value={caption}
+              type="text"
+              id="caption"
+              placeholder="Caption: First Task"
+              class="bg-gray-50 mr-4 mb-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
             <button
               type="button"
@@ -209,20 +213,24 @@
           </div>
           <div class=" flex flex-wrap mt-4 gap-2">
             {#each images as image, i}
-              <div class="relative group/item opacity-75 hover:opacity-100">
-                <img
-                  src={image}
-                  alt="image"
-                  class="inset-0 h-36 w-full object-cover object-center rounded border cursor-pointer"
-                />
-                <button
-                  type="button"
-                  on:click={() => handleRemove(i)}
-                  class="group/edit invisible group-hover/item:visible absolute top-2 right-2 bg-white p-1 rounded-lg flex items-center"
-                  ><iconify-icon
-                    icon="material-symbols:close-rounded"
-                  /></button
-                >
+              <div>
+                <div class="relative group/item opacity-75 hover:opacity-100">
+                  <!-- svelte-ignore a11y-img-redundant-alt -->
+                  <img
+                    src={image.imgurl}
+                    alt="image"
+                    class="inset-0 h-36 w-48 object-cover object-center rounded border cursor-pointer"
+                  />
+                  <button
+                    type="button"
+                    on:click={() => handleRemove(i)}
+                    class="group/edit invisible group-hover/item:visible absolute top-2 right-2 bg-white p-1 rounded-lg flex items-center"
+                    ><iconify-icon
+                      icon="material-symbols:close-rounded"
+                    /></button
+                  >
+                </div>
+                <div class="w-48 text-sm">{image.name}</div>
               </div>
             {/each}
           </div>
@@ -235,7 +243,7 @@
             type="submit"
             class="text-white mr-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Update
+            Add
           </button>
           <button
             type="button"

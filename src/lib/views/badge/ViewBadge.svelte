@@ -135,7 +135,7 @@
                 </div>
               {/if}
               <div class="mb-4">Issued Date: {date}</div>
-              {#if skills}
+              {#if skills && skills.length > 0}
                 <div class="font-bold mb-2">Skills</div>
                 <div class="flex flex-wrap">
                   {#each skills as skill, i (skill)}

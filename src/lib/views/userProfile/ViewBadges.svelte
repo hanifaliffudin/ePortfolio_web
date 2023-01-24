@@ -83,6 +83,13 @@
               </li>
               <li class="mr-2">
                 <a
+                  href="/projects/{userId}"
+                  class="border-transparent hover:text-gray-600 hover:border-gray-300 inline-block p-4 rounded-t-lg border-b-2 "
+                  >Projects</a
+                >
+              </li>
+              <li class="mr-2">
+                <a
                   href="/badges/{userId}"
                   class="border-blue-600 text-blue-600 inline-block p-4 rounded-t-lg border-b-2 "
                   >Badges</a

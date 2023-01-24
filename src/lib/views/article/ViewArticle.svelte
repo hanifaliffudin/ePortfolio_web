@@ -215,7 +215,7 @@
             {/if}
           </div>
           <div class="md:container md:mx-auto">
-            <h1 class="text-center mb-4 font-extrabold text-4xl">{title}</h1>
+            <h1 class="mb-4 font-extrabold text-4xl">{title}</h1>
             <div class="flex">
               <div class="text-sm text-gray-600 mb-4">Published on {date}</div>
               {#if !articleData.isPublic}

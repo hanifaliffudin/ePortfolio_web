@@ -1,24 +1,10 @@
 <script>
   import SvelteMarkdown from "svelte-markdown";
   import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
-  import { Splide, SplideSlide } from "@splidejs/svelte-splide";
+  import { Carousel, CarouselTransition } from "flowbite-svelte";
   import "@splidejs/svelte-splide/css";
 
   export let idTask, idActivity;
-
-  let options = {
-    arrows: false,
-    rewind: true,
-    perPage: 1,
-    gap: "1rem",
-    heightRatio: 0.6,
-    cover: true,
-    breakpoints: {
-      1000: {
-        perPage: 1,
-      },
-    },
-  };
 
   let activityData,
     tasks = [],
@@ -51,21 +37,6 @@
           year: "numeric",
         });
         images = element.images;
-        if (images && images.length > 1) {
-          options = {
-            arrows: true,
-            rewind: true,
-            perPage: 1,
-            gap: "1rem",
-            heightRatio: 0.6,
-            cover: true,
-            breakpoints: {
-              1000: {
-                perPage: 1,
-              },
-            },
-          };
-        }
       }
     });
   }
@@ -78,8 +49,6 @@
       ...tasks.slice(0, indexTask),
       ...tasks.slice(indexTask + 1, tasks.length),
     ];
-
-    console.log(tasks);
 
     const response = await fetch(
       "http://103.187.223.15:8800/api/activities/" + idActivity,
@@ -111,7 +80,10 @@
         <div class="flex-initial w-3/4">
           <div class="flex justify-between mb-3 items-center">
             <div>
-              <button on:click={() => history.back()}>
+              <button
+                on:click={() =>
+                  (window.location.href = "/activity/" + idActivity)}
+              >
                 <iconify-icon icon="material-symbols:arrow-back-rounded" />
               </button>
             </div>
@@ -140,21 +112,9 @@
             <div class="prose prose-neutral text-sm max-w-none">
               <SvelteMarkdown source={task.desc} />
             </div>
-            {#if images}
+            {#if images && images.length > 0}
               <div class="mt-4">
-                <Splide
-                  {options}
-                  on:mounted={(e) => console.log(e.detail.splide.length)}
-                  on:move={(e) => console.log("move to", e.detail.index)}
-                  aria-labelledby="basic-example-heading"
-                  class="custom-class"
-                >
-                  {#each images as image}
-                    <SplideSlide>
-                      <img class="rounded-lg" alt={image} src={image} />
-                    </SplideSlide>
-                  {/each}
-                </Splide>
+                <Carousel divClass={"h-full"} {images} showThumbs={false} />
               </div>
             {/if}
           </div>

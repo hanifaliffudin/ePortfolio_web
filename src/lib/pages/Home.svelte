@@ -4,11 +4,22 @@
   import { navigate } from "svelte-routing";
   import ArticleCard from "../components/ArticleCard.svelte";
   import ActivityCard from "../components/ActivityCard.svelte";
+  import PeopleCardHome from "../components/PeopleCardHome.svelte";
 
   let all = [];
-  let userId = localStorage.getItem("userId");
+  let userIdLocal = localStorage.getItem("userId");
 
-  let userData, name, profilePicture, nim, major, interest, role, academicField;
+  let userData,
+    name,
+    profilePicture,
+    nim,
+    major,
+    interest,
+    role,
+    academicField,
+    organization,
+    userSuggest = [],
+    following = [];
 
   // get jwt from localstorage
   let jwt = localStorage.getItem("jwt");
@@ -38,7 +49,7 @@
   // get data user
   async function getUser() {
     const response = await fetch(
-      "http://103.187.223.15:8800/api/users/" + userId
+      "http://103.187.223.15:8800/api/users/" + userIdLocal
     );
 
     if (!response.ok) {
@@ -54,17 +65,21 @@
     interest = userData.interest;
     role = userData.role;
     academicField = userData.academicField;
+    organization = userData.organization;
+    following = userData.following;
     if (userData.profilePicture) {
       profilePicture = "http://103.187.223.15:8800/" + userData.profilePicture;
     } else {
       profilePicture = "/icon-user.png";
     }
+
+    getUsersSuggest();
   }
 
   // get all posts
   async function getPosts() {
     let response = await fetch(
-      "http://103.187.223.15:8800/api/posts/timeline/all/" + userId
+      "http://103.187.223.15:8800/api/posts/timeline/all/" + userIdLocal
     );
     return response.ok ? await response.json() : null;
   }
@@ -72,9 +87,26 @@
   // get all articles
   async function getArticles() {
     let response = await fetch(
-      "http://103.187.223.15:8800/api/articles/timeline/all/" + userId
+      "http://103.187.223.15:8800/api/articles/timeline/all/" + userIdLocal
     );
     return response.ok ? await response.json() : null;
+  }
+
+  // get users
+  async function getUsersSuggest() {
+    let majorsuggest = major ? major : " ";
+    let organizationsuggest = organization;
+    const response = await fetch(
+      `http://103.187.223.15:8800/api/users/suggest/${majorsuggest}/${organizationsuggest}/${userIdLocal}`
+    );
+
+    if (!response.ok) {
+      const data = await response.json();
+      console.log(data);
+    }
+
+    const data = await response.json();
+    userSuggest = data;
   }
 
   onMount(async () => {
@@ -84,7 +116,7 @@
     if (post) {
       post.forEach((element) => {
         // filter private post
-        if (element.isPublic == false && element.userId != userId) {
+        if (element.isPublic == false && element.userId != userIdLocal) {
         } else {
           all.push(element);
           all = all;
@@ -95,7 +127,7 @@
     if (articles) {
       articles.forEach((element) => {
         // filter private article
-        if (element.isPublic == false && element.userId != userId) {
+        if (element.isPublic == false && element.userId != userIdLocal) {
         } else {
           all.push(element);
           all = all;
@@ -110,11 +142,11 @@
   });
 </script>
 
-<main class="md:mx-72">
+<main class="xl:mx-40">
   <div class="md:container md:mx-auto my-16">
     <div class="flex">
       {#if userData}
-        <div class="flex-initial w-1/4 mr-8">
+        <div class="flex-initial w-3/12 mr-8">
           <a href="/profile" class="hover:underline">
             <div class="flex justify-center mb-3">
               <img
@@ -134,10 +166,10 @@
           {/if}
         </div>
       {:else}
-        <div class="flex-initial w-1/4 mr-8" />
+        <div class="flex-initial w-3/12 mr-8" />
       {/if}
 
-      <div class="flex-initial w-3/4">
+      <div class="flex-initial w-7/12 mr-8">
         <div class="md:container md:mx-auto bg-gray-300 p-4 rounded-lg mb-8">
           <a
             href="/post/create"
@@ -167,6 +199,16 @@
               <!-- <BadgeCard badge={element} /> -->
             {:else}
               <PostCard post={element} />
+            {/if}
+          {/each}
+        {/if}
+      </div>
+
+      <div class="flex-initial w-3/12 ">
+        {#if userSuggest.length > 0}
+          {#each userSuggest as userId, i}
+            {#if i < 3 && userIdLocal != userId && !following.includes(userId)}
+              <PeopleCardHome {userId} />
             {/if}
           {/each}
         {/if}
