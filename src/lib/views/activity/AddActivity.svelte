@@ -7,7 +7,7 @@
 
   // create a post
   async function addActivity() {
-    const response = await fetch("http://103.187.223.15:8800/api/activities/", {
+    const response = await fetch("http://103.187.223.15:8800/api/activities", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -91,11 +91,11 @@
       }
 
       if (!response.ok) {
-        alert(response.statusText);
+        const data = await response.json();
+        alert(data);
       } else {
         navigate("/album");
       }
-      const data = await response.json();
     }
   }
 </script>

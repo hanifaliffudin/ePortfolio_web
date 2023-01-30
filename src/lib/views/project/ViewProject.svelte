@@ -3,6 +3,9 @@
   import SvelteMarkdown from "svelte-markdown";
   import { navigate } from "svelte-routing";
   import { Breadcrumb, BreadcrumbItem } from "flowbite-svelte";
+  import PeopleCardRequest from "../../components/PeopleCardRequest.svelte";
+  import PeopleCardDiscovery from "../../components/PeopleCardDiscovery.svelte";
+  import ParticipantCard from "../../components/ParticipantCard.svelte";
 
   let projectData,
     image,
@@ -11,7 +14,11 @@
     type,
     startDate,
     endDate,
-    roadmaps = [];
+    roadmaps = [],
+    requests = [],
+    participants = [],
+    participated,
+    requested;
 
   let userId = localStorage.getItem("userId");
 
@@ -32,6 +39,15 @@
     title = projectData.title;
     type = projectData.type;
     roadmaps = projectData.roadmaps;
+    requests = projectData.requests;
+    if (requests && requests.includes(userId)) {
+      requested = true;
+    }
+    participants = projectData.participants;
+    // participants.push(projectData.userId);
+    if (participants && participants.includes(userId)) {
+      participated = true;
+    }
     roadmaps.sort(function (a, b) {
       // @ts-ignore
       return new Date(a.startDate) - new Date(b.startDate);
@@ -52,7 +68,7 @@
         method: "DELETE",
         headers: { "Content-type": "application/json; charset=UTF-8" },
         body: JSON.stringify({
-          userId: userId,
+          userId: projectData.userId,
         }),
       }
     );
@@ -65,15 +81,81 @@
 
     const data = await response.json();
   }
+
+  // request participation
+  async function requestParticipation() {
+    let response = await fetch(
+      "http://103.187.223.15:8800/api/projects/request/" + idProject,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const data = await response.json();
+      console.log(data);
+    } else {
+      const data = await response.json();
+      console.log(data);
+      requested = true;
+    }
+  }
+
+  // cancel request participation
+  async function cancelRequestParticipation() {
+    let response = await fetch(
+      "http://103.187.223.15:8800/api/projects/cancelrequest/" + idProject,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const data = await response.json();
+      console.log(data);
+    } else {
+      const data = await response.json();
+      console.log(data);
+      requested = false;
+    }
+  }
 </script>
 
 {#if projectData}
   <main class="md:mx-72">
     <div class="md:container md:mx-auto my-16">
       <Breadcrumb navClass={"mb-4"} aria-label="Default breadcrumb example">
-        <BreadcrumbItem href="/projects" home>Projects</BreadcrumbItem>
+        {#if userId == projectData.userId || participated}
+          <BreadcrumbItem href="/projects" home>Projects</BreadcrumbItem>
+        {:else}
+          <BreadcrumbItem href="/projects/{projectData.userId}" home
+            >Projects</BreadcrumbItem
+          >
+        {/if}
+
         <BreadcrumbItem>{title}</BreadcrumbItem>
       </Breadcrumb>
+
+      {#if requests && requests.length > 0 && userId == projectData.userId}
+        <div class="mb-8">
+          <div class="mb-2 text-lg font-bold">Request Participation:</div>
+          {#each requests as userId}
+            <PeopleCardRequest {userId} {idProject} />
+          {/each}
+        </div>
+      {/if}
 
       <div class="flex mb-6 items-center">
         {#if image}
@@ -103,7 +185,7 @@
           </div>
         </div>
         <div class="flex-auto" />
-        {#if userId == projectData.userId}
+        {#if userId == projectData.userId || participated}
           <div>
             <a
               href="/project/add-roadmap/{idProject}"
@@ -118,13 +200,29 @@
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
               ><iconify-icon icon="material-symbols:edit" /></a
             >
-            <button
-              on:click={deleteProject}
-              type="button"
-              class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 "
-              ><iconify-icon icon="material-symbols:delete-outline" /></button
-            >
+            {#if !participated}
+              <button
+                on:click={deleteProject}
+                type="button"
+                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                ><iconify-icon icon="material-symbols:delete-outline" /></button
+              >
+            {/if}
           </div>
+        {:else if requested}
+          <button
+            on:click={cancelRequestParticipation}
+            type="button"
+            class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+            >Cancel Request</button
+          >
+        {:else}
+          <button
+            on:click={requestParticipation}
+            type="button"
+            class="focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5"
+            >Request Participation</button
+          >
         {/if}
       </div>
 
@@ -135,14 +233,14 @@
 
         {#if roadmaps && roadmaps.length > 0}
           <h2 class="font-bold text-xl mt-6">Roadmaps:</h2>
-          <div class="grid grid-cols-3 gap-8 mt-2">
+          <div class="grid grid-cols-3 gap-8 mt-2 mb-4">
             {#each roadmaps as roadmap}
               <a
                 href={`/project/${projectData._id}/roadmap/${roadmap._id}`}
                 class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
               >
                 <h5
-                  class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+                  class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1"
                 >
                   {roadmap.title}
                 </h5>
@@ -154,6 +252,14 @@
               </a>
             {/each}
           </div>
+        {/if}
+
+        {#if participants && participants.length > 0}
+          <div class="text-lg font-bold mb-2">Participants:</div>
+          <ParticipantCard leader={true} userId={projectData.userId} />
+          {#each participants as participant}
+            <ParticipantCard leader={false} userId={participant} />
+          {/each}
         {/if}
       </div>
     </div>

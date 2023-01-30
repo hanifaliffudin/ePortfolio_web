@@ -14,7 +14,7 @@
   let userIdLocal = localStorage.getItem("userId");
 
   // get data user
-  async function getUserDiscovery() {
+  async function getUser() {
     const response = await fetch(
       "http://103.187.223.15:8800/api/users/" + userId
     );
@@ -39,7 +39,7 @@
     }
   }
 
-  getUserDiscovery();
+  getUser();
 </script>
 
 {#if userData}
@@ -68,13 +68,11 @@
           <div class="text-sm line-clamp-1">
             {organization ? organization : ""}
           </div>
-          <button>
-            <button
-              type="button"
-              class="text-white w-full mt-1 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 mr-2 mb-2"
-              >Follow</button
-            >
-          </button>
+          <button
+            type="button"
+            class="text-white w-full mt-1 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 mr-2 mb-2"
+            >Follow</button
+          >
         </div>
       </a>
     </div>

@@ -66,7 +66,7 @@
     <a href="/article/{article._id}" class="prose prose-neutral">
       {#if article.coverArticle}
         <img
-          class="object-cover h-80 w-full rounded"
+          class="object-cover h-80 w-full rounded mt-2"
           src={article.coverArticle}
           alt=""
         />

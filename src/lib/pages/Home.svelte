@@ -5,6 +5,8 @@
   import ArticleCard from "../components/ArticleCard.svelte";
   import ActivityCard from "../components/ActivityCard.svelte";
   import PeopleCardHome from "../components/PeopleCardHome.svelte";
+  import ProjectCard from "../components/ProjectCard.svelte";
+  import ProjectCardHome from "../components/ProjectCardHome.svelte";
 
   let all = [];
   let userIdLocal = localStorage.getItem("userId");
@@ -19,6 +21,7 @@
     academicField,
     organization,
     userSuggest = [],
+    projectSuggest = [],
     following = [];
 
   // get jwt from localstorage
@@ -74,6 +77,7 @@
     }
 
     getUsersSuggest();
+    getProjectsSuggest();
   }
 
   // get all posts
@@ -92,10 +96,10 @@
     return response.ok ? await response.json() : null;
   }
 
-  // get users
+  // get users suggestion
   async function getUsersSuggest() {
     let majorsuggest = major ? major : " ";
-    let organizationsuggest = organization;
+    let organizationsuggest = organization ? organization : " ";
     const response = await fetch(
       `http://103.187.223.15:8800/api/users/suggest/${majorsuggest}/${organizationsuggest}/${userIdLocal}`
     );
@@ -107,6 +111,30 @@
 
     const data = await response.json();
     userSuggest = data;
+    userSuggest.forEach((element, i) => {
+      if (following.includes(element)) {
+        userSuggest = [
+          ...userSuggest.slice(0, i),
+          ...userSuggest.slice(i + 1, userSuggest.length),
+        ];
+        return;
+      }
+    });
+  }
+
+  // get projects suggestion
+  async function getProjectsSuggest() {
+    let response = await fetch(
+      "http://103.187.223.15:8800/api/projects/suggest/" + userIdLocal
+    );
+
+    if (!response.ok) {
+      const data = await response.json();
+      console.log(data);
+    }
+
+    const data = await response.json();
+    projectSuggest = data;
   }
 
   onMount(async () => {
@@ -205,11 +233,17 @@
       </div>
 
       <div class="flex-initial w-3/12 ">
-        {#if userSuggest.length > 0}
+        {#if userSuggest && userSuggest.length > 0}
           {#each userSuggest as userId, i}
-            {#if i < 3 && userIdLocal != userId && !following.includes(userId)}
+            {#if i < 3 && userSuggest}
               <PeopleCardHome {userId} />
             {/if}
+          {/each}
+        {/if}
+
+        {#if projectSuggest && projectSuggest.length > 0}
+          {#each projectSuggest as project}
+            <ProjectCardHome {project} />
           {/each}
         {/if}
       </div>

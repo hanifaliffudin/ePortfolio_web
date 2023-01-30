@@ -10,6 +10,8 @@
     title,
     startDate,
     endDate,
+    participants = [],
+    participated,
     roadmap,
     indexRoadmap,
     roadmaps = [],
@@ -29,6 +31,11 @@
     const data = await response.json();
     projectData = data;
 
+    participants = projectData.participants;
+    participants.push(projectData.userId);
+    if (participants && participants.includes(userId)) {
+      participated = true;
+    }
     roadmaps = projectData.roadmaps;
     roadmaps.forEach((element, i) => {
       if (element._id == idRoadmap) {
@@ -72,7 +79,7 @@
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: userId,
+          userId: projectData.userId,
           roadmaps,
         }),
       }
@@ -91,7 +98,13 @@
   <main class="md:mx-72">
     <div class="md:container md:mx-auto my-16">
       <Breadcrumb navClass={"mb-4"} aria-label="Default breadcrumb example">
-        <BreadcrumbItem href="/projects" home>Projects</BreadcrumbItem>
+        {#if userId == projectData.userId || participated}
+          <BreadcrumbItem href="/projects" home>Projects</BreadcrumbItem>
+        {:else}
+          <BreadcrumbItem href="/projects/{projectData.userId}" home
+            >Projects</BreadcrumbItem
+          >
+        {/if}
         <BreadcrumbItem href="/project/{idProject}"
           >{projectData.title}</BreadcrumbItem
         >
@@ -126,7 +139,7 @@
           </div>
         </div>
         <div class="flex-auto" />
-        {#if userId == projectData.userId}
+        {#if userId == projectData.userId || participated}
           <div>
             <a
               href="/project/{idProject}/roadmap/{idRoadmap}/add-task"
