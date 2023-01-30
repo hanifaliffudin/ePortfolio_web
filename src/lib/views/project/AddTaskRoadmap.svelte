@@ -58,8 +58,6 @@
 
     tasks.splice(0, 0, newtask);
 
-    console.log(roadmap);
-
     const response = await fetch(
       "http://103.187.223.15:8800/api/projects/" + idProject,
       {
@@ -68,7 +66,7 @@
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: userId,
+          userId: projectData.userId,
           roadmaps,
         }),
       }

@@ -5,7 +5,15 @@
 
   let userId = localStorage.getItem("userId");
 
-  let userIdProject, image, desc, date, title, type, startDate, endDate;
+  let userIdProject,
+    image,
+    desc,
+    date,
+    title,
+    type,
+    startDate,
+    endDate,
+    requests = [];
 
   if (project) {
     title = project.title;
@@ -13,6 +21,7 @@
     desc = project.desc;
     type = project.type;
     userIdProject = project.userId;
+    requests = project.requests;
     startDate = new Date(project.startDate);
     if (project.endDate) {
       endDate = new Date(project.endDate);
@@ -33,7 +42,7 @@
         method: "DELETE",
         headers: { "Content-type": "application/json; charset=UTF-8" },
         body: JSON.stringify({
-          userId: userId,
+          userId: project.userId,
         }),
       }
     );
@@ -57,12 +66,12 @@
           alt=""
         />
       {/if}
-      <div class=" self-center">
+      <div class="self-center">
         <div>
           <div class="flex">
             <a href="/project/{project._id}">
               <div
-                class="font-bold text-blue-600 text-xl hover:underline leading-tight"
+                class="font-bold text-blue-600 text-xl hover:underline leading-tight line-clamp-1"
               >
                 {title}
               </div></a
@@ -91,9 +100,27 @@
           {/if}
         </div>
       </div>
-
       <div class="flex-auto" />
-      {#if userId == userIdProject}
+      <div>
+        {#if project.userId == userId}
+          <div>Leader</div>
+          {#if requests && requests.length > 0}
+            <a href="/project/{project._id}">
+              <div class="text-sm text-red-500 flex items-center">
+                <iconify-icon
+                  class="mr-2"
+                  icon="mdi:bell-notification-outline"
+                />
+                There is a request for participation
+              </div>
+            </a>
+          {/if}
+        {:else if project.participants.includes(userId)}
+          <div>Participant</div>
+        {/if}
+      </div>
+      <div class="flex-auto" />
+      {#if userId == userIdProject || project.participants.includes(userId)}
         <Button btnClass="p-0 h-3"
           ><iconify-icon icon="fluent:more-horizontal-32-filled" /></Button
         >
@@ -101,7 +128,9 @@
           <DropdownItem
             ><a href="/project/edit/{project._id}">Edit</a></DropdownItem
           >
-          <DropdownItem on:click={deleteProject}>Delete</DropdownItem>
+          {#if !project.participants.includes(userId)}
+            <DropdownItem on:click={deleteProject}>Delete</DropdownItem>
+          {/if}
         </Dropdown>
       {/if}
     </div>

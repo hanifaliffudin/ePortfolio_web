@@ -23,11 +23,11 @@
     });
 
     if (!response.ok) {
-      alert(response.statusText);
+      const data = await response.json();
+      alert(data);
     } else {
       navigate("/");
     }
-    const data = await response.json();
   }
 
   function renderMermaid() {

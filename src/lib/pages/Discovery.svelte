@@ -4,12 +4,14 @@
   import DiscoveryCard from "../components/DiscoveryCard.svelte";
   import PeopleCardDiscovery from "../components/PeopleCardDiscovery.svelte";
   import PostCardDiscovery from "../components/PostCardDiscovery.svelte";
+  import ProjectCard from "../components/ProjectCard.svelte";
 
   let userIdLocal = localStorage.getItem("userId");
 
   let posts = [],
     articles = [],
     activities = [],
+    projects = [],
     searchKeyword,
     usersId = [],
     allUsersId = [];
@@ -25,6 +27,7 @@
     getArticles();
     getPosts();
     getActivities();
+    getProjects();
   }
 
   // get all posts
@@ -95,6 +98,30 @@
     });
   }
 
+  // get activities
+  async function getProjects() {
+    let response = await fetch(
+      `http://103.187.223.15:8800/api/projects/search/${searchKeyword}`
+    );
+
+    if (!response.ok) {
+      // alert(response.status);
+      console.log(response.status);
+    }
+
+    const data = await response.json();
+    let temp = data;
+    temp.forEach((element) => {
+      console.log(element);
+      // filter private project
+      if (element.isPublic == false && element.userId != userIdLocal) {
+      } else {
+        projects.push(element);
+        projects = projects;
+      }
+    });
+  }
+
   // get users
   async function getUsers() {
     const response = await fetch(
@@ -128,7 +155,7 @@
   <section>
     <div class="md:container md:mx-auto mt-8">
       <h1 class="text-4xl font-bold text-center">
-        Discover Student, Article, Or Activity
+        Discover People, Article, Or Activity
       </h1>
       <form action="">
         <input
@@ -154,7 +181,7 @@
         <div class="w-3/4">
           <!-- posts -->
           {#if posts.length > 0}
-            <div class="rounded-lg bg-gray-100 mb-4">
+            <div class="rounded-lg bg-gray-100 mb-14">
               <h2 class="text-3xl font-bold px-6 pt-6">Posts</h2>
               {#each posts as post, i}
                 {#if i < 3}
@@ -174,7 +201,7 @@
 
           <!-- articles -->
           {#if articles.length > 0}
-            <div class="rounded-lg bg-gray-100 mb-4">
+            <div class="rounded-lg bg-gray-100 mb-14">
               <h2 class="text-3xl font-bold px-6 pt-6">Articles</h2>
               {#each articles as article, i}
                 {#if i < 3}
@@ -194,7 +221,7 @@
 
           <!-- activities -->
           {#if activities.length > 0}
-            <div class="rounded-lg bg-gray-100 mb-4">
+            <div class="rounded-lg bg-gray-100 mb-14">
               <h2 class="text-3xl font-bold px-6 pt-6 mb-2">Activities</h2>
               {#each activities as activity, i}
                 {#if i < 3}
@@ -208,6 +235,26 @@
                   (window.location.href = "/all/activities/" + searchKeyword)}
                 class="py-3 px-5 w-full text-base font-medium text-center bg-gray-100 rounded-b-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-200"
                 >See all activity results</button
+              >
+            </div>
+          {/if}
+
+          <!-- projects -->
+          {#if projects.length > 0}
+            <div class="rounded-lg bg-gray-100 mb-14">
+              <h2 class="text-3xl font-bold px-6 pt-6 mb-2">Projects</h2>
+              {#each projects as project, i}
+                {#if i < 3}
+                  <ProjectCard {project} />
+                  <hr class="h-1 bg-gray-300" />
+                {/if}
+              {/each}
+              <button
+                type="button"
+                on:click={() =>
+                  (window.location.href = "/all/projects/" + searchKeyword)}
+                class="py-3 px-5 w-full text-base font-medium text-center bg-gray-100 rounded-b-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-200"
+                >See all project results</button
               >
             </div>
           {/if}

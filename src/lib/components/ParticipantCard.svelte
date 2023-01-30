@@ -1,5 +1,5 @@
 <script>
-  export let userId;
+  export let userId, leader;
 
   let userData,
     profilePicture,
@@ -41,7 +41,7 @@
 </script>
 
 {#if userData}
-  <div class="md:container md:mx-auto bg-gray-100 p-6">
+  <div class="md:container md:mx-auto p-2">
     <div class="flex">
       <a
         href={userIdLocal == userId ? "/profile" : "/profile/" + userId}
@@ -53,12 +53,20 @@
           alt="Rounded avatar"
         />
         <div class="ml-4">
-          <div class="font-bold text-lg leading-tight line-clamp-1">
-            {nameUser}
+          <div class="flex items-center">
+            <div class="font-bold text-lg leading-tight">
+              {nameUser}
+            </div>
+            {#if leader}
+              <div
+                class="mx-3 mt-1 h-5 ring-1 ring-gray-400  text-xs font-semibold text-gray-600 items-center inline-flex rounded-full px-2"
+              >
+                Leader
+              </div>
+            {/if}
           </div>
           {#if roleUser == "mahasiswa"}
-            <div class="font-light text-sm line-clamp-1">{nimUser}</div>
-            <div class="font-light text-sm line-clamp-1">{majorUser}</div>
+            <div class="font-light text-sm">{majorUser}</div>
             <div class="line-clamp-1">{interestUser}</div>
           {:else}
             <div class="line-clamp-1 w-96">

@@ -54,6 +54,7 @@
   import ViewTaskRoadmap from "./lib/views/project/ViewTaskRoadmap.svelte";
   import EditTaskRoadmap from "./lib/views/project/EditTaskRoadmap.svelte";
   import ViewProjects from "./lib/views/userProfile/ViewProjects.svelte";
+  import AllProjectResults from "./lib/views/discovery/AllProjectResults.svelte";
 
   export let url = "";
 
@@ -284,6 +285,11 @@
     <Route path="/all/activities/:search" let:params>
       <Navbar active="discovery" />
       <AllActivityResults searchKeyword={params.search} />
+    </Route>
+
+    <Route path="/all/projects/:search" let:params>
+      <Navbar active="discovery" />
+      <AllProjectResults searchKeyword={params.search} />
     </Route>
 
     <Route path="/all/peoples/:search" let:params>

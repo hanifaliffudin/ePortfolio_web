@@ -83,17 +83,15 @@
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userIdFollowing: userIdLocal,
+          userIdUnfollowing: userIdLocal,
         }),
       }
     );
 
     if (!response.ok) {
-      console.log(response.status);
-      console.log(response.statusText);
-    } else {
       const data = await response.json();
       console.log(data);
+    } else {
       followed = false;
     }
   }

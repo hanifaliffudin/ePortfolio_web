@@ -13,6 +13,8 @@
     date,
     indexTask,
     images = [],
+    participants = [],
+    participated,
     indexRoadmap,
     roadmap,
     roadmaps = [];
@@ -30,6 +32,11 @@
     }
     const data = await response.json();
     projectData = data;
+    participants = projectData.participants;
+    participants.push(projectData.userId);
+    if (participants && participants.includes(userId)) {
+      participated = true;
+    }
     roadmaps = projectData.roadmaps;
     roadmaps.forEach((elementRoadmap, i) => {
       if (elementRoadmap._id == idRoadmap) {
@@ -63,8 +70,6 @@
 
     roadmap.tasks = tasks;
 
-    console.log(roadmaps);
-
     const response = await fetch(
       "http://103.187.223.15:8800/api/projects/" + idProject,
       {
@@ -73,7 +78,7 @@
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: userId,
+          userId: projectData.userId,
           roadmaps,
         }),
       }
@@ -94,7 +99,13 @@
       <div class="flex justify-center">
         <div class="flex-initial w-3/4">
           <Breadcrumb navClass={"mb-4"} aria-label="Default breadcrumb example">
-            <BreadcrumbItem href="/projects" home>Projects</BreadcrumbItem>
+            {#if userId == projectData.userId || participated}
+              <BreadcrumbItem href="/projects" home>Projects</BreadcrumbItem>
+            {:else}
+              <BreadcrumbItem href="/projects/{projectData.userId}" home
+                >Projects</BreadcrumbItem
+              >
+            {/if}
             <BreadcrumbItem href="/project/{idProject}"
               >{projectData.title}</BreadcrumbItem
             >
@@ -105,7 +116,7 @@
           </Breadcrumb>
 
           <div class="flex justify-end mb-3 items-center">
-            {#if userId == projectData.userId}
+            {#if userId == projectData.userId || participated}
               <div>
                 <Button btnClass="p-0 h-3"
                   ><iconify-icon
