@@ -55,6 +55,8 @@
   import EditTaskRoadmap from "./lib/views/project/EditTaskRoadmap.svelte";
   import ViewProjects from "./lib/views/userProfile/ViewProjects.svelte";
   import AllProjectResults from "./lib/views/discovery/AllProjectResults.svelte";
+  import AddToDo from "./lib/views/project/AddToDo.svelte";
+  import EditToDo from "./lib/views/project/EditToDo.svelte";
 
   export let url = "";
 
@@ -361,6 +363,31 @@
       <Navbar active="project" />
       <EditTaskRoadmap
         idTask={params.idTask}
+        idProject={params.idProject}
+        idRoadmap={params.idRoadmap}
+      />
+    </Route>
+
+    <Route
+      path="/project/:idProject/roadmap/:idRoadmap/task/:idTask/add-todo"
+      let:params
+    >
+      <Navbar active="project" />
+      <AddToDo
+        idTaskRoadmap={params.idTask}
+        idProject={params.idProject}
+        idRoadmap={params.idRoadmap}
+      />
+    </Route>
+
+    <Route
+      path="/project/:idProject/roadmap/:idRoadmap/task/:idTask/edit-todo/:idTodo"
+      let:params
+    >
+      <Navbar active="project" />
+      <EditToDo
+        idTodo={params.idTodo}
+        idTaskRoadmap={params.idTask}
         idProject={params.idProject}
         idRoadmap={params.idRoadmap}
       />

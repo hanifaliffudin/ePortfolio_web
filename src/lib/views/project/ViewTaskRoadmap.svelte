@@ -4,12 +4,14 @@
   import { Carousel, CarouselTransition } from "flowbite-svelte";
   import { Breadcrumb, BreadcrumbItem } from "flowbite-svelte";
   import "@splidejs/svelte-splide/css";
+  import AvatarStack from "../../components/AvatarStack.svelte";
 
   export let idTask, idRoadmap, idProject;
 
   let projectData,
     tasks = [],
     task,
+    status,
     date,
     indexTask,
     images = [],
@@ -17,7 +19,13 @@
     participated,
     indexRoadmap,
     roadmap,
-    roadmaps = [];
+    roadmaps = [],
+    todos = [],
+    indexTodo,
+    todo,
+    titleTodo,
+    doneTodo,
+    assigneTodo;
 
   let userId = localStorage.getItem("userId");
 
@@ -52,7 +60,9 @@
               month: "long",
               year: "numeric",
             });
+            status = elementTask.status;
             images = elementTask.images;
+            todos = elementTask.todos;
           }
         });
       }
@@ -91,13 +101,89 @@
       window.location.href = `/project/${idProject}/roadmap/${idRoadmap}`;
     }
   }
+
+  // delete todo
+  async function deleteTodo(idTodo) {
+    todos.forEach((elementTodo, i) => {
+      if (elementTodo._id == idTodo) {
+        indexTodo = i;
+      }
+    });
+
+    todos = [
+      ...todos.slice(0, indexTodo),
+      ...todos.slice(indexTodo + 1, todos.length),
+    ];
+
+    task.todos = todos;
+
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/projects/" + idProject,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: projectData.userId,
+          roadmaps,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      alert(response.statusText);
+    } else {
+      const data = await response.json();
+      window.location.href = `/project/${idProject}/roadmap/${idRoadmap}/task/${idTask}`;
+    }
+  }
+
+  // change check todo
+  async function changeCheckTodo(idTodo) {
+    todos.forEach((elementTodo, i) => {
+      if (elementTodo._id == idTodo) {
+        indexTodo = i;
+        todo = elementTodo;
+        titleTodo = elementTodo.title;
+        doneTodo = !elementTodo.done;
+        assigneTodo = elementTodo.assigne;
+      }
+    });
+
+    todos[indexTodo].title = titleTodo;
+    todos[indexTodo].done = doneTodo;
+    todos[indexTodo].assigne = assigneTodo;
+
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/projects/" + idProject,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: projectData.userId,
+          roadmaps,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const data = await response.json();
+      alert(data);
+    } else {
+      const data = await response.json();
+      // window.location.href = `/project/${idProject}/roadmap/${idRoadmap}/task/${idTask}`;
+    }
+  }
 </script>
 
 {#if task}
   <main class="md:mx-72">
     <div class="md:container md:mx-auto my-16">
       <div class="flex justify-center">
-        <div class="flex-initial w-3/4">
+        <div class="flex-initial w-full">
           <Breadcrumb navClass={"mb-4"} aria-label="Default breadcrumb example">
             {#if userId == projectData.userId || participated}
               <BreadcrumbItem href="/projects" home>Projects</BreadcrumbItem>
@@ -115,23 +201,60 @@
             <BreadcrumbItem>{task.title}</BreadcrumbItem>
           </Breadcrumb>
 
-          <div class="flex justify-end mb-3 items-center">
+          <div class="flex mb-3 items-center">
+            {#if status}
+              <div class="justify-self-start">
+                {#if status == "prepare"}
+                  <div
+                    class="mr-8 ring-1 ring-gray-400  text-xs font-semibold text-gray-600 items-center inline-flex rounded-full px-2"
+                  >
+                    Prepare
+                  </div>
+                {:else if status == "todo"}
+                  <div
+                    class="mr-8 ring-1 ring-gray-400  text-xs font-semibold text-gray-600 items-center inline-flex rounded-full px-2"
+                  >
+                    To Do
+                  </div>
+                {:else if status == "inprogress"}
+                  <div
+                    class="mr-8 ring-1 ring-blue-400  text-xs font-semibold text-blue-600 items-center inline-flex rounded-full px-2"
+                  >
+                    In Progress
+                  </div>
+                {:else if status == "complete"}
+                  <div
+                    class="mr-8 ring-1 ring-green-400  text-xs font-semibold text-green-600 items-center inline-flex rounded-full px-2"
+                  >
+                    Complete
+                  </div>
+                {/if}
+              </div>
+            {/if}
+            <div class="flex-auto" />
             {#if userId == projectData.userId || participated}
               <div>
-                <Button btnClass="p-0 h-3"
-                  ><iconify-icon
-                    icon="fluent:more-horizontal-32-filled"
-                  /></Button
+                <a
+                  href="/project/{idProject}/roadmap/{idRoadmap}/task/{idTask}/add-todo"
+                  type="button"
+                  class="focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                  >Add To Do</a
                 >
-                <Dropdown class="w-auto">
-                  <DropdownItem
-                    ><a
-                      href={`/project/${projectData._id}/roadmap/${idRoadmap}/edit-task/${task._id}`}
-                      >Edit</a
-                    ></DropdownItem
-                  >
-                  <DropdownItem on:click={deleteTask}>Delete</DropdownItem>
-                </Dropdown>
+
+                <a
+                  href={`/project/${projectData._id}/roadmap/${idRoadmap}/edit-task/${task._id}`}
+                  type="button"
+                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                  ><iconify-icon icon="material-symbols:edit" /></a
+                >
+                <button
+                  on:click={deleteTask}
+                  type="button"
+                  class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                  ><iconify-icon
+                    icon="material-symbols:delete-outline"
+                  /></button
+                >
               </div>
             {/if}
           </div>
@@ -141,6 +264,61 @@
             <div class="prose prose-neutral text-sm max-w-none">
               <SvelteMarkdown source={task.desc} />
             </div>
+            {#if todos && todos.length > 0}
+              <div class="text-lg font-bold mt-6 mb-2">To Do List:</div>
+              <div class="border border-r-0 border-l-0 border-b-0">
+                {#each todos as todo}
+                  <div class="flex items-center border border-t-0 p-2">
+                    {#if userId == projectData.userId || participated}
+                      <input
+                        id={todo._id}
+                        type="checkbox"
+                        on:change={() => changeCheckTodo(todo._id)}
+                        value=""
+                        checked={todo.done}
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                    {:else}
+                      <input
+                        id={todo._id}
+                        type="checkbox"
+                        disabled
+                        value=""
+                        checked={todo.done}
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                    {/if}
+
+                    <label
+                      for={todo._id}
+                      class="ml-2 flex-auto text-sm text-gray-900 dark:text-gray-300"
+                      >{todo.title}</label
+                    >
+                    <AvatarStack userId={todo.assigne} />
+                    {#if userId == projectData.userId || participated}
+                      <Button btnClass="p-0 ml-4"
+                        ><iconify-icon
+                          icon="fluent:more-horizontal-32-filled"
+                        /></Button
+                      >
+                      <Dropdown class="w-auto">
+                        <DropdownItem
+                          ><a
+                            href={`/project/${projectData._id}/roadmap/${idRoadmap}/task/${idTask}/edit-todo/${todo._id}`}
+                            >Edit</a
+                          ></DropdownItem
+                        >
+                        {#if projectData.userId == userId || !projectData.participants.includes(userId)}
+                          <DropdownItem on:click={() => deleteTodo(todo._id)}
+                            >Delete</DropdownItem
+                          >
+                        {/if}
+                      </Dropdown>
+                    {/if}
+                  </div>
+                {/each}
+              </div>
+            {/if}
             {#if images && images.length > 0}
               <div class="mt-4">
                 <Carousel divClass={"h-full"} {images} showThumbs={false} />

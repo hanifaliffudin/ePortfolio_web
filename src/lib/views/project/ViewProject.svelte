@@ -4,8 +4,7 @@
   import { navigate } from "svelte-routing";
   import { Breadcrumb, BreadcrumbItem } from "flowbite-svelte";
   import PeopleCardRequest from "../../components/PeopleCardRequest.svelte";
-  import PeopleCardDiscovery from "../../components/PeopleCardDiscovery.svelte";
-  import ParticipantCard from "../../components/ParticipantCard.svelte";
+  import AvatarStack from "../../components/AvatarStack.svelte";
 
   let projectData,
     image,
@@ -184,6 +183,14 @@
             {/if}
           </div>
         </div>
+        <div class="flex ml-4 mb-5 -space-x-4">
+          {#if participants && participants.length > 0}
+            <AvatarStack userId={projectData.userId} />
+            {#each participants as participant}
+              <AvatarStack userId={participant} />
+            {/each}
+          {/if}
+        </div>
         <div class="flex-auto" />
         {#if userId == projectData.userId || participated}
           <div>
@@ -252,14 +259,6 @@
               </a>
             {/each}
           </div>
-        {/if}
-
-        {#if participants && participants.length > 0}
-          <div class="text-lg font-bold mb-2">Participants:</div>
-          <ParticipantCard leader={true} userId={projectData.userId} />
-          {#each participants as participant}
-            <ParticipantCard leader={false} userId={participant} />
-          {/each}
         {/if}
       </div>
     </div>

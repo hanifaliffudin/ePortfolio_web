@@ -7,6 +7,7 @@
 
   let desc,
     date,
+    status,
     title,
     projectData,
     startDateRoadmap,
@@ -53,6 +54,7 @@
       title,
       date,
       desc,
+      status,
       images,
     };
 
@@ -166,6 +168,24 @@
               href="https://www.markdownguide.org/basic-syntax/">Markdown</a
             > is supported
           </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label
+            for="status"
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
+            >Status</label
+          >
+          <select
+            bind:value={status}
+            id="status"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block md:w-1/4 w-full p-2.5"
+          >
+            <option selected value="prepare">Prepare</option>
+            <option value="todo">To Do</option>
+            <option value="inprogress">In Progress</option>
+            <option value="complete">Complete</option>
+          </select>
         </div>
 
         <div class="sm:col-span-2">
