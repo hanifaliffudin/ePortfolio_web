@@ -111,15 +111,15 @@
 
     const data = await response.json();
     userSuggest = data;
-    userSuggest.forEach((element, i) => {
-      if (following.includes(element)) {
-        userSuggest = [
-          ...userSuggest.slice(0, i),
-          ...userSuggest.slice(i + 1, userSuggest.length),
-        ];
-        return;
-      }
-    });
+    // userSuggest.forEach((element, i) => {
+    //   if (following.includes(element)) {
+    //     userSuggest = [
+    //       ...userSuggest.slice(0, i),
+    //       ...userSuggest.slice(i + 1, userSuggest.length),
+    //     ];
+    //     return;
+    //   }
+    // });
   }
 
   // get projects suggestion
@@ -219,12 +219,8 @@
 
         {#if all}
           {#each all as element}
-            {#if element.startDate}
-              <ActivityCard activity={element} />
-            {:else if element.title && !element.startDate}
+            {#if element.title && !element.startDate}
               <ArticleCard article={element} />
-            {:else if element.imgBadge}
-              <!-- <BadgeCard badge={element} /> -->
             {:else}
               <PostCard post={element} />
             {/if}

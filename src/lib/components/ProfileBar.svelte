@@ -1,6 +1,9 @@
 <script>
   import { navigate } from "svelte-routing";
   import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
+  import ProjectCardHome from "./ProjectCardHome.svelte";
+
+  export let active;
 
   export let userId;
   let userIdLocal = localStorage.getItem("userId");
@@ -15,8 +18,8 @@
     academicField,
     followers = [],
     following = [],
-    followed;
-
+    followed,
+    projects = [];
   // get data user
   async function getUser() {
     const response = await fetch(
@@ -49,6 +52,24 @@
   }
 
   getUser();
+
+  if (active == "aboutme") {
+    getprojects();
+  }
+
+  // get all user projects
+  async function getprojects() {
+    let response = await fetch(
+      "http://103.187.223.15:8800/api/projects/all/" + userId
+    );
+    if (!response.ok) {
+      const data = await response.json();
+      console.log(data);
+    }
+
+    const data = await response.json();
+    projects = data;
+  }
 
   // follow user
   async function follow() {
@@ -153,6 +174,14 @@
           >Unfollow</button
         >
       {/if}
+    {/if}
+
+    {#if projects && projects.length > 0}
+      {#each projects as project, i}
+        {#if i < 3 && !project.endDate && project.isPublic}
+          <ProjectCardHome {project} />
+        {/if}
+      {/each}
     {/if}
   </div>
 {:else}

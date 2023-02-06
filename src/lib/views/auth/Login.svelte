@@ -99,13 +99,13 @@
               <div class="text-sm text-red-500 mt-1">Wrong Password</div>
             {/if}
           </div>
-          <div class="flex items-center justify-end">
+          <!-- <div class="flex items-center justify-end">
             <a
               href="#/"
               class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
               >Forgot password?</a
             >
-          </div>
+          </div> -->
           <button
             type="submit"
             class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "

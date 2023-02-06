@@ -3,6 +3,8 @@
   import SvelteMarkdown from "svelte-markdown";
   import { navigate } from "svelte-routing";
   import { Breadcrumb, BreadcrumbItem } from "flowbite-svelte";
+  import AvatarStack from "../../components/AvatarStack.svelte";
+  import TaskCard from "../../components/TaskCard.svelte";
 
   let projectData,
     image,
@@ -15,7 +17,8 @@
     roadmap,
     indexRoadmap,
     roadmaps = [],
-    tasks = [];
+    tasks = [],
+    assignee = [];
 
   let userId = localStorage.getItem("userId");
 
@@ -92,6 +95,8 @@
       navigate(`/project/${idProject}`);
     }
   }
+
+  async function changeStatus() {}
 </script>
 
 {#if projectData}
@@ -169,34 +174,19 @@
           <SvelteMarkdown source={desc} />
         </div>
 
-        <div class="border border-r-0 border-l-0 border-b-0 mt-6">
-          {#if tasks}
+        {#if tasks && tasks.length > 0}
+          <div class="text-lg font-bold mt-6 mb-2">Tasks:</div>
+          <div class="border border-r-0 border-l-0 border-b-0">
             {#each tasks as task}
               <a
                 href={`/project/${projectData._id}/roadmap/${idRoadmap}/task/${task._id}`}
-                class="hover:underline"
+                class=""
               >
-                <div class="flex items-center border border-t-0 p-2">
-                  <iconify-icon
-                    icon="material-symbols:task-outline-rounded"
-                    class="mr-2"
-                  />
-                  <div>
-                    {task.title}
-                  </div>
-                  <div class="flex-auto" />
-                  <div>
-                    {new Date(task.date).toLocaleDateString("en", {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    })}
-                  </div>
-                </div>
+                <TaskCard {task} {assignee} />
               </a>
             {/each}
-          {/if}
-        </div>
+          </div>
+        {/if}
       </div>
     </div>
   </main>

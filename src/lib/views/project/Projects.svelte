@@ -26,7 +26,7 @@
   <section>
     <div class="md:container md:mx-auto my-16">
       <div class="flex">
-        <ProfileBar {userId} />
+        <ProfileBar active={"projects"} {userId} />
 
         <div class="flex-initial w-3/4">
           <!-- tabs -->

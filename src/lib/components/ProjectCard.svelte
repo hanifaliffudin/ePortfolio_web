@@ -1,19 +1,11 @@
 <script>
-  import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
+  import { Button, Dropdown, DropdownItem, Chevron } from "flowbite-svelte";
 
   export let project;
 
   let userId = localStorage.getItem("userId");
 
-  let userIdProject,
-    image,
-    desc,
-    date,
-    title,
-    type,
-    startDate,
-    endDate,
-    requests = [];
+  let userIdProject, image, desc, date, title, type, startDate, endDate;
 
   if (project) {
     title = project.title;
@@ -21,7 +13,6 @@
     desc = project.desc;
     type = project.type;
     userIdProject = project.userId;
-    requests = project.requests;
     startDate = new Date(project.startDate);
     if (project.endDate) {
       endDate = new Date(project.endDate);
@@ -31,6 +22,30 @@
       date = new Date(project.createdAt);
     } else {
       date = new Date(project.createdAt);
+    }
+  }
+
+  // update data project
+  async function update(visibility) {
+    let response = await fetch(
+      "http://103.187.223.15:8800/api/projects/" + project._id,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: project.userId,
+          isPublic: visibility,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const data = await response.json();
+      console.log(data);
+    } else {
+      document.location.reload();
     }
   }
 
@@ -82,6 +97,12 @@
               >
                 Private
               </div>
+            {:else}
+              <div
+                class="ml-3 mt-1 h-5 ring-1 ring-gray-400  text-xs font-semibold text-gray-600 items-center inline-flex rounded-full px-2"
+              >
+                Public
+              </div>
             {/if}
           </div>
           <div class="text-sm">
@@ -104,17 +125,6 @@
       <div>
         {#if project.userId == userId}
           <div>Leader</div>
-          {#if requests && requests.length > 0}
-            <a href="/project/{project._id}">
-              <div class="text-sm text-red-500 flex items-center">
-                <iconify-icon
-                  class="mr-2"
-                  icon="mdi:bell-notification-outline"
-                />
-                There is a request for participation
-              </div>
-            </a>
-          {/if}
         {:else if project.participants.includes(userId)}
           <div>Participant</div>
         {/if}
@@ -125,6 +135,13 @@
           ><iconify-icon icon="fluent:more-horizontal-32-filled" /></Button
         >
         <Dropdown class="w-auto">
+          <DropdownItem class="flex items-center justify-between"
+            ><Chevron placement="right">Visibility</Chevron></DropdownItem
+          >
+          <Dropdown class="w-auto" placement="right-start">
+            <DropdownItem on:click={() => update(true)}>Public</DropdownItem>
+            <DropdownItem on:click={() => update(false)}>Private</DropdownItem>
+          </Dropdown>
           <DropdownItem
             ><a href="/project/edit/{project._id}">Edit</a></DropdownItem
           >

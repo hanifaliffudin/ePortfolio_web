@@ -69,14 +69,18 @@
       src = null;
     } else {
       var dataUpdate = new FormData();
-      let dataFile = {
-        userId: userId,
-        filename,
-        filesize,
-        type,
-      };
+      // let dataFile = {
+      //   userId: userId,
+      //   filename,
+      //   filesize,
+      //   type,
+      // };
       dataUpdate.append("fileAlbum", files[0]);
-      dataUpdate.append("data", JSON.stringify(dataFile));
+      dataUpdate.append("userId", userId);
+      dataUpdate.append("filename", filename);
+      dataUpdate.append("filesize", filesize);
+      dataUpdate.append("type", type);
+      // dataUpdate.append("data", JSON.stringify(dataFile));
 
       if (type == "image") {
         response = await fetch("http://103.187.223.15:8800/api/album/", {
