@@ -2,7 +2,7 @@
   export let idProject;
   import SvelteMarkdown from "svelte-markdown";
   import { navigate } from "svelte-routing";
-  import { Breadcrumb, BreadcrumbItem } from "flowbite-svelte";
+  import { Breadcrumb, BreadcrumbItem, Progressbar } from "flowbite-svelte";
   import PeopleCardRequest from "../../components/PeopleCardRequest.svelte";
   import AvatarStack from "../../components/AvatarStack.svelte";
 
@@ -55,9 +55,48 @@
     if (projectData.endDate) {
       endDate = new Date(projectData.endDate).toLocaleDateString("id");
     }
+
+    getProgress();
   }
 
   getProject();
+
+  function getProgress() {
+    roadmaps.forEach((roadmap) => {
+      let percentRoadmap,
+        totalPercentTask = 0;
+
+      roadmap.tasks.forEach((task) => {
+        let percentTask,
+          doneLengthTask = 0,
+          todosLengthTask = 0;
+
+        todosLengthTask = task.todos.length;
+
+        task.todos.forEach((todo) => {
+          if (todo.done) {
+            doneLengthTask += 1;
+          }
+        });
+
+        if (todosLengthTask > 0) {
+          percentTask = Math.round((doneLengthTask / todosLengthTask) * 100);
+        }
+
+        if (percentTask) {
+          totalPercentTask += percentTask;
+        } else {
+          totalPercentTask += 0;
+        }
+      });
+
+      percentRoadmap = totalPercentTask / roadmap.tasks.length;
+      if (!percentRoadmap) {
+        percentRoadmap = 0;
+      }
+      roadmap.percent = percentRoadmap;
+    });
+  }
 
   // delete project
   async function deleteProject() {
@@ -251,11 +290,16 @@
                 >
                   {roadmap.title}
                 </h5>
-                <p class="font-normal text-gray-700 dark:text-gray-400">
+                <p class="mb-2 font-normal text-gray-700 dark:text-gray-400">
                   {new Date(roadmap.startDate).toLocaleDateString("id")} - {new Date(
                     roadmap.endDate
                   ).toLocaleDateString("id")}
                 </p>
+                <Progressbar
+                  progress={roadmap.percent}
+                  size="h-4"
+                  labelInside
+                />
               </a>
             {/each}
           </div>

@@ -95,8 +95,6 @@
       navigate(`/project/${idProject}`);
     }
   }
-
-  async function changeStatus() {}
 </script>
 
 {#if projectData}
@@ -182,7 +180,13 @@
                 href={`/project/${projectData._id}/roadmap/${idRoadmap}/task/${task._id}`}
                 class=""
               >
-                <TaskCard {task} {assignee} />
+                <TaskCard
+                  {idProject}
+                  {projectData}
+                  {roadmaps}
+                  {task}
+                  {assignee}
+                />
               </a>
             {/each}
           </div>

@@ -1,7 +1,7 @@
 <script>
   import SvelteMarkdown from "svelte-markdown";
   import { Button, Dropdown, DropdownItem } from "flowbite-svelte";
-  import { Carousel, CarouselTransition } from "flowbite-svelte";
+  import { Carousel } from "flowbite-svelte";
   import { Breadcrumb, BreadcrumbItem } from "flowbite-svelte";
   import "@splidejs/svelte-splide/css";
   import AvatarStack from "../../components/AvatarStack.svelte";
@@ -141,40 +141,48 @@
 
   // change check todo
   async function changeCheckTodo(idTodo) {
-    todos.forEach((elementTodo, i) => {
-      if (elementTodo._id == idTodo) {
-        indexTodo = i;
-        todo = elementTodo;
-        titleTodo = elementTodo.title;
-        doneTodo = !elementTodo.done;
-        assigneTodo = elementTodo.assigne;
-      }
-    });
+    var t2 = new Date().getTime();
+    var t1 = new Date(date).getTime();
 
-    todos[indexTodo].title = titleTodo;
-    todos[indexTodo].done = doneTodo;
-    todos[indexTodo].assigne = assigneTodo;
-
-    const response = await fetch(
-      "http://103.187.223.15:8800/api/projects/" + idProject,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: projectData.userId,
-          roadmaps,
-        }),
-      }
-    );
-
-    if (!response.ok) {
-      const data = await response.json();
-      alert(data);
+    if (Math.floor((t2 - t1) / (24 * 3600 * 1000)) < 0) {
+      alert("Couldn't complete the to do before the due date");
+      window.location.reload();
     } else {
-      const data = await response.json();
-      // window.location.href = `/project/${idProject}/roadmap/${idRoadmap}/task/${idTask}`;
+      todos.forEach((elementTodo, i) => {
+        if (elementTodo._id == idTodo) {
+          indexTodo = i;
+          todo = elementTodo;
+          titleTodo = elementTodo.title;
+          doneTodo = !elementTodo.done;
+          assigneTodo = elementTodo.assigne;
+        }
+      });
+
+      todos[indexTodo].title = titleTodo;
+      todos[indexTodo].done = doneTodo;
+      todos[indexTodo].assigne = assigneTodo;
+
+      const response = await fetch(
+        "http://103.187.223.15:8800/api/projects/" + idProject,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: projectData.userId,
+            roadmaps,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+        alert(data);
+      } else {
+        const data = await response.json();
+        // window.location.href = `/project/${idProject}/roadmap/${idRoadmap}/task/${idTask}`;
+      }
     }
   }
 </script>
@@ -294,7 +302,13 @@
                       class="ml-2 flex-auto text-sm text-gray-900 dark:text-gray-300"
                       >{todo.title}</label
                     >
-                    <AvatarStack userId={todo.assigne} />
+
+                    <div class="flex -space-x-4">
+                      {#each todo.assignee as assigne}
+                        <AvatarStack userId={assigne} />
+                      {/each}
+                    </div>
+
                     {#if userId == projectData.userId || participated}
                       <Button btnClass="p-0 ml-4"
                         ><iconify-icon

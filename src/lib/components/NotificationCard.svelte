@@ -1,5 +1,5 @@
 <script>
-  import { DropdownItem, Avatar } from "flowbite-svelte";
+  import { DropdownItem } from "flowbite-svelte";
   export let idProject, idUser;
 
   let userData, name, profilePicture;

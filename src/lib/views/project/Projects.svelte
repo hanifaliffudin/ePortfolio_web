@@ -18,7 +18,9 @@
 
   onMount(async () => {
     let projects = await getprojects();
-    if (projects) projectsStore.update((data) => projects);
+    if (projects) {
+      projectsStore.update((data) => projects);
+    }
   });
 </script>
 
@@ -44,7 +46,7 @@
 
           {#if $projectsStore}
             {#each $projectsStore as $project}
-              <ProjectCard project={$project} />
+              <ProjectCard {userId} project={$project} />
             {/each}
           {/if}
         </div>
