@@ -245,7 +245,7 @@
               <h2 class="text-3xl font-bold px-6 pt-6 mb-2">Projects</h2>
               {#each projects as project, i}
                 {#if i < 3}
-                  <ProjectCard {project} />
+                  <ProjectCard userId={userIdLocal} {project} />
                   <hr class="h-1 bg-gray-300" />
                 {/if}
               {/each}

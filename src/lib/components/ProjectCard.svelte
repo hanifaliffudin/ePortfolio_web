@@ -1,17 +1,34 @@
 <script>
-  import { Button, Dropdown, DropdownItem, Chevron } from "flowbite-svelte";
+  import {
+    Button,
+    Dropdown,
+    DropdownItem,
+    Chevron,
+    Progressbar,
+  } from "flowbite-svelte";
 
-  export let project;
+  export let userId, project;
 
-  let userId = localStorage.getItem("userId");
+  let userIdLocal = localStorage.getItem("userId");
 
-  let userIdProject, image, desc, date, title, type, startDate, endDate;
+  let userIdProject,
+    image,
+    desc,
+    date,
+    title,
+    type,
+    startDate,
+    endDate,
+    roadmaps = [],
+    totalPercentRoadmaps = 0,
+    progress;
 
   if (project) {
     title = project.title;
     image = project.image;
     desc = project.desc;
     type = project.type;
+    roadmaps = project.roadmaps;
     userIdProject = project.userId;
     startDate = new Date(project.startDate);
     if (project.endDate) {
@@ -23,6 +40,46 @@
     } else {
       date = new Date(project.createdAt);
     }
+  }
+
+  roadmaps.forEach((roadmap) => {
+    let percentRoadmap,
+      totalPercentTask = 0;
+
+    roadmap.tasks.forEach((task) => {
+      let percentTask,
+        doneLengthTask = 0,
+        todosLengthTask = 0;
+
+      todosLengthTask = task.todos.length;
+
+      task.todos.forEach((todo) => {
+        if (todo.done) {
+          doneLengthTask += 1;
+        }
+      });
+
+      if (todosLengthTask > 0) {
+        percentTask = Math.round((doneLengthTask / todosLengthTask) * 100);
+      }
+
+      if (percentTask) {
+        totalPercentTask += percentTask;
+      } else {
+        totalPercentTask += 0;
+      }
+    });
+
+    percentRoadmap = totalPercentTask / roadmap.tasks.length;
+    if (!percentRoadmap) {
+      percentRoadmap = 0;
+    }
+    totalPercentRoadmaps += percentRoadmap;
+  });
+
+  progress = Math.round(totalPercentRoadmaps / roadmaps.length);
+  if (!progress) {
+    progress = 0;
   }
 
   // update data project
@@ -130,7 +187,7 @@
         {/if}
       </div>
       <div class="flex-auto" />
-      {#if userId == userIdProject || project.participants.includes(userId)}
+      {#if userIdLocal == userIdProject || project.participants.includes(userIdLocal)}
         <Button btnClass="p-0 h-3"
           ><iconify-icon icon="fluent:more-horizontal-32-filled" /></Button
         >
@@ -150,6 +207,9 @@
           {/if}
         </Dropdown>
       {/if}
+    </div>
+    <div class="mt-2">
+      <Progressbar {progress} size="h-4" labelInside />
     </div>
   </div>
   <div />

@@ -2,13 +2,16 @@
   import { navigate } from "svelte-routing";
   import { Dropdown, DropdownItem, Avatar } from "flowbite-svelte";
   import NotificationCard from "./NotificationCard.svelte";
+  import NotificationWarningTaskCard from "./NotificationWarningTaskCard.svelte";
 
   export let active;
 
   let home,
     discovery,
     profile,
-    request = [];
+    request = [],
+    projects = [],
+    taskWarning = [];
 
   // get userId from localStorage
   let userId = localStorage.getItem("userId");
@@ -34,6 +37,7 @@
       profile.classList.add("hidden");
     }
     getAllRequest();
+    getprojects();
   }
 
   getUser();
@@ -45,6 +49,36 @@
     );
     const data = await response.json();
     request = data;
+  }
+
+  // get all user projects
+  async function getprojects() {
+    let response = await fetch(
+      "http://103.187.223.15:8800/api/projects/all/" + userId
+    );
+    const data = await response.json();
+    projects = data;
+
+    projects.forEach((project) => {
+      project.roadmaps.forEach((roadmap) => {
+        roadmap.tasks.forEach((task) => {
+          var t2 = new Date().getTime();
+          var t1 = new Date(task.date).getTime();
+          if (t1 >= t2 && t2 > t1 - 1000 * 60 * 60 * 24 * 7) {
+            let taskItem = {
+              title: task.title,
+              projectId: project._id,
+              roadmapId: roadmap._id,
+              taskId: task._id,
+            };
+
+            taskWarning.push(taskItem);
+          }
+        });
+      });
+    });
+
+    console.log(taskWarning);
   }
 
   // logout
@@ -160,12 +194,14 @@
               <div slot="header" class="py-2 font-bold text-center ">
                 Notifications
               </div>
-
               {#each request as req}
                 <NotificationCard
                   idProject={req.projectId}
                   idUser={req.userId}
                 />
+              {/each}
+              {#each taskWarning as task}
+                <NotificationWarningTaskCard {task} />
               {/each}
             </Dropdown>
           {/if}

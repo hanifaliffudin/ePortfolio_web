@@ -2,7 +2,11 @@
   import { Progressbar } from "flowbite-svelte";
   import AvatarStack from "./AvatarStack.svelte";
 
-  export let task, assignee;
+  export let idProject,
+    projectData,
+    roadmaps,
+    task,
+    assignee = [];
 
   let percent,
     doneLength = 0,
@@ -14,10 +18,57 @@
     if (element.done) {
       doneLength += 1;
     }
+    element.assignee.forEach((assigne) => {
+      if (!assignee.includes(assigne)) {
+        assignee.push(assigne);
+      }
+    });
   });
 
   if (todosLength > 0) {
-    percent = (doneLength / todosLength) * 100;
+    percent = Math.round((doneLength / todosLength) * 100);
+  }
+
+  var t2 = new Date().getTime();
+  var t1 = new Date(task.date).getTime();
+
+  if (
+    Math.floor((t2 - t1) / (24 * 3600 * 1000)) >= 0 &&
+    task.status == "prepare"
+  ) {
+    updateTask();
+  } else {
+    let taskDate = new Date(task.date).toLocaleDateString("id");
+    let now = new Date().toLocaleDateString("id");
+    if (taskDate == now && task.status == "prepare") {
+      updateTask();
+    }
+  }
+
+  // update task
+  async function updateTask() {
+    task.status = "todo";
+
+    const response = await fetch(
+      "http://103.187.223.15:8800/api/projects/" + idProject,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: projectData.userId,
+          roadmaps,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      alert(response.statusText);
+    } else {
+      const data = await response.json();
+      window.location.reload();
+    }
   }
 </script>
 
@@ -62,11 +113,6 @@
     {/if}
   {/if}
   <div class="flex mr-4 -space-x-4">
-    {#each task.todos as todo}
-      {#if !assignee.includes(todo.assigne)}
-        <div class="hidden">{assignee.push(todo.assigne)}</div>
-      {/if}
-    {/each}
     {#each assignee as assigne}
       <AvatarStack userId={assigne} />
     {/each}

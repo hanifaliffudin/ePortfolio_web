@@ -103,7 +103,7 @@
 
           {#if $projectsStore}
             {#each $projectsStore as $project}
-              <ProjectCard project={$project} />
+              <ProjectCard {userId} project={$project} />
             {/each}
           {/if}
         </div>

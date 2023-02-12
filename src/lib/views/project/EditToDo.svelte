@@ -2,6 +2,7 @@
   import { Checkbox } from "flowbite-svelte";
   export let idTodo, idTaskRoadmap, idRoadmap, idProject;
   import AssigneSelect from "../../components/AssigneSelect.svelte";
+  import AvatarStack from "../../components/AvatarStack.svelte";
 
   const today = new Date().toLocaleDateString("en-CA");
 
@@ -24,7 +25,8 @@
     todo,
     indexTodo,
     done = false,
-    assigne;
+    assigne = userId,
+    assignee = [];
 
   // get data project
   async function getProject() {
@@ -62,7 +64,7 @@
                 todo = elementTodo;
                 title = elementTodo.title;
                 done = elementTodo.done;
-                assigne = elementTodo.assigne;
+                assignee = elementTodo.assignee;
               }
             });
           }
@@ -75,31 +77,61 @@
 
   // update todo
   async function updateTodo() {
-    todos[indexTodo].title = title;
-    todos[indexTodo].done = done;
-    todos[indexTodo].assigne = assigne;
+    var t2 = new Date().getTime();
+    var t1 = new Date(date).getTime();
 
-    const response = await fetch(
-      "http://103.187.223.15:8800/api/projects/" + idProject,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: projectData.userId,
-          roadmaps,
-        }),
-      }
-    );
-
-    if (!response.ok) {
-      alert(response.statusText);
+    if (done && Math.floor((t2 - t1) / (24 * 3600 * 1000)) < 0) {
+      done = false;
+      alert("Couldn't complete the to do before the due date");
     } else {
-      const data = await response.json();
-      window.location.href = `/project/${idProject}/roadmap/${idRoadmap}/task/${idTaskRoadmap}`;
+      todos[indexTodo].title = title;
+      todos[indexTodo].done = done;
+      todos[indexTodo].assignee = assignee;
+
+      const response = await fetch(
+        "http://103.187.223.15:8800/api/projects/" + idProject,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: projectData.userId,
+            roadmaps,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        alert(response.statusText);
+      } else {
+        const data = await response.json();
+        window.location.href = `/project/${idProject}/roadmap/${idRoadmap}/task/${idTaskRoadmap}`;
+      }
     }
   }
+
+  const addAssignee = () => {
+    if (assigne) {
+      if (assignee.indexOf(assigne) !== -1) {
+        alert(assigne + " sudah ada");
+      } else {
+        assignee.push(assigne);
+        assignee = assignee;
+        assigne = "";
+      }
+    } else {
+      alert("You didn't choose anything.");
+    }
+  };
+
+  // remove indexed value
+  const handleRemove = (index) => {
+    assignee = [
+      ...assignee.slice(0, index),
+      ...assignee.slice(index + 1, assignee.length),
+    ];
+  };
 </script>
 
 <main class="md:mx-72">
@@ -107,7 +139,7 @@
     <form on:submit|preventDefault={updateTodo}>
       <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
         <h2 class="text-xl font-bold text-gray-900 dark:text-white">
-          Add To Do
+          Edit To Do
         </h2>
         <div class="sm:col-span-2">
           <label
@@ -132,19 +164,46 @@
             class="block mb-2 font-medium text-gray-900 dark:text-white"
             >Assigne</label
           >
-          <select
-            bind:value={assigne}
-            id="assigne"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block md:w-1/4 w-full p-2.5"
-          >
-            <option selected disabled>Assigne to</option>
-            {#if participants && participants.length > 0}
-              <AssigneSelect userId={projectData.userId} />
-              {#each participants as participant}
-                <AssigneSelect userId={participant} />
-              {/each}
-            {/if}
-          </select>
+          <div class="flex">
+            <select
+              bind:value={assigne}
+              id="assigne"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block md:w-1/4 w-full p-2.5"
+            >
+              {#if !assignee.includes(userId)}
+                <AssigneSelect {userId} />
+              {/if}
+              {#if participants && participants.length > 0}
+                {#each participants as participant}
+                  {#if !assignee.includes(participant)}
+                    <AssigneSelect userId={participant} />
+                  {/if}
+                {/each}
+              {/if}
+            </select>
+            <button
+              type="button"
+              on:click={addAssignee}
+              class="ml-4 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+              >Add</button
+            >
+          </div>
+          <div class="flex flex-wrap mt-4">
+            {#each assignee as assigne, i}
+              <div
+                class="inline-flex justify-between items-center text-gray-900 bg-white border border-gray-300 focus:outline-none  focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm py-2.5 mr-3 my-1.5"
+              >
+                <AvatarStack userId={assigne} />
+                <button
+                  on:click={() => handleRemove(i)}
+                  type="button"
+                  class="items-center flex text-red-600 mr-3"
+                >
+                  <iconify-icon icon="material-symbols:close-rounded" />
+                </button>
+              </div>
+            {/each}
+          </div>
         </div>
       </div>
       <div class="flex items-center justify-between">

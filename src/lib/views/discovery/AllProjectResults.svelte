@@ -35,7 +35,7 @@
     <div class="w-1/2">
       {#if projects.length > 0}
         {#each projects as project}
-          <ProjectCard {project} />
+          <ProjectCard userId={userIdLocal} {project} />
         {/each}
       {/if}
     </div>

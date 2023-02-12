@@ -28,4 +28,6 @@
   getUser();
 </script>
 
-<option value={userId}>{nameUser}</option>
+{#if userData}
+  <option value={userId}>{nameUser}</option>
+{/if}
