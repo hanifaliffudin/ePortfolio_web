@@ -202,7 +202,7 @@
           <DropdownItem
             ><a href="/project/edit/{project._id}">Edit</a></DropdownItem
           >
-          {#if !project.participants.includes(userId)}
+          {#if !project.participants.includes(userId) && project.userId == userIdLocal}
             <DropdownItem on:click={deleteProject}>Delete</DropdownItem>
           {/if}
         </Dropdown>

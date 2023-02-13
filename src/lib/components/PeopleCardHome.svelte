@@ -30,7 +30,8 @@
     majorUser = userData.major;
     roleUser = userData.role;
     interestUser = userData.interest;
-    academicField = userData.academicField;
+    academicField =
+      userData.academicField != "undefined" ? userData.academicField : null;
     organization = userData.organization;
     if (userData.profilePicture) {
       profilePicture = "http://103.187.223.15:8800/" + userData.profilePicture;

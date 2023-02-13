@@ -47,7 +47,7 @@
     nim = userData.nim;
     major = userData.major;
     organization = userData.organization;
-    city = userData.city;
+    city = userData.city != "undefined" ? userData.city : null;
     about = userData.about;
     socmed = userData.socialMedia;
     ig = socmed.instagram;
@@ -57,7 +57,8 @@
     facebook = socmed.facebook;
     skills = userData.skill;
     blocks = userData.blockProfile;
-    academicField = userData.academicField;
+    academicField =
+      userData.academicField != "undefined" ? userData.academicField : null;
     userData.gender ? (gender = userData.gender) : (gender = "male");
     interest = userData.interest;
     if (userData.dateBirth) {

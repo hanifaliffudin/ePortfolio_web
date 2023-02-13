@@ -38,7 +38,8 @@
     major = userData.major;
     interest = userData.interest;
     role = userData.role;
-    academicField = userData.academicField;
+    academicField =
+      userData.academicField != "undefined" ? userData.academicField : null;
     followers = userData.followers;
     following = userData.following;
     if (followers && followers.includes(userIdLocal)) {
@@ -64,7 +65,6 @@
     );
     if (!response.ok) {
       const data = await response.json();
-      console.log(data);
     }
 
     const data = await response.json();
