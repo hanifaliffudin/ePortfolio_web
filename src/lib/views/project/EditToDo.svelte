@@ -11,6 +11,7 @@
   let desc,
     date,
     title,
+    report,
     projectData,
     startDateRoadmap,
     endDateRoadmap,
@@ -64,6 +65,7 @@
                 todo = elementTodo;
                 title = elementTodo.title;
                 done = elementTodo.done;
+                report = elementTodo.report;
                 assignee = elementTodo.assignee;
               }
             });
@@ -86,6 +88,7 @@
     } else {
       todos[indexTodo].title = title;
       todos[indexTodo].done = done;
+      todos[indexTodo].report = report;
       todos[indexTodo].assignee = assignee;
 
       const response = await fetch(
@@ -114,7 +117,7 @@
   const addAssignee = () => {
     if (assigne) {
       if (assignee.indexOf(assigne) !== -1) {
-        alert(assigne + " sudah ada");
+        // alert(assigne + " sudah ada");
       } else {
         assignee.push(assigne);
         assignee = assignee;
@@ -157,6 +160,18 @@
         </div>
         <div class="sm:col-span-2">
           <Checkbox bind:checked={done}>Done</Checkbox>
+        </div>
+        <div class="sm:col-span-2">
+          <label
+            for="report"
+            class="block mb-2 font-medium text-gray-900 dark:text-white"
+            >Report</label
+          >
+          <textarea
+            bind:value={report}
+            id="report"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          />
         </div>
         <div class="sm:col-span-2">
           <label
