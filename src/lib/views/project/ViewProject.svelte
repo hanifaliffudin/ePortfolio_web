@@ -94,7 +94,7 @@
       if (!percentRoadmap) {
         percentRoadmap = 0;
       }
-      roadmap.percent = percentRoadmap;
+      roadmap.percent = Math.round(percentRoadmap);
     });
   }
 

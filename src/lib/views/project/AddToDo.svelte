@@ -109,7 +109,7 @@
   const addAssignee = () => {
     if (assigne) {
       if (assignee.indexOf(assigne) !== -1) {
-        alert(assigne + " sudah ada");
+        // alert(assigne + " sudah ada");
       } else {
         assignee.push(assigne);
         assignee = assignee;
